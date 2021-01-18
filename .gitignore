@@ -1,0 +1,15 @@
+# Directory
+/.vscode
+/build
+/data
+
+# File
+*.bmp
+*.jpg
+*.jpeg
+*.jpeg2000
+*.png
+*.tiff
+*.gif
+*.pgm
+*.csv
