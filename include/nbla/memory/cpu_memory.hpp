@@ -1,5 +1,5 @@
-#ifndef NBLA_CPUMEMORY_HPP
-#define NBLA_CPUMEMORY_HPP
+#ifndef NBLA_CPU_MEMORY_HPP
+#define NBLA_CPU_MEMORY_HPP
 
 #include "nbla/memory/memory.hpp"
 
