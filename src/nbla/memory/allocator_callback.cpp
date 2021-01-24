@@ -35,11 +35,20 @@ namespace Nbla
 		<< std::endl;
     }
 
-    void PrintingAllocatorCallback::on_allocation_failure()
+    void PrintingAllocatorCallback::on_allocation_try_failure()
     {
-        std::cout << format_string(
-            "PrintingAllocatorCallback::on_allocation_failure() in %s.",
+        
+        std::cerr << format_string(
+            "PrintingAllocatorCallback::on_allocation_try_failure() in %s.",
             name_.c_str())
+        << std::endl;
+    }
+
+    void PrintingAllocatorCallback::on_allocation_retry_failure()
+    {
+        std::cerr << format_string(
+            "PrintingAllocatorCallback::on_allocation_retry_failure() in %s.",
+            name_.c_str());
         << std::endl;
     }
 }
