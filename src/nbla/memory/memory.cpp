@@ -52,14 +52,14 @@ namespace Nbla
             "`second_start` must be < bytes_. Given %zd was not %zd.",
             second_start, bytes_);
         
-        auto new_mem = this->devide_impl(second_start);
+        auto new_memory = this->devide_impl(second_start);
         bytes_ = second_start;
 
-        // thisのnext_をnew_memのnext_にコピー
-        // thisのnext_とnew_memのprev_が互いを指すようにする.
-        Memory::associate_consecutive(new_mem.get(), this->next_);
-        Memory::associate_consecutive(this, new_mem.get());
-        return new_mem;
+        // thisのnext_をnew_memoryのnext_にコピー
+        // thisのnext_とnew_memoryのprev_が互いを指すようにする.
+        Memory::associate_consecutive(new_memory.get(), this->next_);
+        Memory::associate_consecutive(this, new_memory.get());
+        return new_memory;
     }
 
     void Memory::try_merge(Memory* from)
