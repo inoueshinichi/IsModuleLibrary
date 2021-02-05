@@ -69,7 +69,7 @@ namespace Is
 
             virtual void merge_next_impl(Memory* from) = 0;
 
-            virtual void merge_prev_impl(Memory* from) =
+            virtual void merge_prev_impl(Memory* from) = 0;
         };
     }
 }

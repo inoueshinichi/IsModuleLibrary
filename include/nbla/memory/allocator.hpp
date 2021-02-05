@@ -130,6 +130,7 @@ namespace Is
          * キャッシングなしでメモリアロケータを実装する.
          * Allocatorインスタンスはshared_ptrとしてインスタンス化しなければならない.
          */
+
         class NBLA_API Allocator : public std::enable_shared_from_this<Allocator>
         {
             Allocator() = default; // ファクトリ関数経由でAllocatorインスタンスを生成させるためにプライベートにする.
