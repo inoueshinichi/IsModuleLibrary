@@ -1,5 +1,5 @@
-#ifndef NBLA_DEFS_HPP
-#define NBLA_DEFS_HPP
+#ifndef IS_NBLA_DEFS_HPP
+#define IS_NBLA_DEFS_HPP
 
 #if defined(_MSC_VER) && !defined(__CUDACC__)
 #   if defined(nnabla_EXPORTS) || defined(nnabla_dbg_EXPORTS)
