@@ -32,7 +32,7 @@ namespace Is
              * 
              * @return vector<string> 
              */
-            vector<string> array_classes() const;
+            virtual vector<string> array_classes() const override;
 
 
             /**
@@ -40,7 +40,7 @@ namespace Is
              * エンドユーザーは呼び出してはいけない
              * @param a 
              */
-            void _set_array_classes(const vector<string>& a);
+            virtual void _set_array_classes(const vector<string>& a) override;
 
 
             /**
@@ -48,7 +48,7 @@ namespace Is
              * 
              * @param name 
              */
-            void register_array_class(const string& name);
+            virtual void register_array_class(const string& name) override;
 
 
             /**
@@ -56,7 +56,7 @@ namespace Is
              * 
              * @return shared_ptr<Allocator> 
              */
-            shared_ptr<Allocator> caching_allocator();
+            virtual shared_ptr<Allocator> caching_allocator() override;
 
 
             /**
@@ -64,14 +64,14 @@ namespace Is
              * 
              * @return shared_ptr<Allocator> 
              */
-            shared_ptr<Allocator> native_allocator();
+            virtual shared_ptr<Allocator> native_allocator() override;
 
 
             /**
              * @brief Free all unused host memory caches
              * 
              */
-            void free_unused_host_caches();
+            virtual void free_unused_host_caches() override;
 
 
             /**
@@ -79,7 +79,7 @@ namespace Is
              * 
              * @param device 
              */
-            void device_synchronize(const string &device);
+            virtual void device_synchronize(const string &device) override;
 
 
             /**
@@ -87,7 +87,7 @@ namespace Is
              * 
              * @param device 
              */
-            void default_stream_synchronize(const string &device);
+            virtual void default_stream_synchronize(const string &device) override;
 
 
             /**
@@ -95,18 +95,18 @@ namespace Is
              * Noting to do in CPU backend.
              * @param device 
              */
-            void create_lms_streams(int device = -1) {}
+            virtual void create_lms_streams(int device = -1) override {}
 
-        protected:
-            vector<string> array_classes_; // Available array classes
+        // protected:
+        //     vector<string> array_classes_; // Available array classes
 
-            /*
-				AllocatorMemoryのデストラクタが呼ばれる前にAllocatorのデストラクタが呼ばれるのを
-				防ぐことを目的に、AllocatorMemoryクラスにAllocatorのポインタをメンバ変数にする.
-				そのため、Allocatorはshared_ptrにする必要がある.
-			*/
-			shared_ptr<Allocator> native_allocator_;
-			shared_ptr<Allocator> caching_allocator_;
+        //     /*
+		// 		AllocatorMemoryのデストラクタが呼ばれる前にAllocatorのデストラクタが呼ばれるのを
+		// 		防ぐことを目的に、AllocatorMemoryクラスにAllocatorのポインタをメンバ変数にする.
+		// 		そのため、Allocatorはshared_ptrにする必要がある.
+		// 	*/
+		// 	shared_ptr<Allocator> native_allocator_;
+		// 	shared_ptr<Allocator> caching_allocator_;
 
         private:
             friend SingletonManager;
