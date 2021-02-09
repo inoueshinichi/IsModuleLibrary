@@ -179,7 +179,6 @@ namespace Is
 
     // コピーコンストラクタとコピー代入演算子を禁止する
     #define DISABLE_COPY_AND_ASSIGN(class_name)            \
-    pubilc:                                                \
         class_name(const class_name&) = delete;            \
         class_name& operator=(const class_name&) = delete; 
         
