@@ -1,7 +1,7 @@
 #ifndef IS_UTILS_WIN32_CONSOLE_HPP
 #define IS_UTILS_WIN32_CONSOLE_HPP
 
-#include "utils/defs.hpp"
+#include "defs.hpp"
 
 #include <Windows.h>
 
@@ -26,7 +26,7 @@ namespace Is
 #define ENABLE_LVB_GRID_WORLDWIDE 0x0010
 #endif
 
-        class UTILS_API Win32Console
+        class IS_UTILS_API Win32Console
         {
             enum class status_code : int
             {
