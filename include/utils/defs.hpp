@@ -1,6 +1,11 @@
 #ifndef IS_UTILS_DEFS_HPP
 #define IS_UTILS_DEFS_HPP
 
+#if defined(_MSC_VER)
+// __func__の定義
+#	define __func__ __FUNCTION__
+#endif
+
 namespace Is
 {
     namespace utils
