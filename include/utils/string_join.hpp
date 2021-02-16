@@ -1,6 +1,10 @@
 #ifndef IS_UTILS_STRING_JOIN_HPP
 #define IS_UTILS_STRING_JOIN_HPP
 
+#include <string>
+#include <vector>
+#include <sstream>
+
 namespace Is
 {
     /**
@@ -12,9 +16,9 @@ namespace Is
      * @return string 
      */
     template <typename T>
-    inline string string_join(const vector<T>& vector, const string& delimiter)
+    inline std::string string_join(const std::vector<T>& vector, const std::string& delimiter)
     {
-        stringstream ss;
+        std::stringstream ss;
         if (vector.empty())
         {
             return "";
