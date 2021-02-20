@@ -76,6 +76,9 @@ namespace Is
 			void free_impl(shared_ptr<Memory> memory) override;
 			shared_ptr<Memory> alloc_impl(size_t orig_bytes, const string& device_id) override;
 			size_t free_unused_device_caches_impl(const string& device_id) override;
+			void print_memory_cache_map_impl() override;
+			size_t get_max_cache_bytes(const string& device_id);
+			size_t get_total_cache_bytes(const string& device_id);
 
 		protected:
 			/**
@@ -92,6 +95,11 @@ namespace Is
 		public:
 			// コンストラクタ
 			CachingAllocatorWithBucketsBase();
+
+
+			size_t get_fragmentation_bytes(const string &device_id) override;
+			size_t get_max_available_bytes(const string &device_id) override;
+			vector<int> get_used_memory_counts(const string &device_id) override;
 		};
 
 
