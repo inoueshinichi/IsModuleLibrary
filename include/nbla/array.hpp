@@ -216,10 +216,206 @@ namespace Is
         using ConstArrayPtr = shared_ptr<ConstArray>;
 
         /**
-		* 以下，マクロによるヘルパー関数群.
-		*/
-    
-    }
-}
+         * @brief 以下，マクロによるヘルパー関数群.
+         * 
+         * [copy()関数]
+         * NBLA_DEFINE_FUNC_COPY_FROMマクロ
+         *  ↑
+         * NBLA_CASE_ARRAY_COPY_FROMマクロ
+         *  ↑
+         * NBLA_ARRAY_COPY_FROMマクロ
+         *  ↑
+         * NBLA_CASE_ARRAY_COPY_FROM_TOマクロ
+         * 
+         * 
+         * [fill(float v)関数]
+         * NBLA_DEFILE_FUNC_FILLマクロ
+         *  ↑
+         * NBLA_CASE_ARRAY_FILLマクロ
+         */
+//-------------------------------------------------------------------------------------------
+//////////////////////////////////////////
+// 別のdtypes型にコピー関数の実装マクロを定義
+//////////////////////////////////////////
+#define NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, type_enum, src_type, dst_type, name)        \
+    case dtypes::type_enum:                                                                 \
+        copy_func##_wrapper<src_type, dst_type>::copy(src_array, this);                     \
+        break;
 
+#define NBLA_ARRAY_COPY_FROM(copy_func, type, name)                                         \
+	switch (this->dtype())                                                                  \
+	{                                                                                       \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, UBYTE, type, unsigned char, name);          \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, BYTE, type, char, name);                    \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, USHORT, type, unsigned short, name);        \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, SHORT, type, short, name);                  \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, UINT, type, unsigned int, name);            \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, INT, type, int, name);                      \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, ULONG, type, unsigned long, name);          \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, LONG, type, long, name);                    \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, ULONGLONG, type, unsigned long long, name); \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, LONGLONG, type, long long, name);           \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, FLOAT, type, float, name);                  \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, DOUBLE, type, double, name);                \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, BOOL, type, bool, name);                    \
+		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, LONGDOUBLE, type, long double, name);       \
+	  /*NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, HALF, type, nbla::Half, name);            */\
+		default:                                                                            \
+			NBLA_ERROR(error_code::unclassified, "Disabled dtype %s.",                      \
+						dtype_to_string(this->dtype()).c_str());                            \
+	}
+// ------------------------------------------------------------------------------------------
+
+////////////////////////////////////////////////////////
+// 別のdtypes型を持つ配列でコピーを作成する関数をマクロで定義
+////////////////////////////////////////////////////////
+#define NBLA_CASE_ARRAY_COPY_FROM(copy_func, type_enum, src_type, name)                     \
+	case dtypes::type_enum:                                                                 \
+		NBLA_ARRAY_COPY_FROM(copy_func, src_type, name);                                    \
+		break;
+
+#define NBLA_DEFINE_FUNC_COPY_FROM(array_class, copy_func, name)                            \
+	void array_class::copy_from(const Array* src_array)                                     \
+    {                                                                                       \
+		if (src_array->size() != this->size_)                                               \
+        {                                                                                   \
+			NBLA_ERROR(error_code::unclassified, "Size mismatch.");                         \
+		}                                                                                   \
+		switch (src_array->dtype())                                                         \
+        {                                                                                   \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, UBYTE, unsigned char, name);               \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, BYTE, char, name);                         \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, USHORT, unsigned short, name);             \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, SHORT, short, name);                       \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, UINT, unsigned int, name);                 \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, INT, int, name);                           \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, ULONG, unsigned long, name);               \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, LONG, long, name);                         \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, ULONGLONG, unsigned long long, name);      \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, LONGLONG, long long, name);                \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, FLOAT, float, name);                       \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, DOUBLE, double, name);                     \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, BOOL, bool, name);                         \
+			NBLA_CASE_ARRAY_COPY_FROM(copy_func, LONGDOUBLE, long double, name);            \
+	      /*NBLA_CASE_ARRAY_COPY_FROM(copy_func, HALF, nbla::Half, name);                 */\
+			default:                                                                        \
+				NBLA_ERROR(error_code::unclassified, "Disabled dtype %s.",                  \
+							dtype_to_string(src_array->dtype()).c_str());                   \
+		}                                                                                   \
+	}
+// ------------------------------------------------------------------------------------------
+
+//////////////////////////////////
+// 配列要素を指定値で埋める関数を定義
+//////////////////////////////////
+#define NBLA_CASE_ARRAY_FILL(fill_func, type_enum, type, name)                              \
+	case dtypes::type_enum:                                                                 \
+		fill_func<type>(this, value);                                                       \
+		break;
+
+#define NBLA_DEFINE_FUNC_FILL(array_class, fill_func, name)                                 \
+	void array_class::fill(float value)                                                     \
+    {                                                                                       \
+		switch (this->dtype())                                                              \
+        {                                                                                   \
+			NBLA_CASE_ARRAY_FILL(fill_func, UBYTE, unsigned char, name);                    \
+			NBLA_CASE_ARRAY_FILL(fill_func, BYTE, char, name);                              \
+			NBLA_CASE_ARRAY_FILL(fill_func, USHORT, unsigned short, name);                  \
+			NBLA_CASE_ARRAY_FILL(fill_func, SHORT, short, name);                            \
+			NBLA_CASE_ARRAY_FILL(fill_func, UINT, unsigned int, name);                      \
+			NBLA_CASE_ARRAY_FILL(fill_func, INT, int, name);                                \
+			NBLA_CASE_ARRAY_FILL(fill_func, ULONG, unsigned long, name);                    \
+			NBLA_CASE_ARRAY_FILL(fill_func, LONG, long, name);                              \
+			NBLA_CASE_ARRAY_FILL(fill_func, ULONGLONG, unsigned long long, name);           \
+			NBLA_CASE_ARRAY_FILL(fill_func, LONGLONG, long long, name);                     \
+			NBLA_CASE_ARRAY_FILL(fill_func, FLOAT, float, name);                            \
+			NBLA_CASE_ARRAY_FILL(fill_func, DOUBLE, double, name);                          \
+			NBLA_CASE_ARRAY_FILL(fill_func, BOOL, bool, name);                              \
+			NBLA_CASE_ARRAY_FILL(fill_func, LONGDOUBLE, long double, name);                 \
+		  /*NBLA_CASE_ARRAY_FILL(fill_func, HALF, nbla::Half, name);                      */\
+			default:                                                                        \
+				NBLA_ERROR(error_code::unclassified, "Disabled dtype %s.",                  \
+							dtype_to_string(this->dtype()).c_str());                        \
+		}                                                                                   \
+	} 
+    // ------------------------------------------------------------------------------------------
+
+    /**
+     * @brief 以下、関数オブジェクト用ヘルパーマクロ
+     * 
+     * NBLA_DEFINE_COPY_WRAPPER(copy_func)
+     *      copy_func_wrapperクラスとcopy_func_is_disableクラスの
+     *      プライマリーテンプレートを作成するマクロ.
+     * 
+     * NBLA_DISABLE_TYPE(copy_func, fill_func, TYPE)
+     *      コピーできないdtypes型または、未定義のdtypes型の場合、実装エラーにするようなメタ関数
+     *      を定義.
+     * 
+     */
+
+//////////////////////////////////////////////////
+// コピー用の2種類のテンプレートクラスを定義するマクロ
+//////////////////////////////////////////////////
+// 以下２つはプライマリーテンプレート
+#define NBLA_DEFINE_COPY_WRAPPER(copy_func)                                                 \
+	template <typename Ta, typename Tb, typename Enabled = void>                            \
+	struct copy_func##_wrapper                                                              \
+    {                                                                                       \
+		static void copy(const Array* src, Array* dst)                                      \
+        {                                                                                   \
+			copy_func<Ta, Tb>(src, dst);                                                    \
+		}                                                                                   \
+	};                                                                                      \
+                                                                                            \
+	template <typename T>                                                                   \
+    struct copy_func##_is_disabled                                                          \
+    {                                                                                       \
+		static constexpr bool value = false;                                                \
+    };
+// ------------------------------------------------------------------------------------------
+
+///////////////////////////////////////////////////////////////////////////
+// SFINAEによる特殊化でコピー可能or不可能を示すテンプレートクラスを定義するマクロ
+///////////////////////////////////////////////////////////////////////////
+// copy_func##_wrapperテンプレートクラスをSFINAEで中身の実装を切り替える.
+// copy_func##_is_disabledテンプレートクラスは補助クラス.
+#define NBLA_DISABLE_TYPE(copy_func, fill_func, TYPE)                                       \
+	template <typename Ta, typename Tb>                                                     \
+	struct copy_func##_wrapper<Ta, Tb,                                                      \
+                typename std::enable_if<std::is_same<Ta, TYPE>::value>::type>               \
+    {                                                                                       \
+		static void copy(const Array* src, Array* dst)                                      \
+        {                                                                                   \
+			NBLA_ERROR(error_code::not_implemented,                                         \
+						"`" #TYPE "` is disabled in `" #copy_func "`.");                    \
+		}                                                                                   \
+	};                                                                                      \
+                                                                                            \
+	template <>                                                                             \
+    struct copy_func##_is_disabled<TYPE>                                                    \
+    {                                                                                       \
+		static constexpr bool value = true;                                                 \
+	};                                                                                      \
+                                                                                            \
+	template <typename Ta, typename Tb>                                                     \
+	struct copy_func##_wrapper<Ta, Tb,                                                      \
+                typename std::enable_if<!copy_func##_is_disabled<Ta>::value &&              \
+										std::is_same<Tb, TYPE>::value>::type>               \
+    {                                                                                       \
+		static void copy(const Array* src, Array* dst)                                      \
+        {                                                                                   \
+			NBLA_ERROR(error_code::not_implemented,                                         \
+						"`" #TYPE "` is disabled in `" #copy_func "`.");                    \
+		}                                                                                   \
+	};                                                                                      \
+                                                                                            \
+	template <>                                                                             \
+    void fill_func<TYPE>(Array* self, float value)                                          \
+    {                                                                                       \
+		NBLA_ERROR(error_code::not_implemented,                                             \
+					"`" #TYPE "` is disabled in `" #fill_func "`.");                        \
+	}
+
+    }// namespace: nbla
+} // namespace: Is
 #endif
