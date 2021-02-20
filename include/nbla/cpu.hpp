@@ -97,16 +97,18 @@ namespace Is
              */
             virtual void create_lms_streams(int device = -1) override {}
 
-        // protected:
-        //     vector<string> array_classes_; // Available array classes
 
-        //     /*
-		// 		AllocatorMemoryのデストラクタが呼ばれる前にAllocatorのデストラクタが呼ばれるのを
-		// 		防ぐことを目的に、AllocatorMemoryクラスにAllocatorのポインタをメンバ変数にする.
-		// 		そのため、Allocatorはshared_ptrにする必要がある.
-		// 	*/
-		// 	shared_ptr<Allocator> native_allocator_;
-		// 	shared_ptr<Allocator> caching_allocator_;
+        protected:
+            vector<string> array_classes_; // Available array classes
+
+            /*
+				AllocatorMemoryのデストラクタが呼ばれる前にAllocatorのデストラクタが呼ばれるのを
+				防ぐことを目的に、AllocatorMemoryクラスにAllocatorのポインタをメンバ変数にする.
+				そのため、Allocatorはshared_ptrにする必要がある.
+			*/
+			shared_ptr<Allocator> native_allocator_;
+			shared_ptr<Allocator> caching_allocator_;
+
 
         private:
             friend SingletonManager;
