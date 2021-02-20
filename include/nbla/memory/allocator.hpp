@@ -202,6 +202,42 @@ namespace Is
              */
             size_t device_memory_used_in_bytes(const string& device_id);
 
+
+            /** APIs for memory cache analysis
+             */
+
+            /**
+             * @brief 
+             * 
+             */
+            void print_memory_cache_map() { print_memory_cache_map_impl(); }
+
+            /**
+             * @brief Get the fragmentation bytes object
+             * 
+             * @param device_id 
+             * @return size_t 
+             */
+            virtual size_t get_fragmentation_bytes(const string &device_id) { return 0; }
+            
+            /**
+             * @brief Get the max available bytes object
+             * 
+             * @param device_id 
+             * @return size_t 
+             */
+            virtual size_t get_max_available_bytes(const string &device_id) { return 0; }
+
+            /**
+             * @brief Get the used memory counts object
+             * 
+             * @param device_id 
+             * @return vector<int> 
+             */
+            virtual vector<int> get_used_memory_counts(const string &device_id) {
+                return {};
+            }
+
         protected:
             /**
              * @brief 再確保有りでMemory::alloc関数を呼ぶ.
