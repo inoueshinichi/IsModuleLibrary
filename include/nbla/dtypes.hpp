@@ -63,9 +63,10 @@ namespace Is
         }
 
 
-        // 明示的特殊化のマクロ
+// 明示的特殊化のマクロ
 #define GET_DTYPE_TEMPLATE_SPECIAL(type, Dtype)                          \
-    template <> inline dtypes get_dtype<type>() { return dtypes::Dtype; }
+    template <> inline                                                   \
+	dtypes get_dtype<type>() { return dtypes::Dtype; }
 
 GET_DTYPE_TEMPLATE_SPECIAL(bool, BOOL);
 GET_DTYPE_TEMPLATE_SPECIAL(unsigned char, UBYTE);
@@ -171,11 +172,5 @@ GET_DTYPE_TEMPLATE_SPECIAL(long double, LONGDOUBLE);
 
 #undef GET_DTYPE_SIZE
 		}
-
-
-
-
-
-
     }
 }
