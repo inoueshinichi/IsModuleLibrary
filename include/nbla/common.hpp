@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "nbla/context.hpp"
-#include "nbla/exceptionh.hpp"
+#include "nbla/exception.hpp"
 #include "nbla/init.hpp"
 
 namespace Is
@@ -25,6 +25,15 @@ namespace Is
         using Shape_t = vector<int64_t>;
         using Stride_t = vector<int64_t>;
         using Size_t = int64_t;
+
+        // Flags for SyncedArray and data transfer
+        enum AsyncFlag 
+        { 
+            NONE = 0b0,
+            ASYNC = 0b1,
+            UNSAFE = 0b10,
+            OFFREC = 0b100
+        };
 
         /**
          * @brief 形状によって配列サイズを計算する.
@@ -58,7 +67,7 @@ namespace Is
          * @param shape 
          * @return Stride_t 
          */
-        inline Stride_t get_c_contigous_strides(const Shape_t& shape)
+        inline Stride_t get_c_contiguous_strides(const Shape_t& shape)
         {
             if (!shape.size())
             {
@@ -73,6 +82,32 @@ namespace Is
                 strides[i] *= strides[i + 1] * shape[i + 1];
             }
             return strides;
+        }
+
+
+        inline string byte_to_human_readable(long double byte)
+        {
+            vector<string> units = {"B", "KB", "MB", "GB"};
+
+            bool neg = byte < 0;
+            if (neg)
+                byte = -byte;
+            
+            string unit;
+            double div = 1 << 10; // 1024で割る
+            for (auto& u : units)
+            {
+                unit = u;
+                if (byte < div)
+                    break;
+                byte /= div;
+            }
+
+            std::ostringstream oss;
+            oss.precision(2);
+            oss << std::fixed << byte;
+
+            return (neg ? "-" : "") + oss.str() + unit;
         }
 
         /**
@@ -148,9 +183,9 @@ namespace Is
          * @return vector<T*> 
          */
         template <typename T>
-        vector<T*> as_pointer_array(const vector<shared_ptr<T>>& vector)
+        vector<T*> as_pointer_array(const vector<shared_ptr<T>>& vec)
         {
-            vector<T*> ret(vector.size());
+            vector<T*> ret(vec.size());
             for (int i = 0; i < vector.size(); ++i)
             {
                 ret[i] = vector[i].get();
@@ -182,6 +217,6 @@ namespace Is
         class_name(const class_name&) = delete;            \
         class_name& operator=(const class_name&) = delete; 
         
-    }
+    } // namespace nbla
 }
 #endif

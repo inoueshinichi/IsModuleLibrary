@@ -140,7 +140,7 @@ namespace Is
          */
         inline string format_string(const string& format)
 		{
-			for (auto iter = format.begin(); itr != format.end(); iter++)
+			for (auto iter = format.begin(); iter != format.end(); iter++)
 			{
 				if (*iter == '%')
 				{

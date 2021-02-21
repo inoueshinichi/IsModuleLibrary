@@ -80,7 +80,7 @@ namespace Is
 
             // シングルトンインスタンスへのポインタ
             // https://qiita.com/Chironian/items/3fb61cffa2a20dbee5c2
-            static SingletonManager* self_;
+            static SingletonManager* self_; // Never be destroyed.
 
             // このシングルトンクラスを取得
             // 注意) シングルトンインスタンスの生成をスレッドセーフにするために

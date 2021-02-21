@@ -1,7 +1,7 @@
 #ifndef IS_NBLA_CPU_ARRAY_INTERNAL_HPP
 #define IS_NBLA_CPU_ARRAY_INTERNAL_HPP
 
-#include "nbla/array/cpu_arrah.hpp"
+#include "nbla/array/cpu_array.hpp"
 
 namespace Is
 {
@@ -27,7 +27,7 @@ namespace Is
 
         // fill(float value)関数の中で使われる.
         template <typename T>
-        void cpu_fill(Array* self, float value)
+        void cpu_fill(Array* self, double value)
         {
             T* ptr = self->pointer<T>();
             std::size_t size = self->size();

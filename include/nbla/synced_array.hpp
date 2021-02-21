@@ -30,8 +30,8 @@ namespace Is
 
             ArrayDesc head_;   // 内部で生成されるArray系インスタンスを決める内容 : 転送される
             bool zeroing_;     // zero()関数の遅延評価のためのフラグ
-            bool fillling_;    // fill()関数の遅延評価のためのフラグ
-            float fill_value_; // fill()関数の遅延評価で使用される指定値
+            bool filling_;    // fill()関数の遅延評価のためのフラグ
+            double fill_value_; // fill()関数の遅延評価で使用される指定値
             Size_t size_;      // 多次元配列のメモリサイズ
 
             // Context, Arrayタイプに応じて格納するバッファ
@@ -157,7 +157,7 @@ namespace Is
              */
             const void* data_ptr(dtypes dtype, const Context& ctx,
                                  bool write_only = false,
-                                 const int async_flags = AsyncFlags::NONE);
+                                 const int async_flags = AsyncFlag::NONE);
 
             
             /**
@@ -213,12 +213,12 @@ namespace Is
 
 
             /**
-             * @brief Fill all element with given float value.
+             * @brief Fill all element with given double value.
              * @note This is lazily evaluated at calling of get() or cast().
              * 
              * @param value 
              */
-            void fill(float value);
+            void fill(double value);
 
 
             /**
@@ -331,6 +331,25 @@ namespace Is
             bool empty();
 
 
+            /**
+             * @brief Set the callback func object
+             * 
+             * @param f 
+             */
+            void set_callback_func(synced_array_callback_func_type f);
+
+
+            /**
+             * @brief 
+             * 
+             * @param saptr 
+             * @param func_name 
+             * @param dtype 
+             * @param ctx 
+             * @param write_only 
+             * @param first_creation 
+             * @param off_recording 
+             */
             void call_callback(SyncedArrayPtr saptr,
                                const SyncedArrayCallbackTag func_name,
                                const dtypes dtype,

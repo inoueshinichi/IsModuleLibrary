@@ -160,7 +160,7 @@ namespace Is
              * 
              * @param value 
              */
-            virtual NBLA_API void fill(float value) = 0;
+            virtual NBLA_API void fill(double value) = 0;
 
 
             /**
@@ -188,7 +188,7 @@ namespace Is
              * @param async_flags 
              * @return void 
              */
-            virtual NBLA_API void wait_event(const Context ctx, const int async_flags = AysincFlag::NONE);
+            virtual NBLA_API void wait_event(const Context ctx, const int async_flags = AsyncFlag::NONE);
 
 
             /**
@@ -314,7 +314,7 @@ namespace Is
 		break;
 
 #define NBLA_DEFINE_FUNC_FILL(array_class, fill_func, name)                                 \
-	void array_class::fill(float value)                                                     \
+	void array_class::fill(double value)                                                    \
     {                                                                                       \
 		switch (this->dtype())                                                              \
         {                                                                                   \
@@ -338,6 +338,7 @@ namespace Is
 							dtype_to_string(this->dtype()).c_str());                        \
 		}                                                                                   \
 	} 
+    }// namespace: nbla
     // ------------------------------------------------------------------------------------------
 
     /**
@@ -416,6 +417,5 @@ namespace Is
 					"`" #TYPE "` is disabled in `" #fill_func "`.");                        \
 	}
 
-    }// namespace: nbla
 } // namespace: Is
 #endif

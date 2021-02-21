@@ -174,3 +174,4 @@ GET_DTYPE_TEMPLATE_SPECIAL(long double, LONGDOUBLE);
 		}
     }
 }
+#endif

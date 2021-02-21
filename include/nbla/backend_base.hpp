@@ -62,7 +62,7 @@ namespace Is
              * 
              * @return shared_ptr<Allocator> 
              */
-            virtual shared_ptr<Allocator> naive_allocator() = 0;
+            virtual shared_ptr<Allocator> native_allocator() = 0;
 
 
             /**

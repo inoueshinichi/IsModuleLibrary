@@ -9,6 +9,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <mutex>
 
 namespace Is
 {
@@ -17,6 +18,7 @@ namespace Is
         using std::unordered_map;
         using std::unique_ptr;
         using std::shared_ptr;
+        using std::make_shared;
 
         // 前方宣言
         class Allocator;
@@ -26,7 +28,7 @@ namespace Is
          * デストラクタで，借りていたMemoryが，コンストラクタで登録したAllocatorインスタンス
          * に戻される.
          */
-        class NBLA_API AllocatorMemory
+        class AllocatorMemory
         {
             shared_ptr<Memory> memory_;
 
@@ -48,7 +50,7 @@ namespace Is
              * @param memory 
              * @param allocator 
              */
-            AllocatorMemory(shared_ptr<Memory> memory, shared_ptr<Allocator> allocator);
+            NBLA_API AllocatorMemory(shared_ptr<Memory> memory, shared_ptr<Allocator> allocator);
 
             /**
              * @brief Construct a new Allocator Memory object
@@ -56,7 +58,7 @@ namespace Is
              * 空のインスタンスを作る.
              * 
              */
-            AllocatorMemory();
+            NBLA_API AllocatorMemory();
 
             /**
              * @brief Destroy the Allocator Memory object
@@ -64,7 +66,7 @@ namespace Is
              * コンストラクタでallocatorに与えられたMemoryインスタンスを戻す.
              * 
              */
-            ~AllocatorMemory();
+            NBLA_API ~AllocatorMemory();
 
             /**
              * @brief Construct a new Allocator Memory object
@@ -73,7 +75,7 @@ namespace Is
              * 
              * @param rhs 
              */
-            AllocatorMemory(AllocatorMemory&& rhs);
+            NBLA_API AllocatorMemory(AllocatorMemory&& rhs);
 
             /**
              * @brief ムーブ代入演算子
@@ -81,7 +83,7 @@ namespace Is
              * @param rhs 
              * @return AllocatorMemory& 
              */
-            AllocatorMemory& operator=(AllocatorMemory&& rhs);
+            NBLA_API AllocatorMemory& operator=(AllocatorMemory&& rhs);
 
             /**
              * @brief このAllocatorMemoryインスタンスが所有するMemoryを取得する.
@@ -133,25 +135,28 @@ namespace Is
 
         class NBLA_API Allocator : public std::enable_shared_from_this<Allocator>
         {
-            Allocator() = default; // ファクトリ関数経由でAllocatorインスタンスを生成させるためにプライベートにする.
-
         protected:
             unique_ptr<AllocatorCallback> callback_;
             unordered_map<string, size_t> device_memory_used_in_bytes_;
 
-        public:
-            virtual ~Allocator() = default;
+            std::mutex mtx_;
 
-            static shared_ptr<Allocator> create()
-            {
-                return make_shared<Allocator>();
-            }
+        public:
+            using MemCountMap = unordered_map<string, int>;
+
+            std::function<void(void)> callback_tmp_ = nullptr;
+
+            // コンストラクタは何もしない
+            Allocator();
+            virtual ~Allocator();
 
             /**
              * @brief AllocatorMemoryでラップされたメモリブロックを要求する.
              * 
-             * @param bytes 
-             * @param device_id 
+             * @param bytes Number of bytes of memory block requested.
+             * @param device_id Device specifier string. A format of allow specifier
+             *                  is determined depending on Memory class
+             *                  implementation.
              * @return AllocatorMemory 
              * 
              * コンパイラRVO(Return Value Optimization)は、戻り値のコピーを防ぐために有効になっている
@@ -263,7 +268,7 @@ namespace Is
              * @param device_id 
              * @return shared_ptr<Memory> 
              */
-            virtual shared_ptr<Memory> alloc_impl(size_t bytes, const string& device_id) = 0;
+            virtual shared_ptr<Memory> alloc_impl(size_t orig_bytes, const string& device_id) = 0;
 
             /**
              * @brief プールにメモリを返却する.
@@ -283,11 +288,18 @@ namespace Is
              * @param device_id 
              * @return size_ 
              */
-            virtual size_ free_unused_device_caches_impl(const string& device_id) = 0;
+            virtual size_t free_unused_device_caches_impl(const string& device_id) = 0;
+
+
+            /**
+             * @brief print_memory_cache_map_impl
+             * 
+             */
+            virtual void print_memory_cache_map_impl() {};
 
             /* コピー構築とコピー代入を禁止する */
             DISABLE_COPY_AND_ASSIGN(Allocator);
-        }
+        };
     }
 }
 #endif

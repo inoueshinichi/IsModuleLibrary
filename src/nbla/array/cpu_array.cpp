@@ -22,7 +22,7 @@ namespace Is
 
 
         CpuArray::CpuArray(const Size_t size, dtypes dtype, const Context& ctx, AllocatorMemory&& mem)
-            Array::Array(size, dtype, ctx, std::move(mem))
+            : Array::Array(size, dtype, ctx, std::move(mem))
         {}
 
 
@@ -31,7 +31,7 @@ namespace Is
 
         void CpuArray::zero()
         {
-            std::memset(this->pointer<void>, 0, this->size() * sizeof_dtype(this->dtype_));
+            std::memset(this->pointer<void>(), 0, this->size() * sizeof_dtype(this->dtype_));
         }
 
 
@@ -42,9 +42,9 @@ namespace Is
 
 
         // void copy_from(const Array* src_array)の実装マクロ
-        NBLA_DEFILE_FUNC_COPY_FROM(CpuArray, cpu_array_copy, cpu);
+        NBLA_DEFINE_FUNC_COPY_FROM(CpuArray, cpu_array_copy, cpu);
 
-        // void fill(float value)の実装マクロ
+        // void fill(double value)の実装マクロ
         NBLA_DEFINE_FUNC_FILL(CpuArray, cpu_fill, cpu);
 
 

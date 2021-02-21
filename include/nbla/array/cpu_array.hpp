@@ -20,7 +20,7 @@ namespace Is
             virtual ~CpuArray();
             virtual void copy_from(const Array* src_array); // NBLA_DEFINE_FUNC_COPY_FROMマクロで実装
             virtual void zero();
-            virtual void fill(float value); // NBLA_DEFINE_FUNC_FILLマクロで実装
+            virtual void fill(double value); // NBLA_DEFINE_FUNC_FILLマクロで実装
             static Context filter_context(const Context& ctx);
         };
 

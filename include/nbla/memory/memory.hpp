@@ -50,7 +50,7 @@ namespace Is
 
             inline void lock() { locked_ = true; }
 
-            inline void release() { locked = false; }
+            inline void release() { locked_ = false; }
 
             void alloc();
 

@@ -138,7 +138,7 @@ namespace Is
              * @param dst_class 
              * @param synchronizer 
              */
-            static void add_synchronizer(const string& src_class, const stirng& dst_class,
+            static void add_synchronizer(const string& src_class, const string& dst_class,
                                          Synchronizer synchronizer);
 
         private:

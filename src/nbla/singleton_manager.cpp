@@ -52,7 +52,7 @@ namespace Is
         {
             SingletonManager& self_ = SingletonManager::get_self();
             auto iter = self_.singletons_.find(id);
-            if (iter = self_.singletons_.end())
+            if (iter == self_.singletons_.end())
             {
                 return;
             }

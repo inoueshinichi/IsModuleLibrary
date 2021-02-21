@@ -1,7 +1,7 @@
 #ifndef IS_NBLA_CACHING_ALLOCATOR_WITH_BUCKETS_HPP
 #define IS_NBLA_CACHING_ALLOCATOR_WITH_BUCKETS_HPP
 
-#include "nbla/allocator.hpp"
+#include "nbla/memory/allocator.hpp"
 
 #include <map>
 #include <memory>
@@ -67,6 +67,8 @@ namespace Is
 		private:
 			CacheMap small_cache_map_;
 			CacheMap large_cache_map_;
+			MemCountMap small_memory_counter_;
+			MemCountMap large_memory_counter_;
 			static constexpr int round_small_ = 512;       // 512B
 			static constexpr int round_large_ = 128 << 10; // 128KB
 			static constexpr int small_alloc_ = 1 << 20;   // 1MB
@@ -77,6 +79,7 @@ namespace Is
 			shared_ptr<Memory> alloc_impl(size_t orig_bytes, const string& device_id) override;
 			size_t free_unused_device_caches_impl(const string& device_id) override;
 			void print_memory_cache_map_impl() override;
+			
 			size_t get_max_cache_bytes(const string& device_id);
 			size_t get_total_cache_bytes(const string& device_id);
 

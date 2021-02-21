@@ -23,7 +23,7 @@ namespace Is
         /**
          * @brief BackendUitls Class
          * This class is never be instantiated.
-         * 
+         * Cpuクラス or Gpuクラス
          */
         class NBLA_API BackendUtils
         {
@@ -47,7 +47,7 @@ namespace Is
              * @param ctx 
              * @return vector<string> 
              */
-            static vector<string> array_classes(const Context ctx);
+            static vector<string> array_classes(const Context& ctx);
 
 
             /**
@@ -57,7 +57,7 @@ namespace Is
              * @param ctx 
              * @param a 
              */
-            static void _set_array_classes(const Context ctx, const vector<string>& a);
+            static void _set_array_classes(const Context& ctx, const vector<string>& a);
 
 
             /**
@@ -66,7 +66,7 @@ namespace Is
              * @param ctx 
              * @param name 
              */
-            static register_array_class(const Context ctx, const string& name);
+            static void register_array_class(const Context& ctx, const string& name);
 
 
             /**
@@ -75,7 +75,7 @@ namespace Is
              * @param ctx 
              * @return shared_ptr<Allocator> 
              */
-            static shared_ptr<Allocator> caching_allocator(const Context ctx);
+            static shared_ptr<Allocator> caching_allocator(const Context& ctx);
 
 
             /**
@@ -84,7 +84,7 @@ namespace Is
              * @param ctx 
              * @return shared_ptr<Allocator> 
              */
-            static shared_ptr<Allocator> native_allocator(const Context ctx);
+            static shared_ptr<Allocator> native_allocator(const Context& ctx);
 
 
             /**
@@ -92,7 +92,7 @@ namespace Is
              * 
              * @param ctx 
              */
-            static void free_unused_host_caches(const Context ctx);
+            static void free_unused_host_caches(const Context& ctx);
 
 
             /**
@@ -100,7 +100,7 @@ namespace Is
              * 
              * @param ctx 
              */
-            static void device_synchronize(const Context ctx);
+            static void device_synchronize(const Context& ctx);
 
 
             /**
@@ -108,7 +108,7 @@ namespace Is
              * 
              * @param ctx 
              */
-            static void default_stream_synchronize(const Context ctx);
+            static void default_stream_synchronize(const Context& ctx);
 
 
             /**
@@ -116,7 +116,7 @@ namespace Is
              * 
              * @param ctx 
              */
-            static void create_lms_streams(const Context ctx);
+            static void create_lms_streams(const Context& ctx);
 
         private:
             // Never be created
@@ -136,13 +136,13 @@ namespace Is
              * @param ctx 
              * @return BackendGetter 
              */
-            static BackendGetter get_backend_getter(const Context ctx);
-
-
-            #define NBLA_REGISTER_BACKEND(BACKEND_NAME, BACKEND_GETTER)        \
-                { BackendUtils::add_backend(BACKEND_NAME, BACKEND_GETTER); }
+            static BackendGetter get_backend_getter(const Context& ctx);
 
         };
+
+#define NBLA_REGISTER_BACKEND(BACKEND_NAME, BACKEND_GETTER)        \
+    { BackendUtils::add_backend(BACKEND_NAME, BACKEND_GETTER); }
+    
     }
 }
 #endif

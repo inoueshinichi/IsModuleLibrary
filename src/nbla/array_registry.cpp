@@ -121,8 +121,8 @@ namespace Is
 
 
         // public static
-        void ArraySynchronizer::synchronize(const string&　src_class, Array*　src_array,
-                                            const string&　dst_class, Array*　dst_array,
+        void ArraySynchronizer::synchronize(const string& src_class, Array* src_array,
+                                            const string& dst_class, Array* dst_array,
                                             const int async_flags) 
         {
             init_cpu();

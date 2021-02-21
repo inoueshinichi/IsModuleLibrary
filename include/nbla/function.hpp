@@ -3,7 +3,7 @@
 
 #include "nbla/array.hpp"
 #include "nbla/context.hpp"
-#include "nbla/variable.hpp"
+#include "nbla/is_nd_array.hpp"
 
 #include <memory>
 #include <string>
@@ -20,7 +20,7 @@ namespace Is
 
     namespace nbla
     {
-        using Variables = vector<Variable*>;
+        using IsNdArrays = vector<IsNdArray*>;
 
         /**
          * @brief 計算ユニットのインターフェース
@@ -77,7 +77,8 @@ namespace Is
              * @param inputs 
              * @param outputs 
              */
-            void setup(const Variables& inputs, const Variables& outputs);
+            // void setup(const Variables& inputs, const Variables& outputs);
+            void setup(const IsNdArrays& inputs, const IsNdArrays& outputs);
 
 
             /**
@@ -89,7 +90,8 @@ namespace Is
              * @param inputs 
              * @param outputs 
              */
-            void forward(const Variables& inputs, const Variables& outputs);
+            // void forward(const Variables& inputs, const Variables& outputs);
+            void execute(const IsNdArrays& inputs, const IsNdArrays& outputs);
 
 
             // /**
@@ -296,7 +298,8 @@ namespace Is
              * @param inputs 
              * @param outputs 
              */
-            virtual void setup_impl(const Variables& inputs, const Variables& outputs) = 0;
+            // virtual void setup_impl(const Variables& inputs, const Variables& outputs) = 0;
+            virtual void setup_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
 
 
             /**
@@ -307,7 +310,8 @@ namespace Is
              * @param inputs 
              * @param outputs 
              */
-            virtual forward_impl(const Variables& inputs, const Variables& outputs) = 0;
+            // virtual forward_impl(const Variables& inputs, const Variables& outputs) = 0;
+            virtual execute_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
 
 
             // /**

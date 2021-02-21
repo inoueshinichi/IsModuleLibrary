@@ -1,10 +1,6 @@
 #ifndef IS_NBLA_DEFS_HPP
 #define IS_NBLA_DEFS_HPP
 
-namespace Is
-{
-    namespace nbla
-    {
 #if defined(_MSC_VER) && !defined(__CUDACC__)
 #   if defined(nnabla_EXPORTS) || defined(nnabla_dbg_EXPORTS)
 #       define NBLA_API __declspec(dllexport)
@@ -23,6 +19,4 @@ namespace Is
 // これを使用するために，このマクロの前に<type_traits>をインクルードしなければならない.
 #define NBLA_THIS_TYPE std::remove_pointer<decltype(this)>::type
 
-    } //nbla
-}
 #endif

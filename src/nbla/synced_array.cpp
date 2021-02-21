@@ -134,7 +134,7 @@ namespace Is
             const bool first_creation = (get_num_arrays() == 0);
 
             // 1. Create an array and/or synchronize with the head.
-            head_ = sync(dtype, ctx, write_only, async_flag); // cast() changes head.
+            head_ = sync(dtype, ctx, write_only, async_flags); // cast() changes head.
 
             // 2. Clear all previous arrays.
             auto created_array = array_[head_.key];
@@ -222,7 +222,7 @@ namespace Is
         }  
 
 
-        void SyncedArray::fill(float value)
+        void SyncedArray::fill(double value)
         {
             clear();
             filling_ = true;
@@ -314,12 +314,12 @@ namespace Is
 					// CudaCachedArray <-> CudaCachedArray
 					// CudaDlpackArray <-> CudaDlpackArray
                     head_array->wait_event(ctx, async_flags);
-                    array->copy_from(head_arary);
+                    array->copy_from(head_array);
                 }
                 else
                 {
                     // 型情報を変更してコピー
-                    ArraySynchronizer::synchronize(head_.array_class, head_aray,
+                    ArraySynchronizer::synchronize(head_.array_class, head_array,
                                                    desc.array_class, array,
                                                    async_flags);
                     SYNC_DEBUG("SYNC: %s<%s> --[%lld elements (%lld bytes in %s)]--> %s<%s>.",

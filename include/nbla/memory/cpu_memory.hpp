@@ -17,7 +17,7 @@ namespace Is
 
         protected:
             virtual bool alloc_impl() override final;
-            virtual shared_ptr<Memory> devide_impl(size_t second_start) override final;
+            virtual shared_ptr<Memory> divide_impl(size_t second_start) override final;
             virtual void merge_next_impl(Memory* from) override final;
             virtual void merge_prev_impl(Memory* from) override final;
         };

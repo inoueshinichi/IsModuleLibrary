@@ -26,18 +26,22 @@ namespace Is
         shared_ptr<Allocator> Cpu::caching_allocator() { return caching_allocator_; }
 		shared_ptr<Allocator> Cpu::native_allocator() { return native_allocator_; }
 
+
         void Cpu::free_unused_host_caches()
         {
             caching_allocator_->free_unused_caches();
-            naive_allocator_->free_unused_caches();
+            native_allocator_->free_unused_caches();
         }
+
 
         void Cpu::device_synchronize(const string &device)
         {
-            cpu_device_synchronize(device);
+            cpu_device_synchronize(device); // init.hpp
         }
 
+
         void Cpu::default_stream_synchronize(const string &device) {}
+
 
         // dll export for template
         NBLA_INSTANTIATE_SINGLETON(NBLA_API, Cpu);

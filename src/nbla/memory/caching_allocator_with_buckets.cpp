@@ -1,4 +1,4 @@
-#include "nbla/caching_allocator_with_buckets.hpp"
+#include "nbla/memory/caching_allocator_with_buckets.hpp"
 
 #define DEBUG_DEVICE_CACHES
 

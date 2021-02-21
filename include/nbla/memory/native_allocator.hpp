@@ -33,7 +33,7 @@ namespace Is
 
             NativeAllocator() : Allocator()
 			{
-            #if 0
+            #if 1
                 #if __has_include(<cxxabi.h>)
                     std::string allocator_name;                                                
                     const std::type_info& id = typeid(*this); /* RTTI */                   
@@ -79,7 +79,7 @@ namespace Is
 			}
 
 
-            size_t free_unused_device_caches_impl(const string& device_id)
+            size_t free_unused_device_caches_impl(const string& device_id) override
 			{
 				// NativeAllocatorの場合，何もしない
 				return 0;

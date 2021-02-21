@@ -27,7 +27,7 @@ namespace Is
          * @tparam Item 
          */
         template <typename Item>
-        string print_function_items(vector<shared_ptr<Item> items)
+        string print_function_items(vector<shared_ptr<Item>> items)
         {
             ostringstream ss;
             ss << "[";

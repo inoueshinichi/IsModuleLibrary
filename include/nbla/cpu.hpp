@@ -15,7 +15,7 @@ namespace Is
     {
         using std::vector;
 		using std::string;
-		using std::unique_ptr;
+		using std::shared_ptr;
 
         /**
          * @brief CPU計算のためのいくつかのハンドルと設定を保持するシングルトンクラス
