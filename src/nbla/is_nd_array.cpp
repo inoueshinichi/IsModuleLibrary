@@ -73,7 +73,7 @@ namespace Is
                        "Given: %d != current: %d.",
                        size, size_);
 
-            auto v = make_shared<IsNdArray>(shape);
+            shared_ptr<IsNdArray> v(new IsNdArray(shape));
             v->set_data(data_->view(shape));
             return v;
         }

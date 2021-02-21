@@ -48,6 +48,7 @@ namespace Is
             Size_t ndim_;      // 次元数
             NdArrayPtr data_;  // 多次元配列インスタンスへのポインタ
 
+
             void update_shape_info();
 
 
@@ -60,11 +61,24 @@ namespace Is
             NBLA_API IsNdArray(NdArrayPtr data);
 
 
-            template <typename... Args>
-            static Ptr create(Args... args)
+            /* IsNdArrayコンストラクタをprivateにすると使えない */
+            // template <typename... Args>
+            // static Ptr create(Args... args)
+            // {
+            //     return shared_ptr<IsNdArray>(args...);
+            // }
+
+            static Ptr create(const Shape_t& shape)
             {
-                return make_shared<IsNdArray>(args...);
+                return shared_ptr<IsNdArray>(new IsNdArray(shape));
             }
+
+
+            static Ptr create(NdArrayPtr data)
+            {
+                return shared_ptr<IsNdArray>(new IsNdArray(data));
+            }
+
             
         public:
             /*********************************************/
@@ -192,6 +206,7 @@ namespace Is
                 const Array* arr = data_->array()->get(get_dtype<T>(), ctx);
                 return arr->const_pointer<T>();
             }
+
 
             DISABLE_COPY_AND_ASSIGN(IsNdArray);
         };

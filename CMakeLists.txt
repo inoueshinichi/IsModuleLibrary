@@ -48,9 +48,9 @@ option(BUILD_CPP_USE_PCH "Enable/Disable use pre-compile header" OFF)
 
 # Global Shared lib flag
 if(BUILD_CPP_SHARED_LIBS)
-    set(BUILD_CPP_SHARED_LIBS ON)
+    set(BUILD_SHARED_LIBS ON) # グローバルオプション
 else()
-    set(BUILD_CPP_SHARED_LIBS OFF)
+    set(BUILD_SHARED_LIBS OFF)
 endif()
 
 
@@ -65,7 +65,7 @@ if(MSVC)
 
     # Build Options
     string(REGEX REPLACE "/W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}") # デフォルトの`/W[0-4]`を削除
-    set(CMAKE_CXX_FLAGS "/DWIN32 /D_WINDOWS /GR /EHsc /W0") #/W4")
+    set(CMAKE_CXX_FLAGS "/DWIN32 /D_WINDOWS /GR /EHsc /W4") #/W4")
     set(CMAKE_CXX_FLAGS_DEBUG "/Ob0 /Od /MDd /Zi /RTC1") # /MDd or /Od が指定されている場合、#include <windows>内部で_DEBUGマクロが定義される
     set(CMAKE_CXX_FLAGS_RELEASE "/Ob2 /O2 /MD /DNDEBUG") # /DNDEBUGマクロはstatic_assert()で利用する
     set(CMAKE_CXX_FLAGS_MINSIZEREL "/O1 /MD /DNDEBUG")

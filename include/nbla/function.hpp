@@ -137,15 +137,17 @@ namespace Is
              * @brief  Get minimum number of inputs.
              * This is meant to be used in setup fuction with in_types which is used
              * to get maximum number of inputs.
+             * @return int
              */
-            virtual min_inputs() = 0;
+            virtual int min_inputs() = 0;
 
             /**
              * @brief Get minimum number of outputs.
              * This is meant to be used in setup function with out_types which is used to get
              * max number of outputs.
+             * @return int
              */
-            virtual min_outputs() = 0;
+            virtual int min_outputs() = 0;
 
 
             /**
@@ -311,7 +313,7 @@ namespace Is
              * @param outputs 
              */
             // virtual forward_impl(const Variables& inputs, const Variables& outputs) = 0;
-            virtual execute_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
+            virtual void execute_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
 
 
             // /**

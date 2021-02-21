@@ -80,7 +80,7 @@ namespace Is
             NBLA_CHECK_SINGLETON(Creating, SINGLETON)
             instance = new SINGLETON{};
 
-            auto deleter = [&instance]() -> void {
+            auto deleter = [&]() -> void {
                 NBLA_CHECK_SINGLETON(Deleting, SINGLETON)
 
                 delete instance;
