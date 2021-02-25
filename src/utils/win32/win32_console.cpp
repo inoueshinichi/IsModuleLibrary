@@ -1,5 +1,5 @@
-#include "utils/win32_console.hpp"
-#include "utils/win32_exception.hpp"
+#include "utils/win32/win32_console.hpp"
+#include "utils/win32/win32_exception.hpp"
 #include "utils/format_string.hpp"
 
 #include <io.h>     // _isatty
