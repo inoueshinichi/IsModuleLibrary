@@ -41,10 +41,9 @@ message(STATUS "========== [START] C++ All Target Options ==========")
 
 # Switching Option
 option(BUILD_OPENMP "Enable/Disable OpenMP" ON)
-option(BUILD_CPP_TEST "Building test" OFF)
+option(BUILD_CPP_TEST "Building test" ON)
 option(BUILD_CPP_SHARED_LIBS "Enable/Disable shared libraries" ON)
 option(BUILD_CPP_COMPILE_PCH "Enable/Disable compile pre-compile header" OFF)
-option(BUILD_CPP_USE_PCH "Enable/Disable use pre-compile header" OFF)
 
 # Global Shared lib flag
 if(BUILD_CPP_SHARED_LIBS)
@@ -90,13 +89,13 @@ if(MSVC)
     # sprintf_s系の邪魔なコンパイラ仕様を回避
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 
+    # math.hに定義されている円周率等の物理定数を有効化する
+    add_compile_definitions(_USE_MATH_DEFINES)
+
     # プリコンパイル済みヘッダーの生成と利用
     if(BUILD_CPP_COMPILE_PCH)
-        # something
-    endif()
-
-    if(BUILD_CPP_USE_PCH)
-        # something
+        add_compile_options("$<$<C_COMPILER_ID:MSVC>:/Yu>")
+        add_compile_options("$<$<CXX_CPMPILER_ID:MSVC>:/Yu>")
     endif()
 
 elseif(APPLE)
@@ -104,8 +103,7 @@ elseif(APPLE)
 
     message(FATAL_ERROR "No Implimentation of LLVM with Clang(++) in macOS.")
 
-
-    else()
+else()
     message(STATUS "Compiler: GCC in Linux")
 
     # 詳細情報の表示
@@ -158,10 +156,6 @@ elseif(APPLE)
         # something
     endif()
         
-    if(BUILD_CPP_USE_PCH)
-        # something
-    endif()
-
 endif()
 
 message(STATUS "---------- Compiler Options for Multi Configuration such as XCode, Visual Studio ----------")
@@ -179,6 +173,26 @@ message(STATUS "========== [START] C++ Build Core ==========")
 # Library
 set(LIB_NAME_SUFFIX "")
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/nbla)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/imgproc)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils)
+
+# Is Library
+
+if (WIN32)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/version.rc.in
+        ${CMAKE_CURRENT_BINARY_DIR}/version-utf8.rc
+    )
+
+    execute_process(
+        COMMAND ${PYTHON_COMMAND}
+        ${CMAKE_SOURCE_DIR}/build-tools/cmake/utf8_to_utf16.py
+        ${CMAKE_CURRENT_BINARY_DIR}/version-utf8.rc ${CMAKE_CURRENT_BINARY_DIR}/version.rc
+    )
+
+    # list(APPEND SOURCES ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
+endif()
+
 
 message(STATUS "========== [END] C++ Build Core ==========")
 
