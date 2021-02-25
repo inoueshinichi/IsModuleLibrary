@@ -150,6 +150,21 @@ namespace Is
             }
 
 
+            template <typename T>
+            static Ptr identity(const Context& ctx, const Shape_t& shape)
+            {
+                auto ndarr = create(shape);
+                ndarr->data_->zero();
+                T* data = ndarr->cast_data_and_get_pointer<T>(ctx);
+                Stride_t strides = ndarr->strides();
+                Size_t ndim = ndarr->ndim();
+                Size_t size = ndarr->size();
+
+                /* ここに処理を挿入 */
+               
+
+                return ndarr;
+            }
 
             /*********************************************/
 
