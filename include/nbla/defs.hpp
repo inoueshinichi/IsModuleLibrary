@@ -7,7 +7,7 @@
 #endif
 
 #if defined(_MSC_VER) && !defined(__CUDACC__)
-    #if defined(nnabla_EXPORTS) || defined(nnabla_dbg_EXPORTS)
+    #if defined(is_nnabla_EXPORTS) || defined(is_nnabla_dbg_EXPORTS)
         #define NBLA_API __declspec(dllexport)
     #else
         #define NBLA_API __declspec(dllimport)
