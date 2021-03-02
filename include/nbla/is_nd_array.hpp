@@ -48,9 +48,7 @@ namespace Is
             Size_t ndim_;      // 次元数
             NdArrayPtr data_;  // 多次元配列インスタンスへのポインタ
 
-
             void update_shape_info();
-
 
         public:
             using Ptr = shared_ptr<IsNdArray>;
@@ -60,7 +58,6 @@ namespace Is
             NBLA_API IsNdArray(const Shape_t& shape = {});
             NBLA_API IsNdArray(NdArrayPtr data);
 
-
             /* IsNdArrayコンストラクタをprivateにすると使えない */
             // template <typename... Args>
             // static Ptr create(Args... args)
@@ -68,12 +65,24 @@ namespace Is
             //     return shared_ptr<IsNdArray>(args...);
             // }
 
+            /**
+             * @brief 新規IsNdArrayインスタンスの生成
+             * 
+             * @param shape 
+             * @return Ptr 
+             */
             static Ptr create(const Shape_t& shape)
             {
                 return shared_ptr<IsNdArray>(new IsNdArray(shape));
             }
 
 
+            /**
+             * @brief 新規IsNdArrayインスタンスの生成
+             * 
+             * @param data 
+             * @return Ptr 
+             */
             static Ptr create(NdArrayPtr data)
             {
                 return shared_ptr<IsNdArray>(new IsNdArray(data));
@@ -168,45 +177,103 @@ namespace Is
 
             /*********************************************/
 
+            /**
+             * @brief Reshape
+             * 
+             * @param shape 
+             * @param force 
+             * @return NBLA_API 
+             */
             NBLA_API void reshape(const vector<Size_t>& shape, bool force);
 
 
+            /**
+             * @brief View (with same ndarray contents)
+             * 
+             * @return NBLA_API 
+             */
             NBLA_API Ptr view();
 
 
+            /**
+             * @brief Reshaped view (with same ndarray contents)
+             * 
+             * @param shape 
+             * @return NBLA_API 
+             */
             NBLA_API Ptr view(const Shape_t &shape);
 
 
+            /**
+             * @brief Get shape
+             * 
+             * @return Shape_t 
+             */
             inline Shape_t shape() const
             {
                 return shape_;
             }
 
 
+            /**
+             * @brief Get stride
+             * 
+             * @return Stride_t 
+             */
             inline Stride_t strides() const
             {
                 return strides_;
             }
 
 
+            /**
+             * @brief Get size as all bytes included in ndarray.
+             * 
+             * @param axis 
+             * @return NBLA_API 
+             */
             NBLA_API Size_t size(Size_t axis = -1) const;
 
 
+            /**
+             * @brief Get ndim.
+             * 
+             * @return Size_t 
+             */
             inline Size_t ndim() const
             {
                 return ndim_;
             }
 
 
+            /**
+             * @brief Get NdArrayPtr.
+             * 
+             * @return NdArrayPtr 
+             */
             inline NdArrayPtr data()
             {
                 return data_;
             }
 
 
+            /**
+             * @brief Set NdArrayPtr.
+             * 
+             * @param data 
+             * @return NBLA_API 
+             */
             NBLA_API void set_data(NdArrayPtr data);
 
 
+            /**
+             * @brief Synchronized cast and get pointer.
+             * 
+             * @tparam T 
+             * @param ctx 
+             * @param write_only 
+             * @return T* 
+             */
             template <typename T>
             T* cast_data_and_get_pointer(const Context&ctx, bool write_only = false)
             {
@@ -215,6 +282,13 @@ namespace Is
             }
 
 
+            /**
+             * @brief  Get synchronized pointer.
+             * 
+             * @tparam T 
+             * @param ctx 
+             * @return const T* 
+             */
             template <typename T>
             const T* get_data_pointer(const Context& ctx)
             {
