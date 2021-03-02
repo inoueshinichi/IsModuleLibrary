@@ -83,7 +83,7 @@ namespace Is
         std::string format_string(const std::string& format, Args&&... args)
         {
             /* 各パラメータの型を変換して、文字列のフォーマッティング */
-            return detail::format_string_internal(format, detail::convert(std::forward<T>(args))...);
+            return detail::format_string_internal(format, detail::convert(std::forward<Args>(args))...);
         }
     } // utils
 }
