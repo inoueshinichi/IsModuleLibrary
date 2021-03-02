@@ -34,6 +34,7 @@ namespace Is
          * https://en.wikipedia.org/wiki/Jacobian_matrix_and_determinant
          * 
          */
+        // 入出力情報・Inplace/Not・演算操作のAPIを定義するクラス
         class NBLA_API Function
         {
             bool used_{false};
@@ -338,6 +339,9 @@ namespace Is
             DISABLE_COPY_AND_ASSIGN(Function);
         };
 
+        // エイリアス
+        using FunctionPtr = Function::Ptr;
+
 
         /**
          * @brief Base function.
@@ -345,6 +349,7 @@ namespace Is
          * Keep arguments
          * 
          */
+        // 演算操作に必要な仮引数の型情報を保持するクラス
         template <typename... Args>
         class BaseFunction : public Function
         {
@@ -385,9 +390,7 @@ namespace Is
                 return std::get<Index>(args_);
             }
 
-            using FunctionPtr = Function::Ptr;
-            
         };
-    }
+    } // namespace nbla
 }
 #endif

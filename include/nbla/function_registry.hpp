@@ -210,7 +210,7 @@ namespace Is
             shared_ptr<Function> create_##NAME(NBLA_ARGDEFS(const Context&, ##__VA_ARGS__));            
 
 
-        #define NBLA_REGISTER_FUNCTION_SOURCE(NAME, ...)                                                \ 
+        #define NBLA_REGISTER_FUNCTION_SOURCE(NAME, ...)                                                \
             FunctionRegistry<Function, ##__VA_ARGS__> & get_##NAME##Registry()                          \
             {                                                                                           \
                 static FunctionRegistry<Function, ##__VA_ARGS__> registry;                              \
@@ -230,7 +230,7 @@ namespace Is
         #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
             {                                                                                           \
                 std::function<shared_ptr<Function>(const Context&, ##__VA_ARGS__)> func =               \
-                    [](NBLA_ARGDEFS(const Context&,## __VA_ARGS__)) {                                   \
+                    [](NBLA_ARGDEFS(const Context&, ##__VA_ARGS__)) {                                   \
                         return shared_ptr<Function>(                                                    \
                             new CLS(NBLA_ARGS(const Context&, ##__VA_ARGS__)));                         \
                     };                                                                                  \
@@ -242,46 +242,124 @@ namespace Is
     #endif   
 
 #else
-    /*!
-    *  __VA_OPT__(,)を使えば、`,`問題は解決する.
-    *  c++20 から導入される...
-    */
-    #define NBLA_REGISTER_FUNCTION_HEADER(NAME, ...)                                                \
-        FunctionRegistry<Function __VA_OPT__(,) __VA_ARGS__>& get_##NAME##Registry();               \
-        shared_ptr<Function> create_##NAME(NBLA_ARGDEFS(                                            \
-                                            const Context& __VA_OPT__(,) NBLA_EXPAND(__VA_ARGS__)));
+    #ifdef _MSC_VER
+        #define NBLA_REGISTER_FUNCTION_HEADER(NAME, ...)                                                \
+            FunctionRegistry<Function NBLA_VA_ARGS(__VA_ARGS__)>& get_##NAME##Registry();               \
+            shared_ptr<Function> create_##NAME(NBLA_ARGDEFS(                                            \
+                                                const Context& NBLA_VA_ARGS(__VA_ARGS__)))
 
-    #define NBLA_REGISTER_FUNCTION_SOURCE(NAME, ...)                                                \
-        FunctionRegistry<Function __VA_OPT__(,) __VA_ARGS__>& get_##NAME##Registry()                \
-        {                                                                                           \
-            static FunctionRegistry<Function __VA_OPT__(,) __VA_ARGS__> registry;                   \
-            return registry;                                                                        \
-        }                                                                                           \
-                                                                                                    \
-        shared_ptr<Function> create_##NAME(NBLA_ARGDEFS(                                            \
-                                           const Context& __VA_OPT__(,) NBLA_EXPAND(__VA_ARGS__)))  \
-        {                                                                                           \
-            init_cpu();                                                                             \
-            return get_##NAME##Registry().create(                                                   \
-                NBLA_ARGS(const Context& __VA_OPT__(,) NBLA_EXPAND(__VA_ARGS__)));                  \
-        }
+        #define NBLA_REGISTER_FUNCTION_SOURCE(NAME, ...)                                                \
+            FunctionRegistry<Function NBLA_VA_ARGS(__VA_ARGS__)>& get_##NAME##Registry()                \
+            {                                                                                           \
+                static FunctionRegistry<Function NBLA_VA_ARGS(__VA_ARGS__)> registry;                   \
+                return registry;                                                                        \
+            }                                                                                           \
+                                                                                                        \
+            shared_ptr<Function> create_##NAME(NBLA_ARGDEFS(                                            \
+                                            const Context& NBLA_VA_ARGS(__VA_ARGS__)))                  \
+            {                                                                                           \
+                init_cpu();                                                                             \
+                return get_##NAME##Registry().create(                                                   \
+                    NBLA_ARGS(const Context& NBLA_VA_ARGS(__VA_ARGS__)));                               \
+            }
 
-    /*!
-    *  This will be used inside init method.
-    */
-    #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
-        {                                                                                           \
-            std::function<shared_ptr<Function>(const Context&, __VA_ARGS__)> func =                 \
-                [](NBLA_ARGDEFS(const Context&__VA_OPT__(,) NBLA_EXPAND(__VA_ARGS__))) {            \
-                    return shared_ptr<Function>(                                                    \
-                        new CLS(NBLA_ARGS(const Context& __VA_OPT__(,) NBLA_EXPAND(__VA_ARGS__)))); \
-                };                                                                                  \
-                                                                                                    \
-            using item_t = FunctionDbItem<Function __VA_OPT__(,) __VA_ARGS__>;                      \
-            get_##BASE##Registry().add(shared_ptr<item_t>(new item_t{BACKEND, func}));              \
-        }
+        /*!
+        *  This will be used inside init method.
+        */
+        // #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
+        //     {                                                                                           \
+        //         std::function<shared_ptr<Function>(const Context& NBLA_VA_ARGS(__VA_ARGS__))> func =    \
+        //             [](NBLA_ARGDEFS(const Context& NBLA_VA_ARGS(__VA_ARGS__))) {                        \
+        //                 return shared_ptr<Function>(                                                    \
+        //                     new CLS(NBLA_ARGS(const Context& NBLA_VA_ARGS(__VA_ARGS__))));              \
+        //             };                                                                                  \
+        //                                                                                                 \
+        //         using item_t = FunctionDbItem<Function NBLA_VA_ARGS(__VA_ARGS__)>;                      \
+        //         get_##BASE##Registry().add(shared_ptr<item_t>(new item_t{BACKEND, func}));              \
+        //     }
+        // #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
+        //     {                                                                                           \
+        //         std::function<shared_ptr<Function>(const Context& NBLA_VA_ARGS(__VA_ARGS__))> func =    \
+        //             [](NBLA_ARGDEFS(const Context&, NBLA_EXPAND(__VA_ARGS__))) {                        \
+        //                 return shared_ptr<Function>(                                                    \
+        //                     new CLS(NBLA_ARGS(const Context&, NBLA_EXPAND(__VA_ARGS__))));              \
+        //             };                                                                                  \
+        //                                                                                                 \
+        //         using item_t = FunctionDbItem<Function, NBLA_EXPAND(__VA_ARGS__)>;                      \
+        //         get_##BASE##Registry().add(shared_ptr<item_t>(new item_t{BACKEND, func}));              \
+        //     }
+        // #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
+        //     {                                                                                           \
+        //         std::function<shared_ptr<Function>(const Context& NBLA_VA_ARGS(__VA_ARGS__))> func =    \
+        //             [](NBLA_ARGDEFS(const Context& NBLA_VA_ARGS(__VA_ARGS__))) {                        \
+        //                 return shared_ptr<Function>(                                                    \
+        //                     new CLS(NBLA_ARGS(const Context& NBLA_VA_ARGS(__VA_ARGS__))));              \
+        //             };                                                                                  \
+        //                                                                                                 \
+        //         using item_t = FunctionDbItem<Function NBLA_VA_ARGS(__VA_ARGS__)>;                      \
+        //         get_##BASE##Registry().add(shared_ptr<item_t>(new item_t{BACKEND, func}));              \
+        //     }
+        // #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
+        //     {                                                                                           \
+        //         std::function<shared_ptr<Function>(const Context&  __VA_OPT__(,) __VA_ARGS__)> func =   \
+        //             [](NBLA_ARGDEFS(const Context& __VA_OPT__(,) __VA_ARGS__)) {                        \
+        //                 return shared_ptr<Function>(                                                    \
+        //                     new CLS(NBLA_ARGS(const Context& __VA_OPT__(,) __VA_ARGS__)));              \
+        //             };                                                                                  \
+        //                                                                                                 \
+        //         using item_t = FunctionDbItem<Function __VA_OPT__(,) __VA_ARGS__>;                      \
+        //         get_##BASE##Registry().add(shared_ptr<item_t>(new item_t{BACKEND, func}));              \
+        //     }
+        #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
+            {                                                                                           \
+                std::function<shared_ptr<Function>(const Context&, __VA_ARGS__)> func =                 \
+                    [](NBLA_ARGDEFS(const Context&, __VA_ARGS__)) {                                     \
+                        return shared_ptr<Function>(                                                    \
+                            new CLS(NBLA_ARGS(const Context&, __VA_ARGS__));                            \
+                    };                                                                                  \
+                                                                                                        \
+                using item_t = FunctionDbItem<Function, __VA_ARGS__>;                                   \
+                get_##BASE##Registry().add(shared_ptr<item_t>(new item_t{BACKEND, func}));              \
+            }
+        
 
-#endif
+    #else // GCC
+        #define NBLA_REGISTER_FUNCTION_HEADER(NAME, ...)                                                \
+            FunctionRegistry<Function __VA_OPT__(,) __VA_ARGS__>& get_##NAME##Registry();               \
+            shared_ptr<Function> create_##NAME(NBLA_ARGDEFS(                                            \
+                                                const Context& __VA_OPT__(,) __VA_ARGS__))
+
+        #define NBLA_REGISTER_FUNCTION_SOURCE(NAME, ...)                                                \
+            FunctionRegistry<Function __VA_OPT__(,) __VA_ARGS__>& get_##NAME##Registry()                \
+            {                                                                                           \
+                static FunctionRegistry<Function __VA_OPT__(,) __VA_ARGS__> registry;                   \
+                return registry;                                                                        \
+            }                                                                                           \
+                                                                                                        \
+            shared_ptr<Function> create_##NAME(NBLA_ARGDEFS(                                            \
+                                            const Context& __VA_OPT__(,) __VA_ARGS__))                  \
+            {                                                                                           \
+                init_cpu();                                                                             \
+                return get_##NAME##Registry().create(                                                   \
+                    NBLA_ARGS(const Context& __VA_OPT__(,) __VA_ARGS__));                               \
+            }
+
+        /*!
+        *  This will be used inside init method.
+        */
+        #define NBLA_REGISTER_FUNCTION_IMPL(BASE, CLS, BACKEND, ...)                                    \
+            {                                                                                           \
+                std::function<shared_ptr<Function>(const Context&  __VA_OPT__(,) __VA_ARGS__)> func =   \
+                    [](NBLA_ARGDEFS(const Context& __VA_OPT__(,) __VA_ARGS__)) {                        \
+                        return shared_ptr<Function>(                                                    \
+                            new CLS(NBLA_ARGS(const Context& __VA_OPT__(,) __VA_ARGS__)));              \
+                    };                                                                                  \
+                                                                                                        \
+                using item_t = FunctionDbItem<Function __VA_OPT__(,) __VA_ARGS__>;                      \
+                get_##BASE##Registry().add(shared_ptr<item_t>(new item_t{BACKEND, func}));              \
+            }
+    #endif
+#endif // #if __cplusplus < 201703L
     }  // namespace nbla
 } // namespace Is
 #endif
