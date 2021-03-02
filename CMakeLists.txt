@@ -171,10 +171,9 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 message(STATUS "========== [START] C++ Build Core ==========")
 
 # Library
-set(LIB_NAME_SUFFIX "")
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/nbla)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/imgproc)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils)
 
 # Is Library
 
