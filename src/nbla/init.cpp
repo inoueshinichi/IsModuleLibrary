@@ -81,6 +81,8 @@ namespace Is
             // NBLA_REGISTER_FUNCTION_IMPL(${name}, ${function_typed_sym}, "cpu:${type_config}"${''.join(map(lambda x: ', ' + x, arg_types))});
             // % endfor
             // % endfor
+            
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs, "cpu:float");
 
             /* Solver系クラスの登録 */
             // % for name, _, arg_types in solver_list:
