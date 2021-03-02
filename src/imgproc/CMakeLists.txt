@@ -10,19 +10,33 @@ file(GLOB IMGPROC_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 if (WIN32)
-    file(GLOB IMGPROC_WIN32_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}
+    file(GLOB IMGPROC_WIN32_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         win32/*.cpp
     )
     list(APPEND IMGPROC_SOURCES ${IMGPROC_WIN32_SOURCES})
 endif()
 
 
-# is_utils library
+# is_imgproc library
 add_library(${LIB_NAME} ${IMGPROC_SOURCES})
+
+# is_imgproc_EXPORTS or is_imgproc_dbg_EXPORTS 定義済みマクロを設定 for windows *.dll
+target_compile_definitions(${LIB_NAME} PRIVATE
+    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:${LIB_NAME}_EXPORTS>
+    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Debug>>:${LIB_NAME}_dbg_EXPORTS>
+    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:MinSizeRel>>:${LIB_NAME}_EXPORTS>
+    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:RelWithDebgInfo>>:${LIB_NAME}_dbg_EXPORTS>
+)
 
 target_include_directories(${LIB_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/include
 )
+
+target_link_libraries(${LIB_NAME} PUBLIC
+    is_nnabla
+)
+
+add_dependencies(${LIB_NAME} is_nnabla)
 
 # set_target_properties((${LIB_NAME} PROPERTIES
 #     # something

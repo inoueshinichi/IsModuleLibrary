@@ -10,19 +10,19 @@ file(GLOB UTILS_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 if (WIN32)
-    file(GLOB UTILS_WIN32_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}
+    file(GLOB UTILS_WIN32_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         win32/*.cpp
     )
     list(APPEND UTILS_SOURCES ${UTILS_WIN32_SOURCES})
 endif()
 
 
-# is_utils library
-add_library(${LIB_NAME} ${UTILS_SOURCES})
+# # is_utils library
+# add_library(${LIB_NAME} ${UTILS_SOURCES})
 
-target_include_directories(${LIB_NAME} PUBLIC
-    ${CMAKE_SOURCE_DIR}/include
-)
+# target_include_directories(${LIB_NAME} PUBLIC
+#     ${CMAKE_SOURCE_DIR}/include
+# )
 
 # set_target_properties((${LIB_NAME} PROPERTIES
 #     # something
