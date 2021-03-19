@@ -86,6 +86,13 @@ if(MSVC)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/bigobj>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/bigobj>")
 
+    # プリプロセッサ準拠モードを有効にする
+    # https://docs.microsoft.com/ja-jp/cpp/preprocessor/preprocessor-experimental-overview?view=msvc-160
+    # https://docs.microsoft.com/ja-jp/cpp/build/reference/zc-preprocessor?view=msvc-160
+    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/Zc:preprocessor>")
+    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>")
+
+
     # sprintf_s系の邪魔なコンパイラ仕様を回避
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 
