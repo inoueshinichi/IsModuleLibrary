@@ -28,6 +28,8 @@
 //% endif
 //% endfor
 
+#include "nbla/function/abs.hpp"
+
 
 namespace Is
 {
@@ -82,7 +84,21 @@ namespace Is
             // % endfor
             // % endfor
             
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs, "cpu:float");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<bool>, "cpu:bool");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned char>, "cpu:ubyte");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<char>, "cpu:byte");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned short>, "cpu:ushort");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<short>, "cpu:short");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned int>, "cpu:uint");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<int>, "cpu:int");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned long>, "cpu:ulong");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<long>, "cpu:long");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned long long>, "cpu:ulonglong");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<long long>, "cpu:longlong");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<float>, "cpu:float");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<double>, "cpu:double");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<long double>, "cpu:longdouble");
+           
 
             /* Solver系クラスの登録 */
             // % for name, _, arg_types in solver_list:

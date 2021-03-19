@@ -92,22 +92,24 @@ namespace Is
              * @param outputs 
              */
             // void forward(const Variables& inputs, const Variables& outputs);
-            void execute(const IsNdArrays& inputs, const IsNdArrays& outputs);
+            void forward(const IsNdArrays& inputs, const IsNdArrays& outputs);
 
 
-            // /**
-            //  * @brief 出力の勾配によって掛け算された逆誤差を計算する. そして、入力に格納する.
-            //  * 
-            //  * Checking shapes before calling backward_impl() which must be implemented in
-            //  * a derived function.
-            //  * 
-            //  * @param inputs 
-            //  * @param outputs 
-            //  * @param propagate_down 
-            //  * @param accum 
-            //  */
+            /**
+             * @brief 出力の勾配によって掛け算された逆誤差を計算する. そして、入力に格納する.
+             * 
+             * Checking shapes before calling backward_impl() which must be implemented in
+             * a derived function.
+             * 
+             * @param inputs 
+             * @param outputs 
+             * @param propagate_down 
+             * @param accum 
+             */
             // void backward(const Variables& inputs, const Variables& outputs, 
             //               const vector<bool>& propagate_down, const vector<bool>& accum);
+            void backward(const IsNdArrays& inputs, const IsNdArrays& outputs, 
+                          const vector<bool>& propagate_down, const vector<bool>& accum);
 
             
             /**
@@ -167,44 +169,44 @@ namespace Is
             virtual vector<string> allowed_array_classes() = 0;
 
 
-            // /**
-            //  * @brief Dependency flag for checking if in-grad depends on out-data.
-            //  * 
-            //  * If i=1 and o=0, checking if i-th input' gradient
-            //  * computation requires o-th output's data or not.
-            //  * 
-            //  * @param i Input variable index.
-            //  * @param o Output variable index.
-            //  * @return true 
-            //  * @return false 
-            //  * 
-            //  * @note If any of inputs requires an output variable data when computing
-            //  *       its gradient, this function must be overridden to return appropriate
-            //  *       boolean value. Otherwise, backward computation will be incorrect.
-            //  */
-            // virtual bool grad_depends_output_data(int i, int o) const 
-            // {
-            //     return false;
-            // }
+            /**
+             * @brief Dependency flag for checking if in-grad depends on out-data.
+             * 
+             * If i=1 and o=0, checking if i-th input' gradient
+             * computation requires o-th output's data or not.
+             * 
+             * @param i Input variable index.
+             * @param o Output variable index.
+             * @return true 
+             * @return false 
+             * 
+             * @note If any of inputs requires an output variable data when computing
+             *       its gradient, this function must be overridden to return appropriate
+             *       boolean value. Otherwise, backward computation will be incorrect.
+             */
+            virtual bool grad_depends_output_data(int i, int o) const 
+            {
+                return false;
+            }
 
 
-            // /**
-            //  * @brief Dependency flag for checking if in-grad depends on in-data.
-            //  * If i=1 and j=0, checking checking if i-th input' gradient
-            //  * computation requires j-th input's data or not.
-            //  * 
-            //  * By default, always returns true. If override this in a sub-class, the
-            //  * computation graph engine will optimize memory usage.
-            //  * 
-            //  * @param i Input variable index.
-            //  * @param j Input variable index.
-            //  * @return true 
-            //  * @return false 
-            //  */
-            // virtual bool grad_depends_input_data(int i, int j) const
-            // {
-            //     return true;
-            // }
+            /**
+             * @brief Dependency flag for checking if in-grad depends on in-data.
+             * If i=1 and j=0, checking checking if i-th input' gradient
+             * computation requires j-th input's data or not.
+             * 
+             * By default, always returns true. If override this in a sub-class, the
+             * computation graph engine will optimize memory usage.
+             * 
+             * @param i Input variable index.
+             * @param j Input variable index.
+             * @return true 
+             * @return false 
+             */
+            virtual bool grad_depends_input_data(int i, int j) const
+            {
+                return true;
+            }
 
 
             /**
@@ -242,30 +244,30 @@ namespace Is
             }
 
 
-            // /**
-            //  * @brief A flag for preventing that the graph engine clears buffers of
-            //  *        input variables even if clear_buffer is true and condition mets.
-            //  * 
-            //  * @return true 
-            //  * @return false 
-            //  */
-            // virtual bool prohibit_clear_input_buffers() const
-            // {
-            //     return false;
-            // }
+            /**
+             * @brief A flag for preventing that the graph engine clears buffers of
+             *        input variables even if clear_buffer is true and condition mets.
+             * 
+             * @return true 
+             * @return false 
+             */
+            virtual bool prohibit_clear_input_buffers() const
+            {
+                return false;
+            }
 
 
-            // /**
-            //  * @brief A flag for preventing that the graph engine sets input gradient buffer as
-            //  *        0 even when accum is true.
-            //  * 
-            //  * @return true 
-            //  * @return false 
-            //  */
-            // virtual bool prohibit_zero_input_grad() const
-            // {
-            //     return false;
-            // }
+            /**
+             * @brief A flag for preventing that the graph engine sets input gradient buffer as
+             *        0 even when accum is true.
+             * 
+             * @return true 
+             * @return false 
+             */
+            virtual bool prohibit_zero_input_grad() const
+            {
+                return false;
+            }
 
 
             /**
@@ -314,27 +316,30 @@ namespace Is
              * @param outputs 
              */
             // virtual forward_impl(const Variables& inputs, const Variables& outputs) = 0;
-            virtual void execute_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
+            virtual void forward_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
 
 
-            // /**
-            //  * @brief Implementation part of backward().
-            //  * It must do:
-            //  * - Take grad in outputs (backpropagated error from children of a computational
-            //  *   graph) and compute Jacobian multiplication of this function with grad.
-            //  * - Store backprop error into grad in inputs.
-            //  * 
-            //  * @param propagate_down Boolean array that indicates whether backprop is needed
-            //  *                       for an input corresponding to its index.
-            //  * 
-            //  * @param inputs 
-            //  * @param outputs 
-            //  * @param propagate_down 
-            //  * @param accum 
-            //  */
+            /**
+             * @brief Implementation part of backward().
+             * It must do:
+             * - Take grad in outputs (backpropagated error from children of a computational
+             *   graph) and compute Jacobian multiplication of this function with grad.
+             * - Store backprop error into grad in inputs.
+             * 
+             * @param propagate_down Boolean array that indicates whether backprop is needed
+             *                       for an input corresponding to its index.
+             * 
+             * @param inputs 
+             * @param outputs 
+             * @param propagate_down 
+             * @param accum 
+             */
             // virtual void backward_impl(const Variables& inputs, const Variables& outputs,
             //                            const vector<bool>& propagate_down, 
             //                            const vector<bool>& accum) = 0;
+            virtual void backward_impl(const IsNdArrays& inputs, const IsNdArrays& outputs,
+                                       const vector<bool>& propagate_down, 
+                                       const vector<bool>& accum) = 0;
 
             DISABLE_COPY_AND_ASSIGN(Function);
         };

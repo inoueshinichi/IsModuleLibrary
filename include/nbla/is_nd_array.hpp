@@ -47,6 +47,7 @@ namespace Is
             Size_t size_;      // メモリサイズ
             Size_t ndim_;      // 次元数
             NdArrayPtr data_;  // 多次元配列インスタンスへのポインタ
+            NdArrayPtr grad_;  // 勾配(多次元配列)
 
             void update_shape_info();
 
@@ -92,18 +93,7 @@ namespace Is
         public:
             /*********************************************/
 
-            /**
-             * @brief 画像ファイルからIsNdAraryインスタンスを生成.
-             * 
-             * @param filename 
-             * @return Ptr 
-             */
-            static Ptr create_from(const Context& ctx, const string& filename)
-            {
-                // bmp, png, tiff, jpeg
-            }
-
-
+           
             /**
              * @brief ゼロで初期化してIsNdArrayインスタンスを生成.
              * 
@@ -258,6 +248,14 @@ namespace Is
 
 
             /**
+             * @brief Get grad NdArray.
+             * 
+             * @return NdArrayPtr 
+             */
+            inline NdArrayPtr grad() { return grad_; }
+
+
+            /**
              * @brief Set NdArrayPtr.
              * 
              * @param data 
@@ -281,6 +279,16 @@ namespace Is
                 return arr->pointer<T>();
             }
 
+            /**
+             A shortcut function to cast grad and get pointer.
+            @sa SyncedArray::cast() and Array::pointer().
+            */
+            template <typename T>
+            T* cast_grad_and_get_pointer(const Context &ctx, bool write_only = false) {
+                Array* arr = grad_->array()->cast(get_dtype<T>(), ctx, write_only);
+                return arr->pointer<T>();
+            }
+
 
             /**
              * @brief  Get synchronized pointer.
@@ -293,6 +301,15 @@ namespace Is
             const T* get_data_pointer(const Context& ctx)
             {
                 const Array* arr = data_->array()->get(get_dtype<T>(), ctx);
+                return arr->const_pointer<T>();
+            }
+
+            /**
+             A shortcut function to get grad pointer.
+            *@sa SyncedArray::get() and Array::const_pointer().
+            */
+            template <typename T> const T* get_grad_pointer(const Context &ctx) {
+                const Array* arr = grad_->array()->get(get_dtype<T>(), ctx);
                 return arr->const_pointer<T>();
             }
 

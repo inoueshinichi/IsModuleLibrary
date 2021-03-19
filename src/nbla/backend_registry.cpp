@@ -73,13 +73,13 @@ namespace Is
 
         shared_ptr<Allocator> BackendUtils::caching_allocator(const Context& ctx)
         {
-            get_backend_getter(ctx)()->caching_allocator();
+            return get_backend_getter(ctx)()->caching_allocator();
         }
 
 
         shared_ptr<Allocator> BackendUtils::native_allocator(const Context& ctx)
         {
-            get_backend_getter(ctx)()->native_allocator();
+            return get_backend_getter(ctx)()->native_allocator();
         }
 
 

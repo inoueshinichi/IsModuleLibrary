@@ -4,6 +4,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Abs);
+        // NBLA_REGISTER_FUNCTION_SOURCE(Abs);
     }
 }

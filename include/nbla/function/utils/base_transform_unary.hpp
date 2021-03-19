@@ -31,12 +31,12 @@ namespace Is
             {
                 if (!inplace_)
                 {
-                    return Function::NOT_IMPLACE;
+                    return Function::NOT_INPLACE;
                 }
                 return Function::INPLACE;
             }
 
-            virtual int inplace_datea_with(int i) const override
+            virtual int inplace_data_with(int i) const override
             {
                 return 0;
             }
@@ -82,7 +82,10 @@ namespace Is
             // virtual void backward_impl(const Variables& inputs, const Variables& outputs,
             //                            const vector<bool>& propagete_down,
             //                            const vector<bool>& accum);
-            virtual void execute_impl(const IsNdArrays& inputs, const IsNdArrays& outputs);
+            virtual void forward_impl(const IsNdArrays& inputs, const IsNdArrays& outputs);
+            virtual void backward_impl(const IsNdArrays& inputs, const IsNdArrays& outputs,
+                                       const vector<bool>& propagete_down,
+                                       const vector<bool>& accum);
         };
 
 
@@ -95,18 +98,18 @@ namespace Is
             template <typename T> inline
             T operator()(const T x)
             {
-                //  NBLA_ERROR(error_code::not_implemented,
-                //             "Forward operation is not implemented.");
                 NBLA_ERROR(error_code::not_implemented,
-                            "Execute operation is not implemented.");
+                           "Forward operation is not implemented.");
+                // NBLA_ERROR(error_code::not_implemented,
+                //             "Execute operation is not implemented.");
             }
 
-            // template <typename T> inline
-            // T g(const T dy, const T x, const T y, const bool inplace)
-            // {
-            //     NBLA_ERROR(error_code::not_implemented,
-            //                "Backward operation is not implemented.");
-            // }
+            template <typename T> inline
+            T g(const T dy, const T x, const T y, const bool inplace)
+            {
+                NBLA_ERROR(error_code::not_implemented,
+                           "Backward operation is not implemented.");
+            }
         };
 
 
@@ -124,21 +127,31 @@ namespace Is
         }
 
 
-        // /* backward演算実行テンプレート関数 */
-        // template <typename T, typename UnaryOp, bool accum>
-        // void transform_unary_grad(int size, const T* dy, const T* x, const T* y, T* g,
-        //                           const bool inplace, UnaryOp op)
+        /* backward演算実行テンプレート関数 */
+        template <typename T, typename UnaryOp, bool accum>
+        void transform_unary_grad(int size, const T* dy, const T* x, const T* y, T* g,
+                                  const bool inplace, UnaryOp op)
+        {
+            for (int idx = 0; idx < size; ++idx)
+            {
+                g[idx] = (accum ? g[idx] : (T)0) + op.g(dy[idx], x[idx], y[idx], inplace);
+            }
+        }
+
+
+        // /* execute_impl for TransformUnary */
+        // template <typename T, typename UnaryOp, typename... Args>
+        // void TransformUnary<T, UnaryOp, Args...>::execute_impl(
+        //     const IsNdArrays& inputs, const IsNdArrays& outputs)
         // {
-        //     for (int idx = 0; idx < size; ++idx)
-        //     {
-        //         g[idx] = (accum ? g[idx] : (T)0) + op.g(dy[idx], x[idx], y[idx], inplace);
-        //     }
+        //     const T* x = inputs[0]->get_data_pointer<T>(this->ctx_);
+        //     T* y = outputs[0]->cast_data_and_get_pointer<T>(this->ctx_, !this->inplace_); // 常にinplace?
+        //     transform_unary(inputs[0]->size(), x, y, unary_op_);
         // }
 
-
-        /* execute_impl for TransformUnary */
+        /* forward_impl for TransformUnary */
         template <typename T, typename UnaryOp, typename... Args>
-        void TransformUnary<T, UnaryOp, Args...>::execute_impl(
+        void TransformUnary<T, UnaryOp, Args...>::forward_impl(
             const IsNdArrays& inputs, const IsNdArrays& outputs)
         {
             const T* x = inputs[0]->get_data_pointer<T>(this->ctx_);
@@ -183,21 +196,46 @@ namespace Is
         //     }
         // }
 
+         /* backward_impl for TransformUnary */
+        template <typename T, typename UnaryOp, typename... Args>
+        void TransformUnary<T, UnaryOp, Args...>::backward_impl(
+            const IsNdArrays& inputs, const IsNdArrays& outputs,
+            const vector<bool>& propagate_down, const vector<bool>& accum)
+        {
+            if (!propagate_down[0])
+            {
+                return;
+            }
+
+            const T* dy = outputs[0]->get_grad_pointer<T>(this->ctx_);
+            const T* x = inputs[0]->get_data_pointer<T>(this->ctx_);
+            const T* y = outputs[0]->get_grad_pointer<T>(this->ctx_);
+            Size_t size = inputs[0]->size();
+            T* g = inputs[0]->cast_grad_and_get_pointer<T>(this->ctx_, !accum[0]);
+            if (accum[0])
+            {
+                transform_unary_grad<T, UnaryOp, true>(size, dy, x, y, g, this->inplace_, unary_op_);
+            } 
+            else 
+            {
+                transform_unary_grad<T, UnaryOp, false>(size, dy, x, y, g, this->inplace_, unary_op_);
+            }
+        }
 
 /********************** Transform-Unary(Op)系クラス作成用ヘルパーマクロ **********************************/
 
 #define NBLA_DEFINE_UNARY_OP_CLASS(NAME)                                                              \
     class NAME##UnaryOp : public BaseUnaryOp
 
-#define NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                              \
-    template <typename T> inline T operator()(const T x) { return OP; }
-
-// #define NBLA_DEFINE_UNARY_OP_FORWARD(OP)                                                              \
+// #define NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                              \
 //     template <typename T> inline T operator()(const T x) { return OP; }
 
-// #define NBLA_DEFINE_UNARY_OP_BACKWARD(GOP)                                                            \
-//     template <typename T> inline T g(const T dy, const T x, const T y, const bool inplace)            \
-//     { return GOP; }
+#define NBLA_DEFINE_UNARY_OP_FORWARD(OP)                                                              \
+    template <typename T> inline T operator()(const T x) { return OP; }
+
+#define NBLA_DEFINE_UNARY_OP_BACKWARD(GOP)                                                            \
+    template <typename T> inline T g(const T dy, const T x, const T y, const bool inplace)            \
+    { return GOP; }
 
 #define NBLA_DEFINE_TRANSFORM_UNARY_CLASS_COMMON(NAME, DEP_Y)                                         \
 public:                                                                                               \
@@ -213,17 +251,17 @@ public:                                                                         
     NBLA_DEFINE_UNARY_OP_CLASS(NAME)                                                                  \
     {                                                                                                 \
     public:                                                                                           \
-        /*NBLA_DEFINE_UNARY_OP_FORWARD(OP)*/                                                          \
-        NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                              \
+        /*NBLA_DEFINE_UNARY_OP_EXECUTE(OP)*/                                                          \
+        NBLA_DEFINE_UNARY_OP_FORWARD(OP)                                                              \
     }
 
 #define NBLA_DEFINE_UNARY_OP(NAME, OP, GOP)                                                           \
     NBLA_DEFINE_UNARY_OP_CLASS(NAME)                                                                  \
     {                                                                                                 \
     public:                                                                                           \
-        /*NBLA_DEFINE_UNARY_OP_FORWARD(OP)*/                                                          \
-        /*NBLA_DEFINE_UNARY_BACKWARD(GOP)*/                                                           \
-        NBLA_DEFINE_UNARY_EXECUTE(OP)                                                                 \
+        NBLA_DEFINE_UNARY_OP_FORWARD(OP)                                                              \
+        NBLA_DEFINE_UNARY_BACKWARD(GOP)                                                               \
+        /*NBLA_DEFINE_UNARY_EXECUTE(OP)*/                                                             \
     }
 
 /* Transform Unary クラス */
@@ -300,9 +338,9 @@ public:                                                                         
         inline NAME##UnaryOp(A0 a0_)                                                                  \
             : a0(a0_) {}                                                                              \
                                                                                                       \
-        /*NBLA_DEFINE_UNARY_OP_FORWARD(OP)*/                                                          \
-        /*NBLA_DEFINE_UNARY_OP_BACKWARD(GOP)*/                                                        \
-        NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                              \
+        NBLA_DEFINE_UNARY_OP_FORWARD(OP)                                                              \
+        NBLA_DEFINE_UNARY_OP_BACKWARD(GOP)                                                            \
+        /*NBLA_DEFINE_UNARY_OP_EXECUTE(OP)*/                                                          \
     }
 
 /* Commandパターンに必要な機能3点セットでマクロ定義: WITH GRAD */
@@ -327,8 +365,8 @@ public:                                                                         
     inline NAME##UnaryOp(A0 a0_)                                                                      \
         : a0(a0_) {}                                                                                  \
                                                                                                       \
-    /*NBLA_DEFINE_UNARY_OP_FORWARD(OP)*/                                                              \
-    NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                                  \
+    NBLA_DEFINE_UNARY_OP_FORWARD(OP)                                                                  \
+    /*NBLA_DEFINE_UNARY_OP_EXECUTE(OP)*/                                                              \
   }
 
 /* Commandパターンに必要な機能3点セットでマクロ定義: NO GRAD */ 
