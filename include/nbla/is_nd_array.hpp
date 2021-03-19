@@ -9,16 +9,16 @@
  * @date 2021-02-21
  * 
  * @copyright Copyright (c) 2021
- * ※Sony nnablaがオープンソースであることを祈る。
+ * ※Sony nnablaのNdArrayを活用する.
  * https://github.com/sony/nnabla
  * https://github.com/sony/nnabla/blob/v1.16.0/include/nbla/variable.hpp
  * 
  * IsNdArrayは, 本家nnablaのVariableクラスの代替として使用する.
- * 画像ファイル読み込み機能などをこのクラスに実装する.
  * ----------------------------------------------------------
- * DLのbackpropagation機能は削除してある.
- * function.hppの定義もVariablesをIsNdArrayに変更し、backward()関数は無効化.
- * forward()関数はexecute()関数へ名前を変更.
+ * DLのbackpropagation機能は使わないけど、保守優先で機能は残す.
+ * function.hppの定義では、VariablesをIsNdArrayに変更.
+ * ----------------------------------------------------------
+ * 今後の方針として、IsNdArrayを活用した画像処理プログラムの作成を行う.
  */
 
 #include "nbla/common.hpp"
