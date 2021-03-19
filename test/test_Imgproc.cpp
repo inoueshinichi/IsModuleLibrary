@@ -12,23 +12,23 @@ int main(int argc, char** argv)
     using byte = unsigned char;
     Context ctx_cpu;
 
-    auto test_ndarray = IsNdArray::ones<byte>(ctx_cpu, Shape_t{16, 16});
-    string dummy_filename = "path/to/dummy.out";
+    IsNdArrayPtr test_ndarray;// = IsNdArray::ones<byte>(ctx_cpu, Shape_t{16, 16, 3});
+    string dummy_filename = "C:\\Users\\InoueShinichi\\Desktop\\Github_Projects\\IsNdarrayLibrary\\data\\cbqey-itjqw.bmp";
 
     // Test Image Io Policy
     {
         // Bmp
         ImageIo<BmpFilePolicy> io_bmp;
-        io_bmp.save(test_ndarray, dummy_filename);
-        io_bmp.load(test_ndarray, dummy_filename);
-        // Png
-        ImageIo<PngFilePolicy> io_png;
-        io_png.save(test_ndarray, dummy_filename);
-        io_png.load(test_ndarray, dummy_filename);
-        // Jpeg
-        ImageIo<JpgFilePolicy> io_jpg;
-        io_jpg.save(test_ndarray, dummy_filename);
-        io_jpg.load(test_ndarray, dummy_filename);
+        io_bmp.load(dummy_filename, ctx_cpu, test_ndarray, true);
+        io_bmp.save(dummy_filename, ctx_cpu, test_ndarray, true);
+        // // Png
+        // ImageIo<PngFilePolicy> io_png;
+        // io_png.save(test_ndarray, dummy_filename);
+        // io_png.load(test_ndarray, dummy_filename);
+        // // Jpeg
+        // ImageIo<JpgFilePolicy> io_jpg;
+        // io_jpg.save(test_ndarray, dummy_filename);
+        // io_jpg.load(test_ndarray, dummy_filename);
     }
     
 
