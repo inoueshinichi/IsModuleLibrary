@@ -1,5 +1,4 @@
 #include "imgproc/win32/win32_graphics.hpp"
-#include "utils/format_string.hpp"
 
 #include <cstring>
 
@@ -10,7 +9,7 @@ namespace Is
         namespace win32
         {
             WinBmp::WinBmp() 
-                : bmp_(nullptr_)
+                : bmp_(nullptr)
                 , width_(0)
                 , height_(0)
                 , mem_width_(0)
@@ -35,11 +34,11 @@ namespace Is
                 width_ = 0;
                 height_ = 0;
                 mem_width_ = 0;
-                channels = 0;
+                channels_ = 0;
                 data_size_ = 0;
             }
 
-            void setup(int32_t width, int32_t height, int channels)
+            void WinBmp::setup(int32_t width, int32_t height, int channels)
             {
                 clear();
 
@@ -102,7 +101,7 @@ namespace Is
                 this->channels_ = channels;
 
                 /*BmpFileHeader*/
-                bmp_file_header_.bfYype = (0x42 << 8) | 0x4d; // 'B', 'M'
+                bmp_file_header_.bfType = (0x42 << 8) | 0x4d; // 'B', 'M'
                 bmp_file_header_.bfSize = sizeof(BITMAPFILEHEADER) + info_size + data_size;
                 bmp_file_header_.bfReserved1 = (WORD)0;
                 bmp_file_header_.bfReserved1 = (WORD)0;
@@ -128,14 +127,14 @@ namespace Is
                     {
                         bmi_info_->bmiColors[n].rgbBlue = BYTE(n);
                         bmi_info_->bmiColors[n].rgbGreen = BYTE(n);
-                        bmi_info_->bmiColors[n].rgbRed BYTE(n);
+                        bmi_info_->bmiColors[n].rgbRed = BYTE(n);
                         bmi_info_->bmiColors[n].rgbReserved = 0;
                     }
                 }
                 
                 /*データ部*/
                 bmp_ = new byte[data_size];
-                std::memset((void*)bmp, 0, data_size);
+                std::memset((void*)bmp_, 0, data_size);
             }
 
             void WinBmp::set_data(BYTE* data, int insert_color)
@@ -201,7 +200,7 @@ namespace Is
                     else
                     {
                         /*常に4バイトの倍数なので、一括コピー*/
-                        std::memomove(bmp_, data, sizeof(BYTE) * mem_width_ * height_);
+                        std::memmove(bmp_, data, sizeof(BYTE) * mem_width_ * height_);
                     }
                 }
             }
