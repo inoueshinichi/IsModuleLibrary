@@ -15,6 +15,7 @@ namespace Is
          * @param sep 
          * @return std::vector<std::string> 
          */
+        inline 
         std::vector<std::string> split(const std::string& msg, const std::string& sep)
         {
             int pos = 0;
