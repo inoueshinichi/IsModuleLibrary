@@ -8,6 +8,8 @@
 #include "imgproc/png_policy.hpp"
 #include "imgproc/jpg_policy.hpp"
 
+#include "utils/format_string.hpp"
+
 #include <iostream>
 
 namespace Is
@@ -29,7 +31,8 @@ namespace Is
             ImageIo(ImageIo&&) = delete;
             ImageIo& operator=(ImageIo&&) = delete;
 
-            void save(const string& filename, const nbla::Context& ctx, shared_ptr<nbla::IsNdArray> ndarray, bool is_dump = false)
+            void save(const string& filename, const nbla::Context& ctx, 
+                      shared_ptr<nbla::IsNdArray> ndarray, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
@@ -53,13 +56,16 @@ namespace Is
                     width = shape.at(1);
                     channels = shape.at(2);
                 } else {
-                    std::cerr << "Unmatch shape of ndarray for bitmap file format." << std::endl;
+                    throw std::runtime_error(utils::format_string(
+                        "Unmatch shape of ndarray for bitmap file format. Given is %d", ndarray->ndim()));
                 }
                 
+                // Bitmapファイルに書き出し
                 format_policy_.save(filename, data, width, height, channels, is_dump);
             }
 
-            void load(const string& filename, const nbla::Context& ctx, shared_ptr<nbla::IsNdArray>& ndarray, bool is_dump = false)
+            void load(const string& filename, const nbla::Context& ctx, 
+                      shared_ptr<nbla::IsNdArray>& ndarray, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
@@ -67,11 +73,13 @@ namespace Is
                 int32_t width = 0;
                 int32_t height = 0;
 
+                // Bitmapファイルを読み込む
                 format_policy_.load(filename, width, height, channels, is_dump);
 
                 ndarray = IsNdArray::zeros<byte>(ctx, Shape_t{height, width, channels});
                 byte* data = ndarray->cast_data_and_get_pointer<byte>(ctx);
 
+                // NdArrayにコピー
                 format_policy_.get_data(data);
             }
         };
