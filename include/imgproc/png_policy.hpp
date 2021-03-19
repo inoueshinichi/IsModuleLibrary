@@ -15,8 +15,8 @@ namespace Is
             class IMGPROC_API PngFilePolicy
             {
             public:
-                void save(const string& filename, byte* data, int32_t width, int32_t height, int chanenls);
-                void load(const string& filename, byte* data, int32_t width, int32_t height, int chanenls);
+                void save(const string& filename, byte* data, int32_t width, int32_t height, int channels);
+                void load(const string& filename, byte* data, int32_t width, int32_t height, int channels);
             };
         } // namespace format_policy
     } // namespace imgproc

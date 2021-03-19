@@ -10,12 +10,12 @@ namespace Is
 
             
 
-             void JpgFilePolicy::save(const string& filename, byte* data, int32_t width, int32_t height, int chanenls)
+             void JpgFilePolicy::save(const string& filename, byte* data, int32_t width, int32_t height, int channels)
             {
                 std::cout << "save : JpegFilePolicy" << std::endl;
             }
 
-            void JpgFilePolicy::load(const string& filename, byte* data, int32_t width, int32_t height, int chanenls)
+            void JpgFilePolicy::load(const string& filename, byte* data, int32_t width, int32_t height, int channels)
             {
                 std::cout << "load : JpegFilePolicy" << std::endl;
 

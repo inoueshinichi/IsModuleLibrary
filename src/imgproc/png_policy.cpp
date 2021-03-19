@@ -8,12 +8,12 @@ namespace Is
         {
             /*----------------------------------------------------------------------------------*/
             
-            void PngFilePolicy::save(const string& filename, byte* data, int32_t width, int32_t height, int chanenls)
+            void PngFilePolicy::save(const string& filename, byte* data, int32_t width, int32_t height, int channels)
             {
                 std::cout << "save : PngFilePolicy" << std::endl;
             }
 
-            void PngFilePolicy::load(const string& filename, byte* data, int32_t width, int32_t height, int chanenls)
+            void PngFilePolicy::load(const string& filename, byte* data, int32_t width, int32_t height, int channels)
             {
                 std::cout << "load : PngFilePolicy" << std::endl;
             }
