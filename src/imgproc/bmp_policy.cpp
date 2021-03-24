@@ -220,69 +220,147 @@ namespace Is
                 if (!bmp_ || !bmi_info_)
                     return;
 
-                size_t wdata = 0;
-                int64_t wbmp = mem_width_ * (height_ - 1);
-                if (channels_ == 1)
+                /**
+                 * @brief bitmap形式の高さについて
+                 * 高さには+符号と-符号の2種類がある.
+                 * +符号: 画像データの構造がボトムアップ型. 左下(0,0)
+                 * -符号: 画像データの構造がトップダウン型. 左上(0,0)
+                 * 通常、互換性の観点から-符号は非推奨.
+                 */
+                if (bmi_info_->bmi_header.bi_height > 0)
                 {
-                    for (int j = 0; j < height_; ++j)
-                    {
-                        for (int i = 0; i < width_; ++i)
-                        {
-                            /*4バイト境界の端数を無視して抽出*/
-                            data[wdata + i] = bmp_[wbmp + i];
-                        }
-                        wdata += width_;
-                        wbmp -= mem_width_;
-                    }
-                }
-                else if (channels_ == 3)
-                {
-                    if (extract_color > 0 && extract_color < channels_)
+                    size_t wdata = 0;
+                    int64_t wbmp = mem_width_ * (height_ - 1);
+                    if (channels_ == 1)
                     {
                         for (int j = 0; j < height_; ++j)
                         {
-                            for (int i = 0; i < 3 * width_; i+=3)
+                            for (int i = 0; i < width_; ++i)
                             {
                                 /*4バイト境界の端数を無視して抽出*/
-                                data[wdata + i + extract_color] = bmp_[wbmp + i + extract_color];
+                                data[wdata + i] = bmp_[wbmp + i];
                             }
-                            wdata += 3 * width_;
+                            wdata += width_;
                             wbmp -= mem_width_;
                         }
                     }
-                    else
+                    else if (channels_ == 3)
                     {
-                        for (int j = 0; j < height_; ++j)
+                        if (extract_color > 0 && extract_color < channels_)
                         {
-                            for (int i = 0; i < 3 * width_; i+=3)
+                            for (int j = 0; j < height_; ++j)
                             {
-                                /*4バイト境界の端数を無視して抽出*/
-                                data[wdata + i + 0] = bmp_[wbmp + i + 0];
-                                data[wdata + i + 1] = bmp_[wbmp + i + 1];
-                                data[wdata + i + 2] = bmp_[wbmp + i + 2];
+                                for (int i = 0; i < 3 * width_; i+=3)
+                                {
+                                    /*4バイト境界の端数を無視して抽出*/
+                                    data[wdata + i + extract_color] = bmp_[wbmp + i + extract_color];
+                                }
+                                wdata += 3 * width_;
+                                wbmp -= mem_width_;
                             }
-                            wdata += 3 * width_;
-                            wbmp -= mem_width_;
+                        }
+                        else
+                        {
+                            for (int j = 0; j < height_; ++j)
+                            {
+                                for (int i = 0; i < 3 * width_; i+=3)
+                                {
+                                    /*4バイト境界の端数を無視して抽出*/
+                                    data[wdata + i + 0] = bmp_[wbmp + i + 0];
+                                    data[wdata + i + 1] = bmp_[wbmp + i + 1];
+                                    data[wdata + i + 2] = bmp_[wbmp + i + 2];
+                                }
+                                wdata += 3 * width_;
+                                wbmp -= mem_width_;
+                            }
+                        }
+                    }
+                    else // channels == 4
+                    {
+                        if (extract_color > 0 && extract_color < channels_)
+                        {
+                            for (int j = 0; j < height_; ++j)
+                            {
+                                for (int i = 0, k = 0; k < 4 * width_; i+=4)
+                                {
+                                    /*常に4バイト境界*/
+                                    data[wdata + i + extract_color] = bmp_[wbmp + i + extract_color];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            /*常に4バイトの倍数なので、一括コピー*/
+                            std::memmove(data, bmp_, sizeof(byte) * mem_width_ * height_);
                         }
                     }
                 }
-                else // channels == 4
+                else
                 {
-                    if (extract_color > 0 && extract_color < channels_)
+                    size_t wdata = 0;
+                    int64_t wbmp = 0;
+                    if (channels_ == 1)
                     {
                         for (int j = 0; j < height_; ++j)
                         {
-                            for (int i = 0, k = 0; k < 4 * width_; i+=4)
+                            for (int i = 0; i < width_; ++i)
                             {
-                                /*常に4バイト境界*/
-                                data[wdata + i + extract_color] = bmp_[wbmp + i + extract_color];
+                                /*4バイト境界の端数を無視して抽出*/
+                                data[wdata + i] = bmp_[wbmp + i];
+                            }
+                            wdata += width_;
+                            wbmp += mem_width_;
+                        }
+                    }
+                    else if (channels_ == 3)
+                    {
+                        if (extract_color > 0 && extract_color < channels_)
+                        {
+                            for (int j = 0; j < height_; ++j)
+                            {
+                                for (int i = 0; i < 3 * width_; i+=3)
+                                {
+                                    /*4バイト境界の端数を無視して抽出*/
+                                    data[wdata + i + extract_color] = bmp_[wbmp + i + extract_color];
+                                }
+                                wdata += 3 * width_;
+                                wbmp += mem_width_;
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 0; j < height_; ++j)
+                            {
+                                for (int i = 0; i < 3 * width_; i+=3)
+                                {
+                                    /*4バイト境界の端数を無視して抽出*/
+                                    data[wdata + i + 0] = bmp_[wbmp + i + 0];
+                                    data[wdata + i + 1] = bmp_[wbmp + i + 1];
+                                    data[wdata + i + 2] = bmp_[wbmp + i + 2];
+                                }
+                                wdata += 3 * width_;
+                                wbmp += mem_width_;
                             }
                         }
                     }
-                    else
+                    else // channels == 4
                     {
-                        /*常に4バイトの倍数なので、一括コピー*/
-                        std::memmove(data, bmp_, sizeof(byte) * mem_width_ * height_);
+                        if (extract_color > 0 && extract_color < channels_)
+                        {
+                            for (int j = 0; j < height_; ++j)
+                            {
+                                for (int i = 0, k = 0; k < 4 * width_; i+=4)
+                                {
+                                    /*常に4バイト境界*/
+                                    data[wdata + i + extract_color] = bmp_[wbmp + i + extract_color];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            /*常に4バイトの倍数なので、一括コピー*/
+                            std::memmove(data, bmp_, sizeof(byte) * mem_width_ * height_);
+                        }
                     }
                 }
             }
@@ -340,14 +418,16 @@ namespace Is
 
                 try
                 {
-                    /*BmpFIleHeader*/
+                    /*BmpFileHeader*/
                     fread(&bmp_file_header_, sizeof(BmpFileHeader), 1, fp.get());
+
                     /*BmiInfo*/
                     size_t bmp_info_size = bmp_file_header_.bf_offset_bits - sizeof(BmpFileHeader);
                     bmi_info_ = (BmiInfo*) new byte[bmp_info_size];
                     fread(bmi_info_, bmp_info_size, 1, fp.get());
                     this->width_ = bmi_info_->bmi_header.bi_width;
-                    this->height_ = bmi_info_->bmi_header.bi_height;
+                    this->height_ = bmi_info_->bmi_header.bi_height \
+                                    ? bmi_info_->bmi_header.bi_height : -bmi_info_->bmi_header.bi_height;
 
                     // 4バイト境界単位の画像1行のメモリサイズを計算
                     int padding = 0;
@@ -384,10 +464,7 @@ namespace Is
                     }
 
                     this->mem_width_ = mem_width;
-                    width = this->width_;
-                    height = this->height_;
-                    channels = this->channels_;
-                    data_size_ = mem_width * height;
+                    data_size_ = mem_width * this->height_;
 
                     /*Data*/
                     bmp_ = new byte[data_size_];
@@ -402,9 +479,8 @@ namespace Is
                 }  
 
                 // 要求元に情報を反映
-                width = bmi_info_->bmi_header.bi_width;
-                int32_t tmp_height = bmi_info_->bmi_header.bi_height;
-                height = tmp_height > 0 ? tmp_height : -tmp_height;
+                width = this->width_;
+                height = this->height_;
                 channels = this->channels_;
             }
 
