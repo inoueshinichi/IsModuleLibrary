@@ -58,7 +58,6 @@ namespace Is
                     RgbQuad bmi_colors[1];
                 }BmiInfo;
 
-                // メンバ変数
                 BmpFileHeader bmp_file_header_;
                 BmiInfo*      bmi_info_;
                 byte*         bmp_;
@@ -68,12 +67,8 @@ namespace Is
                 int32_t       channels_;
                 size_t        data_size_;
 
-
-                // メンバ関数
                 void clear();
                 void setup(int32_t width, int32_t height, int32_t channels);
-                
-                
             public:
                 BmpFilePolicy();
                 ~BmpFilePolicy();
