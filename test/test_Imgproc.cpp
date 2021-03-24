@@ -12,8 +12,8 @@ int main(int argc, char** argv)
     using byte = unsigned char;
     Context ctx_cpu;
 
-    IsNdArrayPtr test_ndarray;// = IsNdArray::ones<byte>(ctx_cpu, Shape_t{16, 16, 3});
-    string dummy_filename = "C:\\Users\\InoueShinichi\\Desktop\\Github_Projects\\IsNdarrayLibrary\\data\\cbqey-itjqw.bmp";
+    IsNdArrayPtr test_ndarray;
+    string dummy_filename = "C:\\Users\\InoueShinichi\\Desktop\\Github_Projects\\IsNdarrayLibrary\\data\\lena256.bmp";
 
     // Test Image Io Policy
     {
