@@ -4,7 +4,7 @@
 #include "imgproc/common.hpp"
 
 #include <Windows.h>
-#include <atlstr.h>
+#include <atlstr.h> // CString
 
 static_assert(_MSC_FULL_VER >= 190023506, 
               "Compile with newer than Visual Studio 2015 [v14.0] Update 1.");
@@ -15,7 +15,7 @@ namespace Is
     {
         namespace win32
         {
-            class IMGPROC_API WinBmp
+            class IS_IMGPROC_API WinBmp
             {
             protected:
                 /*Windows Bitmap*/

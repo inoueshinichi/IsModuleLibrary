@@ -1,8 +1,9 @@
 #include "utils/win32/win32_console.hpp"
-#include "utils/win32/win32_exception.hpp"
+#include "utils/win32/win32_api_error.hpp"
 #include "utils/format_string.hpp"
 
-#include <io.h>     // _isatty
+#include "tchar.h" // _T()
+#include <io.h>    // _isatty
 
 namespace Is
 {
@@ -29,7 +30,7 @@ namespace Is
                 // 初期化
                 if (InitConsole())
                 {
-                    CString msg("[Open] Win32 Console\n");
+                    CString msg(_T("[Open] Win32 Console\n"));
                     ::OutputDebugString(static_cast<LPCTSTR>(msg));
                     m_isStartUp = true;
                 }
@@ -37,7 +38,7 @@ namespace Is
                 // コンソールモードの取得
                 if (GetMode() != 0)
                 {
-                    CString msg("[Error] Win32 Console Mode\n");
+                    CString msg(_T("[Error] Win32 Console Mode\n"));
                     ::OutputDebugString(static_cast<LPCTSTR>(msg));
                 }
 
@@ -55,7 +56,7 @@ namespace Is
                 {
                     // プロセスに割当て済みのWin32コンソールを解放する.
                     FreeConsole();
-                    CString msg("[Close] Win32 Console\n");
+                    CString msg(_T("[Close] Win32 Console\n"));
                     ::OutputDebugString(static_cast<LPCTSTR>(msg));
                 }
             }
@@ -104,9 +105,9 @@ namespace Is
                     if (!GetConsoleMode(m_hIn, &m_inputConsoleMode))
                     {
                         // 失敗
-                        CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
+                        CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
                         CString full_msg;
-                        full_msg.Format("入力バッファモードの取得失敗: %s\n", (LPCTSTR)msg);
+                        full_msg.Format(_T("入力バッファモードの取得失敗: %s\n"), (LPCTSTR)msg);
                         iRet = CNSL_ERR_INPUT_MODE;
                     }
 
@@ -114,17 +115,17 @@ namespace Is
                     if (!GetConsoleMode(m_hOut, &m_outputConsoleMode))
                     {
                         // 失敗
-                        CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
+                        CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
                         CString full_msg;
-                        full_msg.Format("スクリーンバッファモードの取得失敗: %s\n", (LPCTSTR)msg);
+                        full_msg.Format(_T("スクリーンバッファモードの取得失敗: %s\n"), (LPCTSTR)msg);
                         iRet = CNSL_ERR_SCREEN_MODE;
                     }
                 }
                 else
                 {
-                    CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
+                    CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
                     CString full_msg;
-                    full_msg.Format("Windows Handle Error: %s\n", (LPCTSTR)msg);
+                    full_msg.Format(_T("Windows Handle Error: %s\n"), (LPCTSTR)msg);
                     iRet = CNSL_ERR_WINDOW_HANDLE;
                 }
 
@@ -160,16 +161,16 @@ namespace Is
                         else
                         {
                             // 失敗
-                            CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
-                            full_msg.Format("[Error] 入力バッファモードのANSI ESCAPEの有効化失敗: %s\n", (LPCTSTR)msg);
+                            CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
+                            full_msg.Format(_T("[Error] 入力バッファモードのANSI ESCAPEの有効化失敗: %s\n"), (LPCTSTR)msg);
                             iRet = CNSL_ERR_ANSI_ESCAPE_INPUT;
                         }
                     }
                     else
                     {
                         // 標準入力につながっていない
-                        CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
-                        full_msg.Format("標準入力に未接続: %s\n", (LPCTSTR)msg);
+                        CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
+                        full_msg.Format(_T("標準入力に未接続: %s\n"), (LPCTSTR)msg);
                         iRet = CNSL_ERR_NO_STD_INPUT;
                     }
 
@@ -181,30 +182,29 @@ namespace Is
                         if (!SetConsoleMode(m_hOut, m_outputConsoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING))
                         {
                             // 成功
-                            full_msg.Format("[Success] Output: Enable ANSI-Escape Sequence\n");
+                            full_msg.Format(_T("[Success] Output: Enable ANSI-Escape Sequence\n"));
                         }
                         else
                         {
                             // 失敗
-                            CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
-                            full_msg.Format("[Error] スクリーンバッファモードのANSI ESCAPEの有効化失敗: %s\n", (LPCTSTR)msg);
+                            CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
+                            full_msg.Format(_T("[Error] スクリーンバッファモードのANSI ESCAPEの有効化失敗: %s\n"), (LPCTSTR)msg);
                             iRet = CNSL_ERR_ANSI_ESCAPE_SCREEN;
                         }
                     }
                     else
                     {
                         // 標準出力につながっていない
-                        CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
-                        full_msg.Format("標準出力に未接続: %s\n", (LPCTSTR)msg);
+                        CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
+                        full_msg.Format(_T("標準出力に未接続: %s\n"), (LPCTSTR)msg);
                         iRet = CNSL_ERR_NO_STD_OUTPUT;
                     }
 
                 }
                 else
                 {
-                    CString msg = show_win32api_error(); // Win32 API エラーメッセージを取得
-                    CString full_msg;
-                    full_msg.Format("Windows Handle Error: %s\n", (LPCTSTR)msg);
+                    CString msg = win32_api_error(); // Win32 API エラーメッセージを取得
+                    full_msg.Format(_T("Windows Handle Error: %s\n"), (LPCTSTR)msg);
                     iRet = CNSL_ERR_WINDOW_HANDLE;
                 }
 
@@ -252,31 +252,31 @@ namespace Is
 
                     if (m_hIn != NULL)
                     {
-                        ::OutputDebugString("[InputConsoleBuffer Mode]\n");
+                        ::OutputDebugString(_T("[InputConsoleBuffer Mode]\n"));
                         CString isFlags;
-                        isFlags.Format("ENABLE_LINE_INPUT -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_LINE_INPUT) == ENABLE_LINE_INPUT) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_LINE_INPUT -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_LINE_INPUT) == ENABLE_LINE_INPUT) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_EXTEDNED_FLAGS -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_EXTENDED_FLAGS) == ENABLE_EXTENDED_FLAGS) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_EXTEDNED_FLAGS -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_EXTENDED_FLAGS) == ENABLE_EXTENDED_FLAGS) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_INSERT_MODE -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_INSERT_MODE) == ENABLE_INSERT_MODE) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_INSERT_MODE -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_INSERT_MODE) == ENABLE_INSERT_MODE) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_ECHO_INPUT -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_ECHO_INPUT) == ENABLE_ECHO_INPUT) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_ECHO_INPUT -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_ECHO_INPUT) == ENABLE_ECHO_INPUT) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_PROCESSED_INPUT -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_PROCESSED_INPUT) == ENABLE_PROCESSED_INPUT) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_PROCESSED_INPUT -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_PROCESSED_INPUT) == ENABLE_PROCESSED_INPUT) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_MOUSE_INPUT -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_MOUSE_INPUT) == ENABLE_MOUSE_INPUT) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_MOUSE_INPUT -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_MOUSE_INPUT) == ENABLE_MOUSE_INPUT) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_QUICK_EDIT_MODE -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_QUICK_EDIT_MODE) == ENABLE_QUICK_EDIT_MODE) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_QUICK_EDIT_MODE -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_QUICK_EDIT_MODE) == ENABLE_QUICK_EDIT_MODE) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_VIRTUAL_TERMINAL_INPUT -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_VIRTUAL_TERMINAL_INPUT) == ENABLE_VIRTUAL_TERMINAL_INPUT) ? _TEXT("Enable") : _TEXT("Didable"));
+                        isFlags.Format(_T("ENABLE_VIRTUAL_TERMINAL_INPUT -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_VIRTUAL_TERMINAL_INPUT) == ENABLE_VIRTUAL_TERMINAL_INPUT) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
                     }
 
@@ -298,19 +298,19 @@ namespace Is
 
                     if (m_hOut != NULL)
                     {
-                        ::OutputDebugString("[ScreenConsoleBuffer Mode]\n");
+                        ::OutputDebugString(_T("[ScreenConsoleBuffer Mode]\n"));
                         CString isFlags;
-                        isFlags.Format("ENABLE_PROCESSED_OUTPUT -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_PROCESSED_OUTPUT) == ENABLE_PROCESSED_OUTPUT) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_PROCESSED_OUTPUT -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_PROCESSED_OUTPUT) == ENABLE_PROCESSED_OUTPUT) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_WRAP_AT_EOL_OUTPUT -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_WRAP_AT_EOL_OUTPUT) == ENABLE_WRAP_AT_EOL_OUTPUT) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_WRAP_AT_EOL_OUTPUT -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_WRAP_AT_EOL_OUTPUT) == ENABLE_WRAP_AT_EOL_OUTPUT) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_VIRTUAL_TERMINAL_PROCESSING -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) == ENABLE_VIRTUAL_TERMINAL_PROCESSING) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_VIRTUAL_TERMINAL_PROCESSING -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) == ENABLE_VIRTUAL_TERMINAL_PROCESSING) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
-                        isFlags.Format("ENABLE_LVB_GRID_WORLDWIDE -> %s\n",
-                            ((m_inputConsoleMode & ENABLE_LVB_GRID_WORLDWIDE) == ENABLE_LVB_GRID_WORLDWIDE) ? "Enable" : "Didable");
+                        isFlags.Format(_T("ENABLE_LVB_GRID_WORLDWIDE -> %s\n"),
+                            ((m_inputConsoleMode & ENABLE_LVB_GRID_WORLDWIDE) == ENABLE_LVB_GRID_WORLDWIDE) ? _T("Enable") : _T("Didable"));
                         ::OutputDebugString(isFlags);
                     }
                 }
@@ -346,7 +346,7 @@ namespace Is
                 ::SetConsoleCtrlHandler(&Win32Console::ConsoleSignalHander, TRUE);
 
                 // コンソールウィンドウのタイトルを取得
-                char cnslTitle[FILESYSTEM_SOLIDMAXLENGTH];
+                TCHAR cnslTitle[WINDOW_TITLE_LENGTH];
                 ::GetConsoleTitle(cnslTitle, sizeof(cnslTitle));
 
 
@@ -359,8 +359,8 @@ namespace Is
 
 
                 // ウィンドウ位置を変更
-                int cnslLeft = CW_USEDEFAULT; //::GetSystemMetrics(SM_CXSCREEN) / m_divideX;
-                int cnslTop = CW_USEDEFAULT; //::GetSystemMetrics(SM_CYSCREEN) / m_divideY;
+                int cnslLeft = ::GetSystemMetrics(SM_CXSCREEN) / 8;
+                int cnslTop = ::GetSystemMetrics(SM_CYSCREEN) / 8;
                 int cnslWidth = (cnslWinRect.right - cnslWinRect.left);
                 int cnslHeight = (cnslWinRect.bottom - cnslWinRect.top);
                 ::MoveWindow(m_hWnd, cnslLeft, cnslTop, cnslWidth, cnslHeight, TRUE);

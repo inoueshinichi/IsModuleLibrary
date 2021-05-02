@@ -15,7 +15,7 @@ namespace Is
              * @param utf8_char 
              * @return std::wstring 
              */
-            std::wstring CvtUtf8ToUtf16(char const* utf8_char)
+            std::wstring cvt_utf8_to_utf16(char const* utf8_char)
             {
                 if (!utf8_char)
                     return std::wstring();
@@ -40,9 +40,9 @@ namespace Is
              * @param utf8_string 
              * @return std::wstring 
              */
-            std::wstring CvtUtf8ToUtf16(const std::string& utf8_string)
+            std::wstring cvt_utf8_to_utf16(const std::string& utf8_string)
             {
-                return CvtUtf8ToUtf16(utf8_string.c_str());
+                return cvt_utf8_to_utf16(utf8_string.c_str());
             }
 
 
@@ -55,7 +55,7 @@ namespace Is
              * @param utf16_wchar 
              * @return std::string 
              */
-            std::string CvtUtf16ToUtf8(const wchar_t* utf16_wchar)
+            std::string cvt_utf16_to_utf8(const wchar_t* utf16_wchar)
             {
                 if (!utf16_wchar)
                     return std::string();
@@ -80,9 +80,9 @@ namespace Is
              * @param utf16_wstring 
              * @return std::string 
              */
-            std::string CvtUtf16ToUtf8(const std::wstring& utf16_wstring)
+            std::string cvt_utf16_to_utf8(const std::wstring& utf16_wstring)
             {
-                return CvtUtf16ToUtf8(utf16_wstring.c_str());
+                return cvt_utf16_to_utf8(utf16_wstring.c_str());
             }
 
 
@@ -92,9 +92,9 @@ namespace Is
              * @param utf16_char16 
              * @return std::string 
              */
-            std::string CvtUtf16ToUtf8(const char16_t* utf16_char16)
+            std::string cvt_utf16_to_utf8(const char16_t* utf16_char16)
             {
-                return CvtUtf16ToUtf8(reinterpret_cast<const wchar_t*>(utf16_char16));
+                return cvt_utf16_to_utf8(reinterpret_cast<const wchar_t*>(utf16_char16));
             }
 
 
@@ -104,9 +104,9 @@ namespace Is
              * @param utf16_string 
              * @return std::string 
              */
-            std::string CvtUtf16ToUtf8(const std::u16string& utf16_string)
+            std::string cvt_utf16_to_utf8(const std::u16string& utf16_string)
             {
-                return CvtUtf16ToUtf8(utf16_string.c_str());
+                return cvt_utf16_to_utf8(utf16_string.c_str());
             }
 
 
@@ -119,7 +119,7 @@ namespace Is
              * @param shift_jis_char 
              * @return std::wstring 
              */
-            std::wstring CvtShiftJISToUtf16(const char* shift_jis_char)
+            std::wstring cvt_shiftjis_to_utf16(const char* shift_jis_char)
             {
                 if (!shift_jis_char)
                     return std::wstring();
@@ -138,9 +138,9 @@ namespace Is
              * @param shift_jis_string 
              * @return std::wstring 
              */
-            std::wstring CvtShiftJISToUtf16(const std::string& shift_jis_string)
+            std::wstring cvt_shiftjis_to_utf16(const std::string& shift_jis_string)
             {
-                return CvtShiftJISToUtf16(shift_jis_string.c_str());
+                return cvt_shiftjis_to_utf16(shift_jis_string.c_str());
             }
 
 
@@ -153,7 +153,7 @@ namespace Is
              * @param utf16_wchar 
              * @return std::string 
              */
-            std::string CvtUtf16ToShiftJIS(const wchar_t* utf16_wchar)
+            std::string cvt_utf16_to_shiftjis(const wchar_t* utf16_wchar)
             {
                 if (!utf16_wchar)
                     return std::string();
@@ -172,9 +172,9 @@ namespace Is
              * @param utf16_wstring 
              * @return std::string 
              */
-            std::string CvtUtf16ToShiftJIS(const std::wstring& utf16_wstring)
+            std::string cvt_utf16_to_shiftjis(const std::wstring& utf16_wstring)
             {
-                return CvtUtf16ToShiftJIS(utf16_wstring.c_str());
+                return cvt_utf16_to_shiftjis(utf16_wstring.c_str());
             }
 
 
@@ -184,9 +184,9 @@ namespace Is
              * @param utf16_char16 
              * @return std::string 
              */
-            std::string CvtUtf16ToShiftJIS(const char16_t* utf16_char16)
+            std::string cvt_utf16_to_shiftjis(const char16_t* utf16_char16)
             {
-                return CvtUtf16ToShiftJIS(reinterpret_cast<const wchar_t*>(utf16_char16));
+                return cvt_utf16_to_shiftjis(reinterpret_cast<const wchar_t*>(utf16_char16));
             }
 
 
@@ -196,9 +196,9 @@ namespace Is
              * @param utf16_string 
              * @return std::string 
              */
-            std::string CvtUtf16ToShiftJIS(const std::u16string& utf16_string)
+            std::string cvt_utf16_to_shiftjis(const std::u16string& utf16_string)
             {
-                return CvtUtf16ToShiftJIS(utf16_string.c_str());
+                return cvt_utf16_to_shiftjis(utf16_string.c_str());
             }
 
 
@@ -211,11 +211,11 @@ namespace Is
              * @param utf8_char 
              * @return std::string 
              */
-            std::string CvtUtf8ToShiftJIS(const char* utf8_char)
+            std::string cvt_utf8_to_shiftjis(const char* utf8_char)
             {
                 /* UTF-8 -> UTF-16 -> Shift-JIS */
-                std::wstring utf16_wstr = CvtUtf8ToUtf16(utf8_char);
-                return CvtUtf16ToShiftJIS(utf16_wstr);
+                std::wstring utf16_wstr = cvt_utf8_to_utf16(utf8_char);
+                return cvt_utf16_to_shiftjis(utf16_wstr);
             }
 
 
@@ -225,11 +225,11 @@ namespace Is
              * @param utf8_string 
              * @return std::string 
              */
-            std::string CvtUtf8ToShiftJIS(const std::string& utf8_string)
+            std::string cvt_utf8_to_shiftjis(const std::string& utf8_string)
             {
                 /* UTF-8 -> UTF-16 -> Shift-JIS */
-                std::wstring utf16_wstr = CvtUtf8ToUtf16(utf8_string);
-                return CvtUtf16ToShiftJIS(utf16_wstr);
+                std::wstring utf16_wstr = cvt_utf8_to_utf16(utf8_string);
+                return cvt_utf16_to_shiftjis(utf16_wstr);
             }
 
 
@@ -242,11 +242,11 @@ namespace Is
              * @param shift_jis_char 
              * @return std::string 
              */
-            std::string CvtShiftJISToUtf8(const char* shift_jis_char)
+            std::string cvt_shiftjis_to_utf8(const char* shift_jis_char)
             {
                 /* Shift-JIS -> UTF-16 -> UTF-8 */
-                std::wstring utf16_wstr = CvtShiftJISToUtf16(shift_jis_char);
-                return CvtUtf16ToShiftJIS(utf16_wstr);
+                std::wstring utf16_wstr = cvt_shiftjis_to_utf16(shift_jis_char);
+                return cvt_utf16_to_shiftjis(utf16_wstr);
             }
 
 
@@ -256,11 +256,11 @@ namespace Is
              * @param shift_jis_string 
              * @return std::string 
              */
-            std::string CvtShiftJISToUtf8(const std::string& shift_jis_string)
+            std::string cvt_shiftjis_to_utf8(const std::string& shift_jis_string)
             {
                 /* Shift-JIS -> UTF-16 -> UTF-8 */
-                std::wstring utf16_wstr = CvtShiftJISToUtf16(shift_jis_string);
-                return CvtUtf16ToShiftJIS(utf16_wstr);
+                std::wstring utf16_wstr = cvt_shiftjis_to_utf16(shift_jis_string);
+                return cvt_utf16_to_shiftjis(utf16_wstr);
             }
         }
     }

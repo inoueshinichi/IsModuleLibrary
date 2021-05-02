@@ -111,42 +111,42 @@ namespace Is
             //////////////////////////////////
             /* Convert from UTF-8 to UTF-16 */
             //////////////////////////////////
-            inline std::wstring CvtUtf8ToUtf16(char const* utf8_char);
-            inline std::wstring CvtUtf8ToUtf16(const std::string& utf8_string);
+            inline std::wstring cvt_utf8_to_utf16(char const* utf8_char);
+            inline std::wstring cvt_utf8_to_utf16(const std::string& utf8_string);
 
             //////////////////////////////////
             /* Convert from UTF-16 to UTF-8 */
             //////////////////////////////////
-            inline std::string CvtUtf16ToUtf8(const wchar_t* utf16_wchar);
-            inline std::string CvtUtf16ToUtf8(const std::wstring& utf16_wstring);
-            inline std::string CvtUtf16ToUtf8(const char16_t* utf16_char16);
-            inline std::string CvtUtf16ToUtf8(const std::u16string& utf16_string);
+            inline std::string cvt_utf16_to_utf8(const wchar_t* utf16_wchar);
+            inline std::string cvt_utf16_to_utf8(const std::wstring& utf16_wstring);
+            inline std::string cvt_utf16_to_utf8(const char16_t* utf16_char16);
+            inline std::string cvt_utf16_to_utf8(const std::u16string& utf16_string);
 
             //////////////////////////////////////
             /* Convert from Shift-JIS to UTF-16 */
             //////////////////////////////////////
-            inline std::wstring CvtShiftJISToUtf16(const char* shift_jis_char);
-            inline std::wstring CvtShiftJISToUtf16(const std::string& shift_jis_string);
+            inline std::wstring cvt_shiftjis_to_utf16(const char* shift_jis_char);
+            inline std::wstring cvt_shiftjis_to_utf16(const std::string& shift_jis_string);
 
             //////////////////////////////////////
             /* Convert from UTF-16 to Shift-JIS */
             //////////////////////////////////////
-            inline std::string CvtUtf16ToShiftJIS(const wchar_t* utf16_wchar);
-            inline std::string CvtUtf16ToShiftJIS(const std::wstring& utf16_wstring);
-            inline std::string CvtUtf16ToShiftJIS(const char16_t* utf16_char16);
-            inline std::string CvtUtf16ToShiftJIS(const std::u16string& utf16_string);
+            inline std::string cvt_utf16_to_shiftjis(const wchar_t* utf16_wchar);
+            inline std::string cvt_utf16_to_shiftjis(const std::wstring& utf16_wstring);
+            inline std::string cvt_utf16_to_shiftjis(const char16_t* utf16_char16);
+            inline std::string cvt_utf16_to_shiftjis(const std::u16string& utf16_string);
 
             //////////////////////////////////////
             /* Convert from UTT-8 to Shift-JIS  */
             //////////////////////////////////////
-            inline std::string CvtUtf8ToShiftJIS(const char* utf8_char);
-            inline std::string CvtUtf8ToShiftJIS(const std::string& utf8_string);
+            inline std::string cvt_utf8_to_shiftjis(const char* utf8_char);
+            inline std::string cvt_utf8_to_shiftjis(const std::string& utf8_string);
 
             //////////////////////////////////////
             /* Convert from Shift-JIS to UTF-8  */
             //////////////////////////////////////
-            inline std::string CvtShiftJISToUtf8(const char* shift_jis_char);
-            inline std::string CvtShiftJISToUtf8(const std::string& shift_jis_string);
+            inline std::string cvt_shiftjis_to_utf8(const char* shift_jis_char);
+            inline std::string cvt_shiftjis_to_utf8(const std::string& shift_jis_string);
         }
     }
 }

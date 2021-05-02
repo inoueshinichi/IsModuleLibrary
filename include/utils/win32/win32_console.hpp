@@ -5,6 +5,7 @@
 
 #include <Windows.h>
 
+
 #include <cstdio>
 
 namespace Is
@@ -57,6 +58,8 @@ namespace Is
                 DWORD m_inputConsoleMode;
                 DWORD m_outputConsoleMode;
                 BOOL  m_isStartUp;
+
+                constexpr int WINDOW_TITLE_LENGTH = 2048;
 
                 BOOL InitConsole();
 
