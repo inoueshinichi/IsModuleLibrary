@@ -8,12 +8,12 @@
 
 #if defined(_MSC_VER) && !defined(__CUDACC__)
     #if defined(is_imgproc_EXPORTS) || defined(is_imgproc_dbg_EXPORTS)
-        #define IMGPROC_API __declspec(dllexport)
+        #define IS_IMGPROC_API __declspec(dllexport)
     #else
-        #define IMGPROC_API __declspec(dllimport)
+        #define IS_IMGPROC_API __declspec(dllimport)
     #endif
 #else
-    #define IMGPROC_API
+    #define IS_IMGPROC_API
 #endif
 
 #endif
