@@ -60,7 +60,7 @@ namespace Is
                         "Unmatch shape of ndarray for bitmap file format. Given is %d", ndarray->ndim()));
                 }
                 
-                // Bitmapファイルに書き出し
+                // 画像ファイルに書き出し
                 format_policy_.save(filename, data, width, height, channels, is_dump);
             }
 
@@ -69,12 +69,9 @@ namespace Is
             {
                 using byte = unsigned char;
                 using namespace nbla;
-                int32_t channels = 0;
-                int32_t width = 0;
-                int32_t height = 0;
-
-                // Bitmapファイルを読み込む
-                format_policy_.load(filename, width, height, channels, is_dump);
+                
+                // 画像ファイルを読み込む
+                auto[width, height, channels] = format_policy_.load(filename, is_dump);
 
                 ndarray = IsNdArray::zeros<byte>(ctx, Shape_t{height, width, channels});
                 byte* data = ndarray->cast_data_and_get_pointer<byte>(ctx);
