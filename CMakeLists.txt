@@ -177,12 +177,13 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 ###############################################################################
 message(STATUS "========== [START] C++ Build Core ==========")
 
+# Third-party
+# add_subdirectory(third-party)
+
 # Library
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/nbla)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/imgproc)
-
-# Is Library
 
 if (WIN32)
     configure_file(
