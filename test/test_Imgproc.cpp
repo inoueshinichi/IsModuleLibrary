@@ -18,13 +18,15 @@ int main(int argc, char** argv)
     // Test Image Io Policy
     {
         // Bmp
-        ImageIo<BmpFilePolicy> io_bmp;
-        io_bmp.load(dummy_filename, ctx_cpu, test_ndarray, true);
-        io_bmp.save(dummy_filename, ctx_cpu, test_ndarray, true);
-        // // Png
-        // ImageIo<PngFilePolicy> io_png;
-        // io_png.save(test_ndarray, dummy_filename);
-        // io_png.load(test_ndarray, dummy_filename);
+        // ImageIo<BmpFilePolicy> io_bmp;
+        // io_bmp.load(dummy_filename, ctx_cpu, test_ndarray, true);
+        // io_bmp.save(dummy_filename, ctx_cpu, test_ndarray, true);
+
+        // Png
+        ImageIo<PngFilePolicy> io_png;
+        io_png.load(dummy_filename, ctx_cpu, test_ndarray, true);
+        io_png.save(dummy_filename, ctx_cpu, test_ndarray, true);
+        
         // // Jpeg
         // ImageIo<JpgFilePolicy> io_jpg;
         // io_jpg.save(test_ndarray, dummy_filename);
