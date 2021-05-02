@@ -295,7 +295,7 @@ namespace Is
 
         template <typename T, typename BinaryOp>
         void transform_binary(Size_t size, 
-                              const T* x0, const T* x1, 
+                              const T* x0, const T* x1, T* y,
                               BinaryOp op, const Size_t ndim, 
                               const Size_t* strides_x0, const Size_t* strides_x1, 
                               const Size_t* strides_y, const Size_t* shape_y)
@@ -308,7 +308,7 @@ namespace Is
             {
                 Size_t idx0 = 0;
                 Size_t idx1 = 0;
-                for (Size_t i = 0; i < ndim; +ii)
+                for (Size_t i = 0; i < ndim; +i)
                 {
                     Size_t dim_idx = (idx / strides_y[i]) % shape_y[i];
                     idx0 += dim_idx * strides_x0[i];
@@ -360,7 +360,7 @@ public:                                                                         
 // ----------------------------------------------------------------------------------------------------
 // Zero argument
 // ----------------------------------------------------------------------------------------------------
-#define NBLA_DEFINE_BINARY_OP_NO_GRAD(NAME, OP)                                                         \
+#define NBLA_DEFINE_BINARY_OP(NAME, OP)                                                                 \
     NBLA_DEFINE_BINARY_OP_CLASS(NAME)                                                                   \
     {                                                                                                   \
     public:                                                                                             \
@@ -399,7 +399,7 @@ public:                                                                         
 
 #define NBLA_DEFINE_TRANSFORM_BINARY(NAME, OP)                                                          \
     NBLA_REGISTER_FUNCTION_HEADER(NAME);                                                                \
-    NBLA_DEFINE_BINARY_OP_NO_GRAD(NAME, OP);                                                            \
+    NBLA_DEFINE_BINARY_OP(NAME, OP);                                                                    \
     NBLA_DEFINE_TRANSFORM_BINARY_CLASS(NAME)
 
 #define NBLA_DEFINE_TRANSFORM_BINARY_INPLACE(NAME, OP)                                                  \
@@ -434,7 +434,7 @@ public:                                                                         
         virtual shared_ptr<Function> copy() const                                                       \
         {                                                                                               \
             return create_##NAME(this->ctx_, std::get<0>(this->args_));                                 \
-        }
+        }                                                                                               \
     }
 
 #define NBLA_DEFINE_TRANSFORM_BINARY_1(NAME, OP, A0)                                                    \

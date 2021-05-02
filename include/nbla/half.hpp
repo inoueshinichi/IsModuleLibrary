@@ -97,27 +97,27 @@ namespace Is
             NBLA_API Half operator-() const;
         #define AOP(OP, TYPE) NBLA_API Half operator OP(TYPE o) const
         #define AOPR(OP, TYPE) NBLA_API TYPE operator OP(TYPE o) const
-        #define AOP_TYPE(OP)
-            AOP(OP, bool)                                             \
-            AOP(OP, unsigned char)                                    \
-            AOP(OP, char)                                             \
-            AOP(OP, unsigned short)                                   \
-            AOP(OP, short)                                            \
-            AOP(OP, unsigned int)                                     \
-            AOP(OP, int)                                              \
-            AOP(OP, unsigned long)                                    \
-            AOP(OP, long)                                             \
-            AOP(OP, unsigned long long)                               \
-            AOP(OP, long long)                                        \
-            AOP(OP, float)                                            \
-            AOP(OP, double)                                           \
-            AOP(OP, long double)                                      \
+        #define AOP_TYPE(OP)                                           \
+            AOP(OP, bool);                                             \
+            AOP(OP, unsigned char);                                    \
+            AOP(OP, char);                                             \
+            AOP(OP, unsigned short);                                   \
+            AOP(OP, short);                                            \
+            AOP(OP, unsigned int);                                     \
+            AOP(OP, int);                                              \
+            AOP(OP, unsigned long);                                    \
+            AOP(OP, long);                                             \
+            AOP(OP, unsigned long long);                               \
+            AOP(OP, long long);                                        \
+            AOPR(OP, float);                                           \
+            AOPR(OP, double);                                          \
+            AOPR(OP, long double);                                     \
             AOP(OP, Half)
 
-            AOP_TYPE(+)
-            AOP_TYPE(-)
-            AOP_TYPE(*)
-            AOP_TYPE(/)
+            AOP_TYPE(+);
+            AOP_TYPE(-);
+            AOP_TYPE(*);
+            AOP_TYPE(/);
 
         #undef AOP_TYPE
         #undef AOP
@@ -127,10 +127,11 @@ namespace Is
 
         // Inverse arithmetic operators
         #define AOP(OP, TYPE)                                       \
-        NBLA_API Half operator OP(const TYPE &lhs, const Half &rhs)
+            NBLA_API Half operator OP(const TYPE &lhs, const Half &rhs)
         #define AOPR(OP, TYPE)                                      \
-        NBLA_API TYPE operator OP(const TYPE &lhs, const Half &rhs)
+            NBLA_API TYPE operator OP(const TYPE &lhs, const Half &rhs)
         #define AOP_TYPE(OP)                                        \
+            AOP(OP, bool);                                          \
             AOP(OP, unsigned char);                                 \
             AOP(OP, char);                                          \
             AOP(OP, unsigned short);                                \
@@ -143,7 +144,6 @@ namespace Is
             AOP(OP, long long);                                     \
             AOPR(OP, float);                                        \
             AOPR(OP, double);                                       \
-            AOP(OP, bool);                                          \
             AOPR(OP, long double)
 
             AOP_TYPE(+);
@@ -173,6 +173,7 @@ namespace Is
             IROP_TYPE(<=, TYPE);                                   \
             IROP_TYPE(>=, TYPE)
 
+            ROP(bool);
             ROP(unsigned char);
             ROP(char);
             ROP(unsigned short);
@@ -185,7 +186,6 @@ namespace Is
             ROP(long long);
             ROP(float);
             ROP(double);
-            ROP(bool);
             ROP(long double);
             ROP_TYPE(<, Half);
             ROP_TYPE(>, Half);
@@ -199,8 +199,8 @@ namespace Is
         #undef ROP
 
 
-        template <typename T> struct force_float { using type = T; }
-        template <> struct force_float<Half> { using type = float; }
+        template <typename T> struct force_float { using type = T; };
+        template <> struct force_float<Half> { using type = float; };
     }
 }
 
@@ -209,7 +209,7 @@ namespace Is
 
 namespace std
 {
-    using namespace nbla;
+    using namespace Is::nbla;
 #define MATHF(FUNC) NBLA_API Half FUNC(const Half& h)
     MATHF(exp);
     MATHF(log);

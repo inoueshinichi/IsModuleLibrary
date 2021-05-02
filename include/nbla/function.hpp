@@ -19,7 +19,7 @@ namespace Is
 
     namespace nbla
     {
-        using NdArrays = vector<NdArray*>;
+        using NdArrays = vector<NdArrayPtr>;
 
         /**
          * @brief 計算ユニットのインターフェース

@@ -1,5 +1,5 @@
 #include <nbla/cpu.hpp>
-#include <nbla/singleton_manager-internal.hpp">
+#include <nbla/singleton_manager-internal.hpp>
 #include <nbla/memory/caching_allocator_with_buckets.hpp>
 #include <nbla/memory/cpu_memory.hpp>
 #include <nbla/memory/naive_allocator.hpp>

@@ -87,6 +87,7 @@ namespace Is
     #define AOPR(OP, TYPE)                                                           \
         TYPE Half::operator OP(TYPE o) const { return (float)(*this)OP o; }  
     #define AOP_TYPE(OP)                                                             \
+        AOP(OP, bool);                                                               \
         AOP(OP, unsigned char);                                                      \
         AOP(OP, char);                                                               \
         AOP(OP, unsigned short);                                                     \
@@ -99,7 +100,6 @@ namespace Is
         AOP(OP, long long);                                                          \
         AOPR(OP, float);                                                             \
         AOPR(OP, double);                                                            \
-        AOP(OP, bool);                                                               \
         AOPR(OP, long double);                                                       \
         Half Half::operator OP(Half o) const                                         \
         {                                                                            \
@@ -127,6 +127,7 @@ namespace Is
             return lhs OP(float) rhs;                                                \
         }
     #define AOP_TYPE(OP)                                                             \
+        AOP(OP, bool);                                                               \
         AOP(OP, unsigned char);                                                      \
         AOP(OP, char);                                                               \
         AOP(OP, unsigned short);                                                     \
@@ -139,7 +140,6 @@ namespace Is
         AOP(OP, long long);                                                          \
         AOPR(OP, float);                                                             \
         AOPR(OP, double);                                                            \
-        AOP(OP, bool);                                                               \
         AOPR(OP, long double);
 
         AOP_TYPE(+);
@@ -195,9 +195,9 @@ namespace Is
 
 namespace std
 {
-    using namespace nbla;
+    using namespace Is::nbla;
 #define MATHF(FUNC)                                                                 \
-    Half FUNC(const Half& h) { return Half(std::Func((float)h)); }
+    Half FUNC(const Half& h) { return Half(std::FUNC((float)h)); }
 
     MATHF(exp);
     MATHF(log);
