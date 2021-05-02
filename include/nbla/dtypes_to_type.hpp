@@ -1,8 +1,6 @@
-#ifndef IS_NBLA_DTYPES_TO_TYPE_HPP
-#define IS_NBLA_DTYPES_TO_TYPE_HPP
-
-#include "nbla/dtypes.hpp"
-// #include "nbla/half.hpp"
+#pragma once
+#include <nbla/dtypes.hpp>
+#include <nbla/half.hpp>
 
 #include <type_traits>
 #include <memory>
@@ -167,4 +165,3 @@ namespace Is
         // using type_from_t = type_from<DTYPES_ENUM>::type;        
     } // namespace nbla
 }
-#endif

@@ -1,7 +1,6 @@
-#ifndef IS_NBLA_ND_ARRAY_HPP
-#define IS_NBLA_ND_ARRAY_HPP
+#pragma once
 
-#include "nbla/synced_array.hpp"
+#include <nbla/synced_array.hpp>
 
 #include <memory>
 
@@ -71,6 +70,14 @@ namespace Is
              * different one.
              */
             NBLA_API void reshape(const Shape_t& shape, bool force = false);
+
+
+            /**
+             * @brief 内部の配列情報は共有する別インスタンスを生成する.
+             * 
+             * @return NBLA_API 
+             */
+            NBLA_API Ptr view();
 
 
             /**
@@ -195,6 +202,21 @@ namespace Is
             NBLA_API shared_ptr<Array> cast_sp(dtypes dtype, const Context& ctx, bool write_only = false);
 
 
+            template <typename T>
+            T* cast_data_and_get_pointer(const Context& ctx, bool write_only = false)
+            {
+                Array* arr = this->cast(get_dtype<T>(), ctx, write_only);
+                return arr->pointer<T>();
+            }
+
+            template <typename T>
+            const T* get_data_pointer(const Context& ctx)
+            {
+                const Array* arr = this->get(get_dtype<T>(), ctx);
+                return arr->const_pointer<T>();
+            }
+
+
             DISABLE_COPY_AND_ASSIGN(NdArray);
         };
 
@@ -203,4 +225,3 @@ namespace Is
         using NdArrayPtr = NdArray::Ptr;
     }
 }
-#endif

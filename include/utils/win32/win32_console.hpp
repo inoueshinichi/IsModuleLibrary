@@ -1,7 +1,6 @@
-#ifndef IS_UTILS_WIN32_CONSOLE_HPP
-#define IS_UTILS_WIN32_CONSOLE_HPP
+#pragma once
 
-#include "utils/defs.hpp"
+#include <utils/defs.hpp>
 
 #include <Windows.h>
 
@@ -76,4 +75,3 @@ namespace Is
         }
     }
 }
-#endif

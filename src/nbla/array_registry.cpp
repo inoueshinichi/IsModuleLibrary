@@ -1,5 +1,5 @@
-#include "nbla/array_registry.hpp"
-#include "nbla/common.hpp"
+#include <nbla/array_registry.hpp>
+#include <nbla/common.hpp>
 
 #include <memory>
 #include <string>

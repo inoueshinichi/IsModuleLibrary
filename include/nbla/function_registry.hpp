@@ -1,10 +1,9 @@
-#ifndef IS_NBLA_FUNCTION_REGISTRY_HPP
-#define IS_NBLA_FUNCTION_REGISTRY_HPP
+#pragma once
 
-#include "nbla/context.hpp"
-#include "nbla/exception.hpp"
-#include "nbla/function.hpp"
-#include "nbla/preprocessor_magic.hpp"
+#include <nbla/context.hpp>
+#include <nbla/exception.hpp>
+#include <nbla/function.hpp>
+#include <nbla/preprocessor_magic.hpp>
 
 #include <functional>
 #include <memory>
@@ -358,4 +357,3 @@ namespace Is
 #endif // #if __cplusplus < 201703L
     }  // namespace nbla
 } // namespace Is
-#endif

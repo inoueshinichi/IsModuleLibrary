@@ -1,5 +1,4 @@
-#ifndef IS_UTILS_WIN32_CHAR_TRAITS_HPP
-#define IS_UTILS_WIN32_CHAR_TRAITS_HPP
+#pragma once
 
 /**************************************************************************************************************
 [文字コード定義]
@@ -150,5 +149,3 @@ namespace Is
         }
     }
 }
-#endif
-

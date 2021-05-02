@@ -1,9 +1,8 @@
-#ifndef IS_NBLA_SYNCED_ARRAY_HPP
-#define IS_NBLA_SYNCED_ARRAY_HPP
+#pragma once
 
-#include "nbla/array.hpp"
-#include "nbla/common.hpp"
-#include "nbla/context.hpp"
+#include <nbla/array.hpp>
+#include <nbla/common.hpp>
+#include <nbla/context.hpp>
 
 #include <map>
 #include <memory>
@@ -369,5 +368,3 @@ namespace Is
        };
     }
 }
-
-#endif

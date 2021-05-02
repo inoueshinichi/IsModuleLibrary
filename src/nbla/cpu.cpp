@@ -1,16 +1,15 @@
-#include "nbla/cpu.hpp"
-#include "nbla/singleton_manager-internal.hpp"
-
-#include "nbla/memory/caching_allocator_with_buckets.hpp"
-#include "nbla/memory/cpu_memory.hpp"
-#include "nbla/memory/native_allocator.hpp"
+#include <nbla/cpu.hpp>
+#include <nbla/singleton_manager-internal.hpp">
+#include <nbla/memory/caching_allocator_with_buckets.hpp>
+#include <nbla/memory/cpu_memory.hpp>
+#include <nbla/memory/naive_allocator.hpp>
 
 namespace Is
 {
     namespace nbla
     {
         Cpu::Cpu()
-			: native_allocator_(std::make_shared<NativeAllocator<CpuMemory>>())
+			: native_allocator_(std::make_shared<NaiveAllocator<CpuMemory>>())
 			, caching_allocator_(std::make_shared<CachingAllocatorWithBuckets<CpuMemory>>())
 		{}
 

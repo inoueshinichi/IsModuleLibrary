@@ -1,9 +1,8 @@
-#ifndef IS_NBLA_BACKEND_REGISTRY_HPP
-#define IS_NBLA_BACKEND_REGISTRY_HPP
+#pragma once
 
-#include "nbla/backend_base.hpp"
-#include "nbla/context.hpp"
-#include "nbla/defs.hpp"
+#include <nbla/backend_base.hpp>
+#include <nbla/context.hpp>
+#include <nbla/defs.hpp>
 
 #include <functional>
 #include <istream>
@@ -145,4 +144,3 @@ namespace Is
     
     }
 }
-#endif

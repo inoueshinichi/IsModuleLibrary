@@ -1,8 +1,8 @@
 #ifndef IS_NBLA_ARRAY_REGISTRY_HPP
 #define IS_NBLA_ARRAY_REGISTRY_HPP
 
-#include "nbla/array.hpp"
-#include "nbla/synced_array.hpp"
+#include <nbla/array.hpp>
+#include <nbla/synced_array.hpp>
 
 #include <functional>
 #include <map>

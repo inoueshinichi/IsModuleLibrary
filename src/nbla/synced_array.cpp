@@ -1,7 +1,7 @@
-#include "nbla/array_registry.hpp"
-#include "nbla/context.hpp"
-#include "nbla/singleton_manager-internal.hpp"
-#include "nbla/synced_array.hpp"
+#include <nbla/array_registry.hpp>
+#include <nbla/context.hpp>
+#include <nbla/singleton_manager-internal.hpp>
+#include <nbla/synced_array.hpp>
 
 #define ENABLE_SYNC_DEBUG
 

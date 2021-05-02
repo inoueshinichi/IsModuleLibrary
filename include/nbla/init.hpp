@@ -1,7 +1,6 @@
-#ifndef IS_NBLA_INIT_HPP
-#define IS_NBLA_INIT_HPP
+#pragma once
 
-#include "nbla/defs.hpp"
+#include <nbla/defs.hpp>
 
 #include <string>
 #include <vector>
@@ -73,4 +72,3 @@ namespace Is
         NBLA_API vector<string> cpu_get_devices();
     }
 }
-#endif

@@ -1,5 +1,8 @@
-#ifndef IS_NBLA_COMMON_HPP
-#define IS_NBLA_COMMON_HPP
+#pragma once
+
+#include <nbla/context.hpp>
+#include <nbla/exception.hpp>
+#include <nbla/init.hpp>
 
 #include <algorithm>
 #include <cstdint>
@@ -9,10 +12,6 @@
 #include <string>
 #include <tuple>
 #include <vector>
-
-#include "nbla/context.hpp"
-#include "nbla/exception.hpp"
-#include "nbla/init.hpp"
 
 namespace Is
 {
@@ -214,9 +213,9 @@ namespace Is
 
     // コピーコンストラクタとコピー代入演算子を禁止する
     #define DISABLE_COPY_AND_ASSIGN(class_name)            \
-        class_name(const class_name&) = delete;            \
-        class_name& operator=(const class_name&) = delete; 
+    private:                                               \
+        class_name(const class_name&);                     \
+        class_name& operator=(const class_name&); 
         
     } // namespace nbla
 }
-#endif

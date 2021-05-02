@@ -1,9 +1,8 @@
-#ifndef IS_NBLA_FUNCTION_HPP
-#define IS_NBLA_FUNCTION_HPP
+#pragma once
 
-#include "nbla/array.hpp"
-#include "nbla/context.hpp"
-#include "nbla/is_nd_array.hpp"
+#include <nbla/array.hpp>
+#include <nbla/context.hpp>
+#include <nbla/nd_array.hpp>
 
 #include <memory>
 #include <string>
@@ -20,24 +19,23 @@ namespace Is
 
     namespace nbla
     {
-        using IsNdArrays = vector<IsNdArray*>;
+        using NdArrays = vector<NdArray*>;
 
         /**
          * @brief 計算ユニットのインターフェース
-         * forward()関数を実装する実装関数クラスに派生する
+         * execute()関数を実装する実装関数クラスに派生する
          * 
-         * forward:
+         * execute:
          *  y = f(x)
-         * 
-         * backward: バックプロパゲーション誤差
-         *  dx += dy dot dx/dy 
-         * https://en.wikipedia.org/wiki/Jacobian_matrix_and_determinant
          * 
          */
         // 入出力情報・Inplace/Not・演算操作のAPIを定義するクラス
         class NBLA_API Function
         {
             bool used_{false};
+
+            // Function::setup()関数が一度呼ばれると, このフラグはTrueになる
+            bool called_setup_{false};
 
         public:
             using Ptr = shared_ptr<Function>;
@@ -78,39 +76,20 @@ namespace Is
              * @param inputs 
              * @param outputs 
              */
-            // void setup(const Variables& inputs, const Variables& outputs);
-            void setup(const IsNdArrays& inputs, const IsNdArrays& outputs);
+            void setup(const NdArrays& inputs, const NdArrays& outputs);
 
 
             /**
-             * @brief 順伝搬を計算し、結果をoutputのデータに格納する
+             * @brief 計算結果をoutputのデータに格納する
              * 
-             * Checking shapes before calling forward_impl() which
+             * Checking shapes before calling execute_impl() which
              * be implemented in a derived function.
              * 
              * @param inputs 
              * @param outputs 
              */
             // void forward(const Variables& inputs, const Variables& outputs);
-            void forward(const IsNdArrays& inputs, const IsNdArrays& outputs);
-
-
-            /**
-             * @brief 出力の勾配によって掛け算された逆誤差を計算する. そして、入力に格納する.
-             * 
-             * Checking shapes before calling backward_impl() which must be implemented in
-             * a derived function.
-             * 
-             * @param inputs 
-             * @param outputs 
-             * @param propagate_down 
-             * @param accum 
-             */
-            // void backward(const Variables& inputs, const Variables& outputs, 
-            //               const vector<bool>& propagate_down, const vector<bool>& accum);
-            void backward(const IsNdArrays& inputs, const IsNdArrays& outputs, 
-                          const vector<bool>& propagate_down, const vector<bool>& accum);
-
+            void execute(const NdArrays& inputs, const NdArrays& outputs);
             
             /**
              * @brief この関数で使われているContextを取得する.
@@ -170,46 +149,6 @@ namespace Is
 
 
             /**
-             * @brief Dependency flag for checking if in-grad depends on out-data.
-             * 
-             * If i=1 and o=0, checking if i-th input' gradient
-             * computation requires o-th output's data or not.
-             * 
-             * @param i Input variable index.
-             * @param o Output variable index.
-             * @return true 
-             * @return false 
-             * 
-             * @note If any of inputs requires an output variable data when computing
-             *       its gradient, this function must be overridden to return appropriate
-             *       boolean value. Otherwise, backward computation will be incorrect.
-             */
-            virtual bool grad_depends_output_data(int i, int o) const 
-            {
-                return false;
-            }
-
-
-            /**
-             * @brief Dependency flag for checking if in-grad depends on in-data.
-             * If i=1 and j=0, checking checking if i-th input' gradient
-             * computation requires j-th input's data or not.
-             * 
-             * By default, always returns true. If override this in a sub-class, the
-             * computation graph engine will optimize memory usage.
-             * 
-             * @param i Input variable index.
-             * @param j Input variable index.
-             * @return true 
-             * @return false 
-             */
-            virtual bool grad_depends_input_data(int i, int j) const
-            {
-                return true;
-            }
-
-
-            /**
              * @brief  Get in-place-level of i-th input variable's data (see below).
              * 0 (NOT_INPLACE): Not in-placed
              * 1 (INPLACE_NOT_MODIFY): In-placed but not modified.
@@ -243,33 +182,6 @@ namespace Is
                            "This must be implemented for in-place support of this function.");
             }
 
-
-            /**
-             * @brief A flag for preventing that the graph engine clears buffers of
-             *        input variables even if clear_buffer is true and condition mets.
-             * 
-             * @return true 
-             * @return false 
-             */
-            virtual bool prohibit_clear_input_buffers() const
-            {
-                return false;
-            }
-
-
-            /**
-             * @brief A flag for preventing that the graph engine sets input gradient buffer as
-             *        0 even when accum is true.
-             * 
-             * @return true 
-             * @return false 
-             */
-            virtual bool prohibit_zero_input_grad() const
-            {
-                return false;
-            }
-
-
             /**
              * @brief Copy another instance of Function with the same context.
              * 
@@ -297,49 +209,25 @@ namespace Is
              * @brief Implementation part of setup().
              * It must do:
              * - Reshape output Variables.
-             * - Allocate resources used in forward/backward computation if necessary.
+             * - Allocate resources used in execute computation if necessary.
              * - Checking shapes and dtypes etc.
              * 
              * @param inputs 
              * @param outputs 
              */
-            // virtual void setup_impl(const Variables& inputs, const Variables& outputs) = 0;
-            virtual void setup_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
+            virtual void setup_impl(const NdArrays& inputs, const NdArrays& outputs) = 0;
 
 
             /**
-             * @brief Implementation part of forward().
+             * @brief Implementation part of execute().
              * It must do:
              * - Take data in inputs and store results into data in outputs.
              * 
              * @param inputs 
              * @param outputs 
              */
-            // virtual forward_impl(const Variables& inputs, const Variables& outputs) = 0;
-            virtual void forward_impl(const IsNdArrays& inputs, const IsNdArrays& outputs) = 0;
+            virtual void execute_impl(const NdArrays& inputs, const NdArrays& outputs) = 0;
 
-
-            /**
-             * @brief Implementation part of backward().
-             * It must do:
-             * - Take grad in outputs (backpropagated error from children of a computational
-             *   graph) and compute Jacobian multiplication of this function with grad.
-             * - Store backprop error into grad in inputs.
-             * 
-             * @param propagate_down Boolean array that indicates whether backprop is needed
-             *                       for an input corresponding to its index.
-             * 
-             * @param inputs 
-             * @param outputs 
-             * @param propagate_down 
-             * @param accum 
-             */
-            // virtual void backward_impl(const Variables& inputs, const Variables& outputs,
-            //                            const vector<bool>& propagate_down, 
-            //                            const vector<bool>& accum) = 0;
-            virtual void backward_impl(const IsNdArrays& inputs, const IsNdArrays& outputs,
-                                       const vector<bool>& propagate_down, 
-                                       const vector<bool>& accum) = 0;
 
             DISABLE_COPY_AND_ASSIGN(Function);
         };
@@ -394,8 +282,9 @@ namespace Is
             {
                 return std::get<Index>(args_);
             }
-
         };
+
+        using FunctionPtr = Function::Ptr;
+
     } // namespace nbla
 }
-#endif

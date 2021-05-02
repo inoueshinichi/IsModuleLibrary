@@ -1,5 +1,4 @@
-#ifndef IS_UTILS_TIME_MEASURE_HPP
-#define IS_UTILS_TIME_MEASURE_HPP
+#pragma once
 
 #include <ctime> // clock関数
 #include <chrono>
@@ -108,4 +107,3 @@ namespace Is
 #endif
     }
 }
-#endif

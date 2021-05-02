@@ -1,5 +1,4 @@
-#ifndef IS_UTILS_WIN32_EXCEPTION_HPP
-#define IS_UTILS_WIN32_EXCEPTION_HPP
+#pragma ocne
 
 #include <Windows.h>
 #include <atlstr.h> // CString
@@ -50,4 +49,3 @@ namespace Is
         }
     }
 }
-#endif

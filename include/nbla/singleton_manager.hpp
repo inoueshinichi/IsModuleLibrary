@@ -1,10 +1,9 @@
-#ifndef IS_NBLA_SINGLETON_MANAGER_HPP
-#define IS_NBLA_SINGLETON_MANAGER_HPP
+#pragma once
 
-#include "nbla/array.hpp"
-#include "nbla/context.hpp"
-#include "nbla/defs.hpp"
-#include "nbla/synced_array.hpp"
+#include <nbla/array.hpp>
+#include <nbla/context.hpp>
+#include <nbla/defs.hpp>
+#include <nbla/synced_array.hpp>
 
 #include <functional>
 #include <memory>
@@ -101,4 +100,3 @@ namespace Is
         };
     }
 }
-#endif

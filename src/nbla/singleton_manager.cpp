@@ -1,4 +1,4 @@
-#include "nbla/singleton_manager-internal.hpp"
+#include <nbla/singleton_manager-internal.hpp>
 
 namespace Is
 {

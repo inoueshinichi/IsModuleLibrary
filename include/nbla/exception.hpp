@@ -1,12 +1,10 @@
-#ifndef IS_NBLA_EXCEPTION_HPP
-#define IS_NBLA_EXCEPTION_HPP
-
+#pragma once
 #if defined(_MSC_VER)
 // __func__の定義
 #	define __func__ __FUNCTION__
 #endif
 
-#include "nbla/defs.hpp"
+#include <nbla/defs.hpp>
 
 #include <cstdio>
 #include <cstdlib>
@@ -159,4 +157,3 @@ namespace Is
 
     }
 }
-#endif

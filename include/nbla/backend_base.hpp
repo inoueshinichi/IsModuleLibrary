@@ -1,9 +1,8 @@
-#ifndef IS_NBLA_BACKEND_BASE_HPP
-#define IS_NBLA_BACKEND_BASE_HPP
+#pragma once
 
-#include "nbla/common.hpp"
-#include "nbla/memory/allocator.hpp"
-#include "nbla/singleton_manager.hpp"
+#include <nbla/common.hpp>
+#include <nbla/memory/allocator.hpp>
+#include <nbla/singleton_manager.hpp>
 
 #include <memory>
 #include <string>
@@ -114,5 +113,3 @@ namespace Is
         };
     }
 }
-
-#endif

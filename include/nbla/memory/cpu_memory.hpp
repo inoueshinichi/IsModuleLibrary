@@ -1,7 +1,6 @@
-#ifndef IS_NBLA_CPU_MEMORY_HPP
-#define IS_NBLA_CPU_MEMORY_HPP
+#pragma once
 
-#include "nbla/memory/memory.hpp"
+#include <nbla/memory/memory.hpp>
 
 namespace Is
 {
@@ -23,4 +22,3 @@ namespace Is
         };
     }
 }
-#endif

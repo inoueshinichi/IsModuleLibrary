@@ -1,12 +1,11 @@
-#ifndef IS_NBLA_ARRAY_HPP
-#define IS_NBLA_ARRAY_HPP
+#pragma once
 
-#include "nbla/common.hpp"
-#include "nbla/dtypes.hpp"
-#include "nbla/event.hpp"
-#include "nbla/exception.hpp"
-// #include "nbla/half.hpp"
-#include "nbla/memory/allocator.hpp"
+#include <nbla/common.hpp>
+#include <nbla/dtypes.hpp>
+#include <nbla/event.hpp>
+#include <nbla/exception.hpp>
+#include <nbla/half.hpp>
+#include <nbla/memory/allocator.hpp>
 
 #include <memory>
 #include <type_traits>
@@ -418,4 +417,3 @@ namespace Is
 	}
 
 } // namespace: Is
-#endif

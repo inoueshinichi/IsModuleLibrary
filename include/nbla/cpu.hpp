@@ -1,10 +1,9 @@
-#ifndef IS_NBLA_CPU_HPP
-#define IS_NBLA_CPU_HPP
+#pragma once
 
-#include "nbla/backend_base.hpp"
-#include "nbla/defs.hpp"
-#include "nbla/memory/allocator.hpp"
-#include "nbla/singleton_manager.hpp"
+#include <nbla/backend_base.hpp>
+#include <nbla/defs.hpp>
+#include <nbla/memory/allocator.hpp>
+#include <nbla/singleton_manager.hpp>
 
 #include <memory>
 #include <string>
@@ -120,4 +119,3 @@ namespace Is
         };
     }
 }
-#endif

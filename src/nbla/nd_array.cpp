@@ -1,4 +1,4 @@
-#include "nbla/nd_array.hpp"
+#include <nbla/nd_array.hpp>
 
 #include <memory>
 
@@ -59,6 +59,13 @@ namespace Is
             shape_ = shape;
             update_shape_info();
             array_.reset(new SyncedArray(size_));
+        }
+
+
+        NdArrayPtr NdArray::view()
+        {
+            auto v = make_shared<NdArray>(shape_);
+            return v;
         }
 
 

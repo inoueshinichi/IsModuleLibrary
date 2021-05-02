@@ -1,5 +1,5 @@
-#include "nbla/backend_registry.hpp"
-#include "nbla/common.hpp"
+#include <nbla/backend_registry.hpp>
+#include <nbla/common.hpp>
 
 namespace Is
 {

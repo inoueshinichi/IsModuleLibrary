@@ -1,6 +1,6 @@
-#include "utils/win32/win32_console.hpp"
-#include "utils/win32/win32_api_error.hpp"
-#include "utils/format_string.hpp"
+#include <utils/win32/win32_console.hpp>
+#include <utils/win32/win32_api_error.hpp>
+#include <utils/format_string.hpp>
 
 #include "tchar.h" // _T()
 #include <io.h>    // _isatty

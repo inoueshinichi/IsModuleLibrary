@@ -1,14 +1,13 @@
-#ifndef IS_NBLA_DTYPES_HPP
-#define IS_NBLA_DTYPES_HPP
+#pragma once
 
-#include "nbla/exception.hpp"
+#include <nbla/exception.hpp>
 
 namespace Is
 {
     namespace nbla
     {
         // 前方宣言
-		//struct Half;
+		struct Half;
 
         // Enum of dtypes
         // numpyのdtypeと同じ発想
@@ -39,7 +38,7 @@ namespace Is
 			// Appended in numpy 1.6
 			// DATETIME,
 			// TIMEDELTA
-			//HALF = 23,
+			HALF = 23,
 			// NTYPES,
 			// NOTYPE,
 			// CHAR,
@@ -82,7 +81,7 @@ GET_DTYPE_TEMPLATE_SPECIAL(long long, LONGLONG);
 GET_DTYPE_TEMPLATE_SPECIAL(float, FLOAT);
 GET_DTYPE_TEMPLATE_SPECIAL(double, DOUBLE);
 GET_DTYPE_TEMPLATE_SPECIAL(long double, LONGDOUBLE);
-//GET_DTYPE_TEMPLATE_SPECIAL(nbla::Half, HALF);
+GET_DTYPE_TEMPLATE_SPECIAL(Is::nbla::Half, HALF);
 #undef GET_DTYPE_TEMPLATE_SPECIAL
 
 
@@ -116,7 +115,7 @@ GET_DTYPE_TEMPLATE_SPECIAL(long double, LONGDOUBLE);
 				GET_DTYPE_STRING(DOUBLE);
 				GET_DTYPE_STRING(BOOL);
 				GET_DTYPE_STRING(LONGDOUBLE);
-				//GET_DTYPE_STRING(HALF);
+				GET_DTYPE_STRING(HALF);
 			}
 
 			if (s.empty())
@@ -159,7 +158,7 @@ GET_DTYPE_TEMPLATE_SPECIAL(long double, LONGDOUBLE);
 				GET_DTYPE_SIZE(double, DOUBLE);
 				GET_DTYPE_SIZE(bool, BOOL);
 				GET_DTYPE_SIZE(long double, LONGDOUBLE);
-				//GET_DTYPE_SIZE(uint16_t, HALF);
+				GET_DTYPE_SIZE(uint16_t, HALF);
 			}
 
 			if (s == 0) 
@@ -174,4 +173,3 @@ GET_DTYPE_TEMPLATE_SPECIAL(long double, LONGDOUBLE);
 		}
     }
 }
-#endif

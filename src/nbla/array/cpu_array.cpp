@@ -1,7 +1,7 @@
-#include "./cpu_array-internal.hpp"
-#include "nbla/array_registry.hpp"
-#include "nbla/common.hpp"
-#include "nbla/cpu.hpp"
+#include <./cpu_array-internal.hpp>
+#include <nbla/array_registry.hpp>
+#include <nbla/common.hpp>
+#include <nbla/cpu.hpp>
 
 #include <cstring> // memset
 #include <vector>

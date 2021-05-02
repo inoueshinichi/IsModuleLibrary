@@ -1,9 +1,8 @@
-#ifndef IS_NBLA_EVENT_HPP
-#define IS_NBLA_EVENT_HPP
+#pragma once
 
-#include "nbla/common.hpp"
-#include "nbla/context.hpp"
-#include "nbla/defs.hpp"
+#include <nbla/common.hpp>
+#include <nbla/context.hpp>
+#include <nbla/defs.hpp>
 
 #include <memory>
 
@@ -28,4 +27,3 @@ namespace Is
         using EventPtr = shared_ptr<Event>;
     }
 }
-#endif

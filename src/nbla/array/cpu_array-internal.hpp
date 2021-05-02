@@ -1,7 +1,6 @@
-#ifndef IS_NBLA_CPU_ARRAY_INTERNAL_HPP
-#define IS_NBLA_CPU_ARRAY_INTERNAL_HPP
+#pragma once
 
-#include "nbla/array/cpu_array.hpp"
+#include <nbla/array/cpu_array.hpp>
 
 namespace Is
 {
@@ -39,5 +38,3 @@ namespace Is
         NBLA_DEFINE_COPY_WRAPPER(cpu_array_copy)
     }
 }
-
-#endif

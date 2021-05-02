@@ -1,5 +1,4 @@
-#ifndef IS_UTILS_STRING_JOIN_HPP
-#define IS_UTILS_STRING_JOIN_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -32,5 +31,3 @@ namespace Is
         return ss.str();
     }
 }
-
-#endif

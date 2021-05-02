@@ -1,5 +1,4 @@
-#ifndef IS_UTILS_SPLIT_HPP
-#define IS_UTILS_SPLIT_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -46,4 +45,3 @@ namespace Is
         }
     } // utils
 }
-#endif

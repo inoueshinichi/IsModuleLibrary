@@ -1,5 +1,4 @@
-#ifndef IS_UTILS_FORMAT_STRING_HPP
-#define IS_UTILS_FORMAT_STRING_HPP
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -87,4 +86,3 @@ namespace Is
         }
     } // utils
 }
-#endif

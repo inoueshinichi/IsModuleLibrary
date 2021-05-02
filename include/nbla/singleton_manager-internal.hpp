@@ -1,7 +1,6 @@
-#ifndef IS_NBLA_SINGLETON_MANAGER_INTERNAL_HPP
-#define IS_NBLA_SINGLETON_MANAGER_INTERNAL_HPP
+#pragma once
 
-#include "nbla/singleton_manager.hpp"
+#include <nbla/singleton_manager.hpp>
 
 #include <typeinfo>
 #include <iostream>
@@ -120,4 +119,3 @@ namespace Is
             template API void SingletonManager::erase<SINGLETON_CLASS>();
     }
 }
-#endif

@@ -1,5 +1,4 @@
-#ifndef IS_NBLA_PREPROCESSOR_MAGIC_HPP
-#define IS_NBLA_PREPROCESSOR_MAGIC_HPP
+#pragma once
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Helper start --------------------------------------------------------------------------
@@ -404,8 +403,5 @@
           NBLA_ARGS_9, NBLA_ARGS_8, NBLA_ARGS_7, NBLA_ARGS_6, NBLA_ARGS_5,         \
           NBLA_ARGS_4, NBLA_ARGS_3, NBLA_ARGS_2, NBLA_ARGS_1, NBLA_ARGS_0)         \
       (__VA_ARGS__)
-
-#endif
-
 
 #endif

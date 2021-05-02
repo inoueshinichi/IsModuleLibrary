@@ -1,5 +1,4 @@
-#ifndef IS_UTILS_DEFS_HPP
-#define IS_UTILS_DEFS_HPP
+#pragma once
 
 #if defined(_MSC_VER)
 // __func__の定義
@@ -15,6 +14,4 @@
 #   endif
 #else
 #   define IS_UTILS_API
-#endif
-
 #endif

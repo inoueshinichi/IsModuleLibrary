@@ -1,7 +1,6 @@
-#ifndef IS_NBLA_NATIVE_ALLOCATOR_HPP
-#define IS_NBLA_NATIVE_ALLOCATOR_HPP
+#pragma once
 
-#include "nbla/memory/allocator.hpp"
+#include <nbla/memory/allocator.hpp>
 
 #include <map>
 #include <tuple>
@@ -25,13 +24,13 @@ namespace Is
          *
          */
         template <typename MemoryType>
-        class NativeAllocator : public Allocator
+        class NaiveAllocator : public Allocator
         {
         public:
 			using memory_type = MemoryType;
 
 
-            NativeAllocator() : Allocator()
+            NaiveAllocator() : Allocator()
 			{
             #if 1
                 #if __has_include(<cxxabi.h>)
@@ -74,17 +73,16 @@ namespace Is
 
             void free_impl(shared_ptr<Memory> memory) override
 			{
-				// NativeAllocatorの場合，何もしない
+				// NaiveAllocatorの場合，何もしない
 				// Memory(CpuMemory, CudaMemory)のデストラクタでストレージを解放する
 			}
 
 
             size_t free_unused_device_caches_impl(const string& device_id) override
 			{
-				// NativeAllocatorの場合，何もしない
+				// NaiveAllocatorの場合，何もしない
 				return 0;
 			}
         };
     }
 }
-#endif

@@ -1,8 +1,7 @@
-#ifndef IS_NBLA_CPU_ARRAY_HPP
-#define IS_NBLA_CPU_ARRAY_HPP
+#pragma once
 
-#include "nbla/array.hpp"
-#include "nbla/memory/allocator.hpp"
+#include <nbla/array.hpp>
+#include <nbla/memory/allocator.hpp>
 
 namespace Is
 {
@@ -39,4 +38,3 @@ namespace Is
 
     }
 }
-#endif

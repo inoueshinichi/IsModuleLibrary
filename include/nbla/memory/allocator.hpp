@@ -1,15 +1,15 @@
-#ifndef IS_NBLA_ALLOCATOR_HPP
-#define IS_NBLA_ALLOCATOR_HPP
+#pragma once
 
-#include "nbla/common.hpp"
-#include "nbla/memory/allocator_callback.hpp"
-#include "nbla/memory/memory.hpp"
+#include <nbla/common.hpp>
+#include <nbla/memory/allocator_callback.hpp>
+#include <nbla/memory/memory.hpp>
 
 #include <cstddef>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
-#include <mutex>
+
 
 namespace Is
 {
@@ -121,7 +121,8 @@ namespace Is
             inline const void* const_pointer() const { return memory_->const_pointer(); }
 
             /* コピー構築とコピー代入を禁止する */
-            DISABLE_COPY_AND_ASSIGN(AllocatorMemory);
+            AllocatorMemory(const AllocatorMemory&) = delete;
+            AllocatorMemory& operator=(const AllocatorMemory&) = delete;
         };
 
         /**
@@ -302,4 +303,3 @@ namespace Is
         };
     }
 }
-#endif

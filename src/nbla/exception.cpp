@@ -1,4 +1,4 @@
-#include "nbla/exception.hpp"
+#include <nbla/exception.hpp>
 
 #include <sstream>
 

@@ -9,13 +9,13 @@
 // - build-tools/code_generator/generate.py
 
 
-#include "nbla/cpu.hpp"
-#include "nbla/array_registry.hpp"
-// #include "nbla/utils/dlpack_array_registry.hpp"
-#include "nbla/array/cpu_array.hpp"
-// #include "nbla/array/cpu_dlpack_array.hpp"
-#include "nbla/function_registry.hpp"
-#include "nbla/backend_registry.hpp"
+#include <nbla/cpu.hpp>
+#include <nbla/array_registry.hpp>
+// #include <nbla/utils/dlpack_array_registry.hpp>
+#include <nbla/array/cpu_array.hpp>
+// #include <nbla/array/cpu_dlpack_array.hpp>
+#include <nbla/function_registry.hpp>
+#include <nbla/backend_registry.hpp>
 
 //% for name, snake_name, _ in function_list :
 //% if name in function_types :
@@ -28,7 +28,7 @@
 //% endif
 //% endfor
 
-#include "nbla/function/abs.hpp"
+#include <nbla/function/abs.hpp>
 
 
 namespace Is

@@ -1,6 +1,6 @@
-#include "nbla/array.hpp"
-#include "nbla/common.hpp"
-#include "nbla/exception.hpp"
+#include <nbla/array.hpp>
+#include <nbla/common.hpp>
+#include <nbla/exception.hpp>
 
 #include <vector>
 

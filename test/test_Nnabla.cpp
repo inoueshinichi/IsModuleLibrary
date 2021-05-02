@@ -1,12 +1,11 @@
 #include "nbla/context.hpp"
 #include "nbla/memory/cpu_memory.hpp"
 #include "nbla/memory/allocator.hpp"
-#include "nbla/memory/native_allocator.hpp"
+#include "nbla/memory/naive_allocator.hpp"
 #include "nbla/memory/caching_allocator_with_buckets.hpp"
 #include "nbla/array.hpp"
 #include "nbla/array_registry.hpp"
 #include "nbla/nd_array.hpp"
-#include "nbla/is_nd_array.hpp"
 
 #include <iostream>
 #include <string>

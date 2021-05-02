@@ -1,5 +1,4 @@
-#ifndef IS_NBLA_DEFS_HPP
-#define IS_NBLA_DEFS_HPP
+#pragma once
 
 #ifdef _MSC_VER
     // https://qiita.com/Chironian/items/462a3bdf271d5f0b00b6#%EF%BC%92%EF%BC%93c4251%E8%AD%A6%E5%91%8A%E3%81%8C%E5%87%BA%E3%82%8B
@@ -22,6 +21,4 @@
 
 // クラス型を取得するためのヘルパーマクロ
 // これを使用するために，このマクロの前に<type_traits>をインクルードしなければならない.
-#define NBLA_THIS_TYPE std::remove_pointer<decltype(this)>::type
-
-#endif
+#define NBLA_THIS_TYPE std::remove_pointer_t<decltype(this)>

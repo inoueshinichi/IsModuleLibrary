@@ -1,6 +1,6 @@
 
-#include "nbla/exception.hpp"
-#include "nbla/memory/allocator_callback.hpp"
+#include <nbla/exception.hpp>
+#include <nbla/memory/allocator_callback.hpp>
 
 #include <iostream>
 #include <typeinfo>

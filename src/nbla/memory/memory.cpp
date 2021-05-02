@@ -1,6 +1,6 @@
 
-#include "nbla/exception.hpp"
-#include "nbla/memory/memory.hpp"
+#include <nbla/exception.hpp>
+#include <nbla/memory/memory.hpp>
 
 #include <algorithm>
 #include <typeinfo>

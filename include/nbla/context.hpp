@@ -1,7 +1,6 @@
-#ifndef IS_NBLA_CONTEXT_HPP
-#define IS_NBLA_CONTEXT_HPP
+#pragma once
 
-#include "nbla/defs.hpp"
+#include <nbla/defs.hpp>
 
 #include <string>
 #include <vector>
@@ -62,4 +61,3 @@ namespace Is
 		}
     }
 }
-#endif
