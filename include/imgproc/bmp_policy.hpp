@@ -10,13 +10,14 @@ namespace Is
     {
         namespace format_policy
         {
+            using std::tuple;
             using std::string;
             using byte = unsigned char;
 
             // Windows Bitmapファイルのフォーマットについて
             // https://www.mm2d.net/main/prog/c/image_io-05.html
             // https://github.com/ohmae/image-io
-            class IMGPROC_API BmpFilePolicy
+            class IS_IMGPROC_API BmpFilePolicy
             {
                 /*BMPファイルヘッダ (14byte)*/
                 #pragma pack(2) // 構造体のアライメントを2byte境界にすることで、余計な詰め物がない構造体とする. ※重要
@@ -61,6 +62,7 @@ namespace Is
                 BmpFileHeader bmp_file_header_;
                 BmiInfo*      bmi_info_;
                 byte*         bmp_;
+                
                 int32_t       width_;
                 int32_t       height_;
                 size_t        mem_width_;
@@ -71,7 +73,7 @@ namespace Is
                 void setup(int32_t width, int32_t height, int32_t channels);
             public:
                 BmpFilePolicy();
-                ~BmpFilePolicy();
+                virtual ~BmpFilePolicy();
                 BmpFilePolicy(const BmpFilePolicy&) = delete;
                 BmpFilePolicy& operator=(const BmpFilePolicy&) = delete;
                 BmpFilePolicy(BmpFilePolicy&&) = default;
@@ -80,7 +82,7 @@ namespace Is
                 void set_data(byte* data, int insert_color = -1);
                 void get_data(byte* data, int extract_color = -1);
                 void save(const string& filename, byte* data, int32_t width, int32_t height, int32_t channels, bool is_dump);
-                void load(const string& filename, int32_t& width, int32_t& height, int32_t& channels, bool is_dump);
+                std::tuple<int32_t, int32_t, int32_t> load(const string& filename, bool is_dump);
                 void dump() const;
             };
         } // namespace format_policy

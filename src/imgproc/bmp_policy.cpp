@@ -404,8 +404,7 @@ namespace Is
                 }
             }
 
-            void BmpFilePolicy::load(const string& filename,
-                                    int32_t& width, int32_t& height, int32_t& channels, bool is_dump)
+            std::tuple<int32_t, int32_t, int32_t> BmpFilePolicy::load(const string& filename, bool is_dump)
             {
                 std::cout << "load : BmpFilePolicy" << std::endl;
 
@@ -479,9 +478,7 @@ namespace Is
                 }  
 
                 // 要求元に情報を反映
-                width = this->width_;
-                height = this->height_;
-                channels = this->channels_;
+                return std::make_tuple(this->width_, this->height_, this->channels_);
             }
 
             void BmpFilePolicy::dump() const
