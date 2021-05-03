@@ -52,9 +52,9 @@ namespace Is
 
         public:
             // Inplace level used in inplace_data function.
-            static constexpr int NOT_INPLACE = 0;
-            static constexpr int INPLACE_NOT_MODIFY = 1;
-            static constexpr int INPLACE = 2;
+            static const int NOT_INPLACE = 0;
+            static const int INPLACE_NOT_MODIFY = 1;
+            static const int INPLACE = 2;
 
             // Copying and storing Context.
             explicit Function(const Context& ctx);
