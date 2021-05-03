@@ -63,15 +63,15 @@ namespace Is
             }
 
             // Memorize shapes
-            in_shapes.clear();
-            out_shapes.clear();
+            in_shapes_.clear();
+            out_shapes_.clear();
             for (NdArrays::size_type i = 0; i < inputs.size(); ++i)
             {
-                in_shapes.push_back(make_shared<Shape_t>(inputs[i]->shape()));
+                in_shapes_.push_back(make_shared<Shape_t>(inputs[i]->shape()));
             }
             for (NdArrays::size_type i = 0; i < outputs.size(); ++i)
             {
-                out_shapes.push_back(make_shared<Shape_t>(outputs[i]->shape()));
+                out_shapes_.push_back(make_shared<Shape_t>(outputs[i]->shape()));
             }
         }
 
@@ -121,7 +121,7 @@ namespace Is
                 fall_back_func_->execute(inputs, outputs);
             }
 
-            check_shapes(this, inputs, outputs, in_shapes, out_shapes);
+            check_shapes(this, inputs, outputs, in_shapes_, out_shapes_);
             this->execute_impl(inputs, outputs);
         }
 

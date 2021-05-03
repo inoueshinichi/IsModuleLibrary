@@ -42,8 +42,8 @@ namespace Is
 
         protected:
             Context ctx_;
-            vector<shared_ptr<Shape_t>> in_shapes;
-            vector<shared_ptr<Shape_t>> out_shapes;
+            vector<shared_ptr<Shape_t>> in_shapes_;
+            vector<shared_ptr<Shape_t>> out_shapes_;
 
             /* フォールバック関数 */
             // 関数のインスタンス化時にセットされると関数の振る舞いが
@@ -52,9 +52,9 @@ namespace Is
 
         public:
             // Inplace level used in inplace_data function.
-            static const int NOT_INPLACE = 0;
-            static const int INPLACE_NOT_MODIFY = 1;
-            static const int INPLACE = 2;
+            static constexpr int NOT_INPLACE = 0;
+            static constexpr int INPLACE_NOT_MODIFY = 1;
+            static constexpr int INPLACE = 2;
 
             // Copying and storing Context.
             explicit Function(const Context& ctx);
