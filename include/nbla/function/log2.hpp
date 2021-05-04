@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_UNARY(Log2, std::log2(x));
+        NBLA_DEFINE_TRANSFORM_UNARY(Log2, std::log2(x))
     }
 }

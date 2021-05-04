@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_UNARY(ASinh, std::asinh(x));
+        NBLA_DEFINE_TRANSFORM_UNARY(ASinh, std::asinh(x))
     }
 }

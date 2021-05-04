@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_UNARY(Sin, std::sin(x));
+        NBLA_DEFINE_TRANSFORM_UNARY(Sin, std::sin(x))
     }
 }

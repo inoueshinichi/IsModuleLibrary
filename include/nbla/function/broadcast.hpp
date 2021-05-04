@@ -13,7 +13,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Broadcast, const vector<int>&);
+        NBLA_REGISTER_FUNCTION_HEADER(Broadcast, const vector<int>&)
 
         /**
          * @brief Broadcast N-D array to shape.

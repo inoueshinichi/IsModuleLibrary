@@ -9,6 +9,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_UNARY(Cos, std::cos(x));
+        NBLA_DEFINE_TRANSFORM_UNARY(Cos, std::cos(x))
     }
 }

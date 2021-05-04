@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_BINARY(ATan2, std::atan2(x0, x1));
+        NBLA_DEFINE_TRANSFORM_BINARY(ATan2, std::atan2(x0, x1))
     }
 }

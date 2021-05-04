@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_BINARY(Pow2, std::pow(x0, x1));
+        NBLA_DEFINE_TRANSFORM_BINARY(Pow2, std::pow(x0, x1))
     }
 }

@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_UNARY(Tanh, std::tanh(x));
+        NBLA_DEFINE_TRANSFORM_UNARY(Tanh, std::tanh(x))
     }
 }

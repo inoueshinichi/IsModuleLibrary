@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_UNARY(Exp, std::exp(x));
+        NBLA_DEFINE_TRANSFORM_UNARY(Exp, std::exp(x))
     }
 }
