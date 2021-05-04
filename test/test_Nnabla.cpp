@@ -1,15 +1,19 @@
-#include "nbla/context.hpp"
-#include "nbla/memory/cpu_memory.hpp"
-#include "nbla/memory/allocator.hpp"
-#include "nbla/memory/naive_allocator.hpp"
-#include "nbla/memory/caching_allocator_with_buckets.hpp"
-#include "nbla/array.hpp"
-#include "nbla/array_registry.hpp"
-#include "nbla/nd_array.hpp"
+#include <nbla/context.hpp>
+#include <nbla/memory/cpu_memory.hpp>
+#include <nbla/memory/allocator.hpp>
+#include <nbla/memory/naive_allocator.hpp>
+#include <nbla/memory/caching_allocator_with_buckets.hpp>
+#include <nbla/array.hpp>
+#include <nbla/array_registry.hpp>
+// #include <nbla/nd_array.hpp>
+#include <nbla/nd_array_extra.hpp>
+
+#include <nbla/function/randn.hpp>
 
 #include <iostream>
 #include <string>
 #include <cstdio>
+#include <iomanip>
 
 auto property = [](const std::string& test_name, auto&& func, auto&&... args) {
     std::cout << "[ENTER] " << test_name << "---------------" << std::endl;
@@ -23,7 +27,6 @@ auto property = [](const std::string& test_name, auto&& func, auto&&... args) {
 void test_context()
 {
     using namespace Is::nbla;
-    using byte = unsigned char;
     Context ctx_cpu;
 
     std::cout << ctx_cpu.array_class << std::endl;
@@ -50,7 +53,6 @@ void show_status_memory(Is::nbla::Memory* memory)
 void test_memory()
 {
     using namespace Is::nbla;
-    using byte = unsigned char;
 
     std::string device_id {"cpu"};
     size_t bytes {64};
@@ -87,14 +89,13 @@ void test_memory()
 void test_allocator()
 {
     using namespace Is::nbla;
-    using byte = unsigned char;
     using memory_type = CpuMemory;
     string device_id{ "cpu" };
     size_t bytes{ 64 };
 
     AllocatorMemory alloc_mem;
-    std::shared_ptr<NativeAllocator<memory_type>> 
-        allocator(new NativeAllocator<memory_type>());
+    std::shared_ptr<NaiveAllocator<memory_type>> 
+        allocator(new NaiveAllocator<memory_type>());
     
     alloc_mem = allocator->alloc(bytes, device_id);
 }
@@ -103,7 +104,6 @@ void test_allocator()
 void test_caching_allocator()
 {
     using namespace Is::nbla;
-    using byte = unsigned char;
     using memory_type = CpuMemory;
     string device_id{ "cpu" };
     size_t bytes{ 64 };
@@ -160,8 +160,8 @@ void test_array()
     std::cout << "cpu_array_1: context -> " << cpu_array_1->context().to_string() << std::endl;
 
     Context ctx_cpu_cache({ "cpu:float" }, "CpuCachedArray", "0");
-        shared_ptr<Array> cpu_cached_array_1 = shared_ptr<Array>(
-            ArrayCreator::create(array_size, dtypes::FLOAT, ctx_cpu_cache));
+    shared_ptr<Array> cpu_cached_array_1 = shared_ptr<Array>(
+        ArrayCreator::create(array_size, dtypes::FLOAT, ctx_cpu_cache));
 
     std::cout << "cpu_cached_array_1: context -> " << cpu_cached_array_1->context().to_string() << std::endl;
 
@@ -188,8 +188,7 @@ void test_synced_array()
 
 
 template <typename T>
-void show_ndarray_contents(const Is::nbla::Context& ctx, 
-                           std::shared_ptr<Is::nbla::NdArray> ndarray)
+void show_ndarray_contents(const Is::nbla::Context& ctx, Is::nbla::NdArrayPtr ndarray)
 {
     using namespace Is::nbla;
     Shape_t shape = ndarray->shape();
@@ -232,6 +231,37 @@ void show_ndarray_contents(const Is::nbla::Context& ctx,
 }
 
 
+template <typename T>
+void show_2d_array(const Is::nbla::Context& ctx, Is::nbla::NdArrayPtr ndarray)
+{
+    using namespace Is::nbla;
+    Shape_t shape = ndarray->shape();
+    Stride_t strides = ndarray->strides();
+    Size_t size = ndarray->size();
+    Size_t ndim = ndarray->ndim();
+    auto synced_array = ndarray->array();
+    const T* data = static_cast<const T*>(synced_array->data_ptr(get_dtype<T>(), ctx));
+
+    std::cout << "[";
+    for (int i = 0; i < shape[0]; ++i)
+    {
+        std::cout << "[";
+        for (int j = 0; j < shape[1]; ++j)
+        {
+            T tmp = data[i * strides[0] + j * strides[1]];
+            std::cout << tmp;
+
+            if (j != shape[1] - 1)
+                std::cout << "  ";
+        }
+        std::cout << "]";
+
+        if (i != shape[0] -1)
+            std::cout << std::endl;
+    }
+    std::cout << "]" << std::endl;
+}
+
 
 void test_ndarray()
 {
@@ -245,20 +275,53 @@ void test_ndarray()
     ndarr_1->fill(128);
     ndarr_1->cast(dtypes::DOUBLE, ctx_cpu);
     show_ndarray_contents<double>(ctx_cpu, ndarr_1);
+
+    std::cout << " test zeros ---------------" << std::endl;
+
+    auto ndarray_zeros = zeros<byte>(ctx_cpu, Shape_t{3, 16, 16});
+    show_ndarray_contents<double>(ctx_cpu, ndarray_zeros);
+
+    std::cout << " test ones ---------------" << std::endl;
+
+    auto ndarray_ones = ones<byte>(ctx_cpu, Shape_t{3, 16, 16});
+    show_ndarray_contents<double>(ctx_cpu, ndarray_ones);
+
+    std::cout << " test eye ---------------" << std::endl;
+
+    auto ndarray_eye = eye<byte>(ctx_cpu, 3, 5);
+    show_2d_array<double>(ctx_cpu, ndarray_eye);
+
+    auto ndarray_eye2 = eye<byte>(ctx_cpu, 5, 3);
+    show_2d_array<double>(ctx_cpu, ndarray_eye2);
+
 }
 
 
-void test_isndarray()
+void test_randn()
 {
     using namespace Is::nbla;
     using byte = unsigned char;
-    Context ctx_cpu;
+    string device_id{ "cpu" };
+    Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
 
-    auto isnd_ones= IsNdArray::ones<byte>(ctx_cpu, Shape_t{3, 8, 8});
-    show_ndarray_contents<int>(ctx_cpu, isnd_ones->data());
+    float mu = 0.0;
+    float sigma = 1.0;
+    int seed = 2021;
+    Shape_t shape = {3,5,5};
+    // auto randn_ptr = Randn<float>(ctx_cpu, mu, sigma, shape, seed).copy();
+    // auto out_ndarray = NdArray::create();
+    // std::vector<NdArrayPtr> inputs;
+    // std::vector<NdArrayPtr> outputs{ out_ndarray };
+    // randn_ptr->setup(inputs, outputs);
+    // randn_ptr->execute(inputs, outputs);
+    auto ndarray_out_f = randn<double>(ctx_cpu, shape, mu, sigma, seed);
+    show_ndarray_contents<double>(ctx_cpu, ndarray_out_f);
+    std::cout <<  ndarray_out_f->get_data_pointer<double>(ctx_cpu)[0] << std::endl;
 
-    auto isnd_identity = IsNdArray::identity<byte>(ctx_cpu, Shape_t{3, 5, 8});
-    show_ndarray_contents<int>(ctx_cpu, isnd_identity->data());
+    auto ndarray_out_d = randn<float>(ctx_cpu, shape, mu, sigma, seed);
+    show_ndarray_contents<float>(ctx_cpu, ndarray_out_d);
+    std::cout <<  ndarray_out_d->get_data_pointer<float>(ctx_cpu)[0] << std::endl;
+
 }
 
 
@@ -273,7 +336,7 @@ int main(int argc, char** argv)
     property("test_array", test_array);
     property("test_synced_array", test_synced_array);
     property("test_ndarray", test_ndarray);
-    property("test_isndarray", test_isndarray);
+    property("test_randn", test_randn);
 
     return 0;
 }
