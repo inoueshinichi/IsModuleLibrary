@@ -413,6 +413,7 @@ namespace Is
                 if (!fp)
                 {
                     std::cerr << utils::format_string("Can not open %s", filename.c_str()) << std::endl;
+                    return std::make_tuple(0, 0, 0); 
                 }
 
                 try
@@ -488,14 +489,14 @@ namespace Is
 
                 printf("BmpFilePolicy::dump\n");
                 printf("----- BmpFileHeader -----\n");
-                printf("sizeof(BmpFileHeader): %d\n", sizeof(BmpFileHeader));
+                printf("sizeof(BmpFileHeader): %ld\n", sizeof(BmpFileHeader));
                 printf("bf_type = %d\n", bmp_file_header_.bf_type);
                 printf("bf_size = %d\n", bmp_file_header_.bf_size);
                 printf("bf_reserved1 = %d\n", bmp_file_header_.bf_reserved1);
                 printf("bf_reserved2 = %d\n", bmp_file_header_.bf_reserved2);
                 printf("bf_offbits = %d\n", bmp_file_header_.bf_offset_bits);
                 printf("----- BmpInfoHeader -----\n");
-                printf("sizeof(BmpInfoHeader): %d\n", sizeof(BmpInfoHeader));
+                printf("sizeof(BmpInfoHeader): %ld\n", sizeof(BmpInfoHeader));
                 printf("bi_size = %d\n", bmi_info_->bmi_header.bi_size);
                 printf("bi_width = %d\n", bmi_info_->bmi_header.bi_width);
                 printf("bi_height = %d\n", bmi_info_->bmi_header.bi_height);

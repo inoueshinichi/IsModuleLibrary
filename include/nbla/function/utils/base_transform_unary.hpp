@@ -141,7 +141,7 @@ public:                                                                         
     {                                                                                                 \
     public:                                                                                           \
         NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                              \
-    }
+    };
 
 /* Transform Unary クラス */
 #define NBLA_DEFINE_TRANSFORM_UNARY_CLASS(NAME)                                                       \
@@ -157,12 +157,12 @@ public:                                                                         
         {                                                                                             \
             return create_##NAME(this->ctx_);                                                         \
         }                                                                                             \
-    }
+    };
 
 /* Commandパターンに必要な機能3点セットでマクロ定義 */
 #define NBLA_DEFINE_TRANSFORM_UNARY(NAME, OP)                                                         \
-    NBLA_REGISTER_FUNCTION_HEADER(NAME);                                                              \
-    NBLA_DEFINE_UNARY_OP(NAME, OP);                                                                   \
+    NBLA_REGISTER_FUNCTION_HEADER(NAME)                                                               \
+    NBLA_DEFINE_UNARY_OP(NAME, OP)                                                                    \
     NBLA_DEFINE_TRANSFORM_UNARY_CLASS(NAME)
 
 // ----------------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ public:                                                                         
         {                                                                                             \
             return create_##NAME(this->ctx_, std::get<0>(this->args_));                               \
         }                                                                                             \
-    }
+    };
 
 #define NBLA_DEFINE_TRANSFORM_UNARY_CLASS_1_INPLACE(NAME, A0)                                         \
     template <typename T>                                                                             \
@@ -195,7 +195,7 @@ public:                                                                         
         {                                                                                             \
             return create_##NAME(this->ctx_, std::get<0>(this->args_), this->inplace_);               \
         }                                                                                             \
-    }
+    };
 
 #define NBLA_DEFINE_UNARY_OP_1(NAME, OP, A0)                                                          \
     NBLA_DEFINE_UNARY_OP_CLASS(NAME)                                                                  \
@@ -207,18 +207,18 @@ public:                                                                         
             : a0(a0_) {}                                                                              \
                                                                                                       \
         NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                              \
-    }
+    };
 
 /* Commandパターンに必要な機能3点セットでマクロ定義 */
 #define NBLA_DEFINE_TRANSFORM_UNARY_1(NAME, OP, A0)                                                   \
-    NBLA_REGISTER_FUNCTION_HEADER(NAME, A0);                                                          \
-    NBLA_DEFINE_UNARY_OP_1(NAME, OP, A0);                                                             \
+    NBLA_REGISTER_FUNCTION_HEADER(NAME, A0)                                                           \
+    NBLA_DEFINE_UNARY_OP_1(NAME, OP, A0)                                                              \
     NBLA_DEFINE_TRANSFORM_UNARY_CLASS_1(NAME, A0)  
 
 /* Commandパターンに必要な機能3点セットでマクロ定義: INPLACE */
 #define NBLA_DEFINE_TRANSFORM_UNARY_1_INPLACE(NAME, OP, A0)                                           \
-    NBLA_REGISTER_FUNCTION_HEADER(NAME, A0, bool);                                                    \
-    NBLA_DEFINE_UNARY_OP_1(NAME, OP, A0);                                                             \
+    NBLA_REGISTER_FUNCTION_HEADER(NAME, A0, bool)                                                     \
+    NBLA_DEFINE_UNARY_OP_1(NAME, OP, A0)                                                              \
     NBLA_DEFINE_TRANSFORM_UNARY_CLASS_1_INPLACE(NAME, A0)
 
 
@@ -232,7 +232,7 @@ public:                                                                         
         : a0(a0_) {}                                                                                  \
                                                                                                       \
     NBLA_DEFINE_UNARY_OP_EXECUTE(OP)                                                                  \
-  }
+  };
 
     } // namespace nbla
 }

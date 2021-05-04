@@ -13,8 +13,11 @@ namespace Is
             using std::string;
             using byte = unsigned char;
 
-            class IS_IMGPROC_API PngFilePolicy
+            class IMGPROC_API PngFilePolicy
             {
+                void set_data(byte* data, int insert_color = -1);
+
+
             public:
                 PngFilePolicy();
                 virtual ~PngFilePolicy();
@@ -23,8 +26,8 @@ namespace Is
                 PngFilePolicy(PngFilePolicy&&) = default;
                 PngFilePolicy& operator=(PngFilePolicy&&) = default;
 
-                void set_data(byte* data, int insert_color = -1);
                 void get_data(byte* data, int extract_color = -1);
+
                 void save(const string& filename, byte* data, int32_t width, int32_t height, int32_t channels, bool is_dump);
                 std::tuple<int32_t, int32_t, int32_t> load(const string& filename, bool is_dump);
                 void dump() const;

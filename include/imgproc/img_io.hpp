@@ -1,14 +1,13 @@
-#ifndef IS_IMGPROC_IMG_IO_HPP
-#define IS_IMGPROC_IMG_IO_HPP
+#pragma once
 
-#include "nbla/is_nd_array.hpp"
+#include <nbla/nd_array.hpp>
 
 /*ポリシークラス*/
-#include "imgproc/bmp_policy.hpp"
-#include "imgproc/png_policy.hpp"
-#include "imgproc/jpg_policy.hpp"
+#include <imgproc/bmp_policy.hpp>
+#include <imgproc/png_policy.hpp>
+#include <imgproc/jpg_policy.hpp>
 
-#include "utils/format_string.hpp"
+#include <utils/format_string.hpp>
 
 #include <iostream>
 
@@ -32,13 +31,13 @@ namespace Is
             ImageIo& operator=(ImageIo&&) = delete;
 
             void save(const string& filename, const nbla::Context& ctx, 
-                      shared_ptr<nbla::IsNdArray> ndarray, bool is_dump = false)
+                      nbla::NdArrayPtr ndarray, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
                 if (!ndarray) 
                 {
-                    throw std::runtime_error("IsNdArray is nullptr.");
+                    throw std::runtime_error("NdArray is nullptr.");
                 }
 
                 byte* data = ndarray->cast_data_and_get_pointer<byte>(ctx);
@@ -64,22 +63,28 @@ namespace Is
                 format_policy_.save(filename, data, width, height, channels, is_dump);
             }
 
-            void load(const string& filename, const nbla::Context& ctx, 
-                      shared_ptr<nbla::IsNdArray>& ndarray, bool is_dump = false)
+            nbla::NdArrayPtr load(const string& filename, const nbla::Context& ctx, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
                 
+                
                 // 画像ファイルを読み込む
                 auto[width, height, channels] = format_policy_.load(filename, is_dump);
+                if (width == 0 || height == 0 || channels == 0)
+                {
+                    return make_shared<NdArray>();
+                }
 
-                ndarray = IsNdArray::zeros<byte>(ctx, Shape_t{height, width, channels});
+                auto ndarray = NdArray::create(Shape_t{height, width, channels});
+                ndarray->zero();
                 byte* data = ndarray->cast_data_and_get_pointer<byte>(ctx);
 
                 // NdArrayにコピー
                 format_policy_.get_data(data);
+
+                return ndarray;
             }
         };
     } // namespace imgproc
 }
-#endif

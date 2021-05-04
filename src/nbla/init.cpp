@@ -29,7 +29,7 @@
 //% endfor
 
 #include <nbla/function/abs.hpp>
-
+#include <nbla/function/randn.hpp>
 
 namespace Is
 {
@@ -83,21 +83,35 @@ namespace Is
             // NBLA_REGISTER_FUNCTION_IMPL(${name}, ${function_typed_sym}, "cpu:${type_config}"${''.join(map(lambda x: ', ' + x, arg_types))});
             // % endfor
             // % endfor
+            using uchar = unsigned char;
+            using ushort = unsigned short;
+            using uint = unsigned int;
+            using ulong = unsigned long;
+            using longlong = long long;
+            using ulonglong = unsigned long long;
+            using longdouble = long double;
+
+
+            NBLA_REGISTER_FUNCTION_IMPL(Randn, Randn<float>, "cpu:float", float, float, const Shape_t&, int)
+            NBLA_REGISTER_FUNCTION_IMPL(Randn, Randn<double>, "cpu:double", float, float, const Shape_t&, int)
+            NBLA_REGISTER_FUNCTION_IMPL(Randn, Randn<longdouble>, "cpu:longdougle", float, float, const Shape_t&, int)
             
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<bool>, "cpu:bool");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned char>, "cpu:ubyte");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<char>, "cpu:byte");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned short>, "cpu:ushort");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<short>, "cpu:short");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned int>, "cpu:uint");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<int>, "cpu:int");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned long>, "cpu:ulong");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<long>, "cpu:long");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<unsigned long long>, "cpu:ulonglong");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<long long>, "cpu:longlong");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<float>, "cpu:float");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<double>, "cpu:double");
-            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<long double>, "cpu:longdouble");
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<bool>, "cpu:bool")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<uchar>, "cpu:ubyte")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<char>, "cpu:byte")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<ushort>, "cpu:ushort")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<short>, "cpu:short")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<uint>, "cpu:uint")
+            NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<int>, "cpu:int")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<ulong>, "cpu:ulong")
+            NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<long>, "cpu:long")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<ulonglong>, "cpu:ulonglong")
+            // NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<longlong>, "cpu:longlong")
+            NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<float>, "cpu:float")
+            NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<double>, "cpu:double")
+            NBLA_REGISTER_FUNCTION_IMPL(Abs, Abs<longdouble>, "cpu:longdouble")
+
+
            
 
             /* Solver系クラスの登録 */

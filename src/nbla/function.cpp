@@ -91,7 +91,7 @@ namespace Is
 				       "Given: %d != previously: %d. ",
 				       function->name().c_str(), outputs.size(), out_shapes.size());
 
-            for (Size_t i = 0; i < inputs.size(); ++i)
+            for (std::size_t i = 0; i < inputs.size(); ++i)
 			{
 				NBLA_CHECK(*in_shapes[i] == inputs[i]->shape(), error_code::value,
 					       "Inconsistent shape in input %d of %s. "
@@ -101,7 +101,7 @@ namespace Is
 					       string_join(inputs[i]->shape(), string(", ")).c_str());
 			}
 
-			for (Size_t i = 0; i < outputs.size(); ++i)
+			for (std::size_t i = 0; i < outputs.size(); ++i)
 			{
 				NBLA_CHECK(*out_shapes[i] == outputs[i]->shape(), error_code::value,
 					       "Inconsistent shape in output %d of %s. "

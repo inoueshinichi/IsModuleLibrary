@@ -365,7 +365,7 @@ public:                                                                         
     {                                                                                                   \
     public:                                                                                             \
         NBLA_DEFINE_BINARY_OP_EXECUTE(OP)                                                               \
-    }
+    };
 
 #define NBLA_DEFINE_TRANSFORM_BINARY_CLASS(NAME)                                                        \
     template <typename T>                                                                               \
@@ -380,7 +380,7 @@ public:                                                                         
         {                                                                                               \
             return create_##NAME(this->ctx_);                                                           \
         }                                                                                               \
-    }
+    };
 
 #define NBLA_DEFINE_TRANSFORM_BINARY_CLASS_IMPLACE(NAME)                                                \
     template <typename T>                                                                               \
@@ -395,16 +395,16 @@ public:                                                                         
         {                                                                                               \
             return create_##NAME(this->ctx_, this->inplace_);                                           \
         }                                                                                               \
-    }
+    };
 
 #define NBLA_DEFINE_TRANSFORM_BINARY(NAME, OP)                                                          \
-    NBLA_REGISTER_FUNCTION_HEADER(NAME);                                                                \
-    NBLA_DEFINE_BINARY_OP(NAME, OP);                                                                    \
+    NBLA_REGISTER_FUNCTION_HEADER(NAME)                                                                 \
+    NBLA_DEFINE_BINARY_OP(NAME, OP)                                                                     \
     NBLA_DEFINE_TRANSFORM_BINARY_CLASS(NAME)
 
 #define NBLA_DEFINE_TRANSFORM_BINARY_INPLACE(NAME, OP)                                                  \
-    NBLA_REGISTER_FUNCTION_HEADER(NAME, bool);                                                          \
-    NBLA_DEFINE_BINARY_OP(NAME, OP);                                                                    \
+    NBLA_REGISTER_FUNCTION_HEADER(NAME, bool)                                                           \
+    NBLA_DEFINE_BINARY_OP(NAME, OP)                                                                     \
     NBLA_DEFINE_TRANSFORM_BINARY_CLASS_INPLACE(NAME)
 
 
@@ -420,7 +420,7 @@ public:                                                                         
                                                                                                         \
         inline NAME##BinaryOp(const A0& a0_) : a0(a0_) {}                                               \
         NBLA_DEFINE_BINARY_OP_EXECUTE(OP)                                                               \
-    }
+    };
 
 #define NBLA_DEFINE_TRANSFORM_BINARY_CLASS_1(NAME, A0)                                                  \
     template <typename T>                                                                               \
@@ -435,11 +435,11 @@ public:                                                                         
         {                                                                                               \
             return create_##NAME(this->ctx_, std::get<0>(this->args_));                                 \
         }                                                                                               \
-    }
+    };
 
 #define NBLA_DEFINE_TRANSFORM_BINARY_1(NAME, OP, A0)                                                    \
-    NBLA_REGISTER_FUNCTION_HEADER(NAME, A0);                                                            \
-    NBLA_DEFINE_BINARY_OP_1(NAME, OP, A0);                                                              \
+    NBLA_REGISTER_FUNCTION_HEADER(NAME, A0)                                                             \
+    NBLA_DEFINE_BINARY_OP_1(NAME, OP, A0)                                                               \
     NBLA_DEFINE_TRANSFORM_BINARY_CLASS_1(NAME, A0)
 
     } // namespace nbla
