@@ -27,11 +27,11 @@ namespace Is
                 dtypes dtype;
             };
 
-            ArrayDesc head_;   // 内部で生成されるArray系インスタンスを決める内容 : 転送される
-            bool zeroing_;     // zero()関数の遅延評価のためのフラグ
-            bool filling_;    // fill()関数の遅延評価のためのフラグ
+            ArrayDesc head_;    // 内部で生成されるArray系インスタンスを決める内容 : 転送される
+            bool zeroing_;      // zero()関数の遅延評価のためのフラグ
+            bool filling_;      // fill()関数の遅延評価のためのフラグ
             double fill_value_; // fill()関数の遅延評価で使用される指定値
-            Size_t size_;      // 多次元配列のメモリサイズ
+            Size_t size_;       // 多次元配列のメモリサイズ
 
             // Context, Arrayタイプに応じて格納するバッファ
             // この中身のshared_ptr<Array>がCpuArray, CpuCachedArray, CudaArrayなど

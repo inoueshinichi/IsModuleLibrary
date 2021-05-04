@@ -218,8 +218,7 @@ namespace Is
 
 
             DISABLE_COPY_AND_ASSIGN(NdArray)
-        };
-
+        }; // end NdArray
 
         // エイリアス
         using NdArrayPtr = NdArray::Ptr;
