@@ -109,7 +109,7 @@ namespace Is
 
         private:
             friend SingletonManager;
-            DISABLE_COPY_AND_ASSIGN(BackendBase);
+            DISABLE_COPY_AND_ASSIGN(BackendBase)
         };
     }
 }

@@ -5,6 +5,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Cos);
+        NBLA_REGISTER_FUNCTION_SOURCE(Cos)
     }
 }

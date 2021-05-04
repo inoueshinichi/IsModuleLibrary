@@ -31,7 +31,7 @@ namespace Is
 
             // Never called by users.
             GlobalContext();
-            DISABLE_COPY_AND_ASSIGN(GlobalContext);
+            DISABLE_COPY_AND_ASSIGN(GlobalContext)
         };
     }
 }

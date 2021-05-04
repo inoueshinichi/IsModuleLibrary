@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <cstdio>
-#include <type_traits>>
+#include <type_traits>
 
 namespace Is
 {
@@ -57,7 +57,7 @@ namespace Is
             
             // 半浮動小数点数の定義
             static constexpr bit_t sign_mask = (bit_t)1 << (nbits<T>::n - 1);
-            static constexpr bit_t exp_mask = ((bit_t)1 << nbits<T>::nexp) - 1;;
+            static constexpr bit_t exp_mask = ((bit_t)1 << nbits<T>::nexp) - 1;
             static constexpr bit_t inf_bits = exp_mask << nbits<T>::nsig;
             static constexpr bit_t sig_mask = ((bit_t)1 << nbits<T>::nsig) - 1;
             static constexpr sbit_t exp_bias = ((bit_t)1 << (nbits<T>::nexp - 1)) - 1;

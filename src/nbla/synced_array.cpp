@@ -10,8 +10,8 @@
 #ifdef ENABLE_SYNC_DEBUG
     #include <cstdlib>
 
-    // 
-
+ 
+#if defined(WIN32) || defined(_MSC_VER)
     /**
      * @brief std::getenv()となる_dupenv_s()関数のラッパー
      * https://nurs.hatenablog.com/entry/20150104/1420384422
@@ -55,6 +55,7 @@
             return false;
         }
     }
+#endif
 
     static bool sync_debug_enabled()
     {
@@ -426,6 +427,6 @@ namespace Is
         }
 
         // dll export
-        NBLA_INSTANTIATE_SINGLETON(NBLA_API, SyncedArrayCallback);
+        NBLA_INSTANTIATE_SINGLETON(NBLA_API, SyncedArrayCallback)
     }
 }

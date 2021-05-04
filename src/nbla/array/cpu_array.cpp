@@ -42,10 +42,10 @@ namespace Is
 
 
         // void copy_from(const Array* src_array)の実装マクロ
-        NBLA_DEFINE_FUNC_COPY_FROM(CpuArray, cpu_array_copy, cpu);
+        NBLA_DEFINE_FUNC_COPY_FROM(CpuArray, cpu_array_copy, cpu)
 
         // void fill(double value)の実装マクロ
-        NBLA_DEFINE_FUNC_FILL(CpuArray, cpu_fill, cpu);
+        NBLA_DEFINE_FUNC_FILL(CpuArray, cpu_fill, cpu)
 
 
         /////////////////////////////////

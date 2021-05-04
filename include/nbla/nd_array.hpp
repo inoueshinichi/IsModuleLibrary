@@ -217,7 +217,7 @@ namespace Is
             }
 
 
-            DISABLE_COPY_AND_ASSIGN(NdArray);
+            DISABLE_COPY_AND_ASSIGN(NdArray)
         };
 
 

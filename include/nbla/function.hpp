@@ -229,7 +229,7 @@ namespace Is
             virtual void execute_impl(const NdArrays& inputs, const NdArrays& outputs) = 0;
 
 
-            DISABLE_COPY_AND_ASSIGN(Function);
+            DISABLE_COPY_AND_ASSIGN(Function)
         };
 
         // エイリアス
@@ -253,7 +253,8 @@ namespace Is
             using base_function_type = BaseFunction<Args...>;
 
             BaseFunction(const Context& ctx, Args... args)
-                : Function(ctx), args_(args...) {}
+                : Function(ctx)
+                , args_(args...) {}
 
             /**
              * @brief コンストラクタに与えた引数の数を取得.

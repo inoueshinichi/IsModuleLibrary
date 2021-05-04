@@ -299,7 +299,7 @@ namespace Is
             virtual void print_memory_cache_map_impl() {};
 
             /* コピー構築とコピー代入を禁止する */
-            DISABLE_COPY_AND_ASSIGN(Allocator);
+            DISABLE_COPY_AND_ASSIGN(Allocator)
         };
     }
 }

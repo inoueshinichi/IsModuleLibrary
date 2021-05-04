@@ -43,6 +43,6 @@ namespace Is
 
 
         // dll export for template
-        NBLA_INSTANTIATE_SINGLETON(NBLA_API, Cpu);
+        NBLA_INSTANTIATE_SINGLETON(NBLA_API, Cpu)
     }
 }

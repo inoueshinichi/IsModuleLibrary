@@ -18,6 +18,6 @@ namespace Is
             current_ = ctx;
         }
 
-        NBLA_INSTANTIATE_SINGLETON(NBLA_API, GlobalContext);
+        NBLA_INSTANTIATE_SINGLETON(NBLA_API, GlobalContext)
     }
 }

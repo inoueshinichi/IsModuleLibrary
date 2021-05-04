@@ -40,7 +40,7 @@ namespace Is
 
 
         /**
-         * @brief Container of FunctionDbItem that can be queried by regex.
+         * @brief Container of Item(FunctionDbItem) that can be queried by regex.
          * 
          */
         template <typename Item>
@@ -49,7 +49,7 @@ namespace Is
             vector<shared_ptr<Item>> items_;
 
         public:
-            typename Item::function_t query(const vector<string>& backend)
+            typename Item::fuctory_func_t query(const vector<string>& backend)
             {
                 auto iter = items_.end();
                 for (auto& be : backend)
@@ -96,11 +96,11 @@ namespace Is
         struct FunctionDbItem
         {
             // new shared_ptr<Function>(const Context& ctx, Args...)を格納する関数オブジェクト
-            using function_t = std::function<shared_ptr<Base>(const Context& ctx, Args...)>;
+            using fuctory_func_t = std::function<shared_ptr<Base>(const Context& ctx, Args...)>;
             
             // 以下の順番入れ替えダメ
-            string backend;
-            function_t function; // new shared_ptr<Base>(const Context& ctx, Args...)が入る
+            string backend; // e.g. {"cpu:float"}
+            fuctory_func_t function; // new shared_ptr<Base>(const Context& ctx, Args...)が入る
         };
 
 

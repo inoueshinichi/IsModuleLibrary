@@ -37,7 +37,7 @@ namespace Is
             friend SingletonManager;
             // Never called by users.
             RandomManager();
-            DISABLE_COPY_AND_ASSIGN(RandomManager);
+            DISABLE_COPY_AND_ASSIGN(RandomManager)
         };
     }
 }

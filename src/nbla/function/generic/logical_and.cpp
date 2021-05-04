@@ -5,6 +5,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(LogicalAnd);
+        NBLA_REGISTER_FUNCTION_SOURCE(LogicalAnd)
     }
 }

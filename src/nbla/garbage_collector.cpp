@@ -28,6 +28,6 @@ namespace Is
         GarbageCollector::GarbageCollector() {}
         GarbageCollector::~GarbageCollector() {}
 
-        NBLA_INSTANTIATE_SINGLETON(NBLA_API, GarbageCollector);
+        NBLA_INSTANTIATE_SINGLETON(NBLA_API, GarbageCollector)
     }
 }

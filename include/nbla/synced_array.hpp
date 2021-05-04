@@ -286,7 +286,7 @@ namespace Is
             void clear_flags();
 
 
-            DISABLE_COPY_AND_ASSIGN(SyncedArray);
+            DISABLE_COPY_AND_ASSIGN(SyncedArray)
         };
 
 
@@ -364,7 +364,7 @@ namespace Is
 
             SyncedArrayCallback();
 
-            DISABLE_COPY_AND_ASSIGN(SyncedArrayCallback);
+            DISABLE_COPY_AND_ASSIGN(SyncedArrayCallback)
        };
     }
 }

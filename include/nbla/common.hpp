@@ -115,24 +115,24 @@ namespace Is
          *  pythonの"-".join([a, b, c]) = "a-b-c"と同じ
          * 
          * @tparam T 
-         * @param vector 
+         * @param vec 
          * @param delimiter 
          * @return string 
          */
         template <typename T>
-        inline string string_join(const vector<T>& vector, const string& delimiter)
+        inline string string_join(const vector<T>& vec, const string& delimiter)
         {
             stringstream ss;
-            if (vector.empty())
+            if (vec.empty())
             {
                 return "";
             }
 
-            for (int i = 0; i < vector.size() - 1; ++i)
+            for (Size_t i = 0; i < vec.size() - 1; ++i)
             {
-                ss << vector[i] << delimiter;
+                ss << vec[i] << delimiter;
             }
-            ss << vector[vector.size() - 1];
+            ss << vec[vec.size() - 1];
             return ss.str();
         }
 
@@ -185,9 +185,9 @@ namespace Is
         vector<T*> as_pointer_array(const vector<shared_ptr<T>>& vec)
         {
             vector<T*> ret(vec.size());
-            for (int i = 0; i < vector.size(); ++i)
+            for (int i = 0; i < vec.size(); ++i)
             {
-                ret[i] = vector[i].get();
+                ret[i] = vec[i].get();
             }
             return ret;
         }

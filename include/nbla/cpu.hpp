@@ -115,7 +115,7 @@ namespace Is
             // ユーザーによってCpuコンストラクタは呼ばれない
 			Cpu();
 
-            DISABLE_COPY_AND_ASSIGN(Cpu);
+            DISABLE_COPY_AND_ASSIGN(Cpu)
         };
     }
 }

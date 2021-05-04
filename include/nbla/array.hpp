@@ -206,7 +206,7 @@ namespace Is
             virtual NBLA_API Ptr getptr();
 
         protected:
-            DISABLE_COPY_AND_ASSIGN(Array);
+            DISABLE_COPY_AND_ASSIGN(Array)
         };
 
         // エイリアス
@@ -258,7 +258,7 @@ namespace Is
 		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, DOUBLE, type, double, name);                \
 		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, BOOL, type, bool, name);                    \
 		NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, LONGDOUBLE, type, long double, name);       \
-	  /*NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, HALF, type, nbla::Half, name);            */\
+	    NBLA_CASE_ARRAY_COPY_FROM_TO(copy_func, HALF, type, nbla::Half, name);              \
 		default:                                                                            \
 			NBLA_ERROR(error_code::unclassified, "Disabled dtype %s.",                      \
 						dtype_to_string(this->dtype()).c_str());                            \
@@ -296,7 +296,7 @@ namespace Is
 			NBLA_CASE_ARRAY_COPY_FROM(copy_func, DOUBLE, double, name);                     \
 			NBLA_CASE_ARRAY_COPY_FROM(copy_func, BOOL, bool, name);                         \
 			NBLA_CASE_ARRAY_COPY_FROM(copy_func, LONGDOUBLE, long double, name);            \
-	      /*NBLA_CASE_ARRAY_COPY_FROM(copy_func, HALF, nbla::Half, name);                 */\
+	        NBLA_CASE_ARRAY_COPY_FROM(copy_func, HALF, nbla::Half, name);                   \
 			default:                                                                        \
 				NBLA_ERROR(error_code::unclassified, "Disabled dtype %s.",                  \
 							dtype_to_string(src_array->dtype()).c_str());                   \
@@ -331,7 +331,7 @@ namespace Is
 			NBLA_CASE_ARRAY_FILL(fill_func, DOUBLE, double, name);                          \
 			NBLA_CASE_ARRAY_FILL(fill_func, BOOL, bool, name);                              \
 			NBLA_CASE_ARRAY_FILL(fill_func, LONGDOUBLE, long double, name);                 \
-		  /*NBLA_CASE_ARRAY_FILL(fill_func, HALF, nbla::Half, name);                      */\
+		  NBLA_CASE_ARRAY_FILL(fill_func, HALF, nbla::Half, name);                          \
 			default:                                                                        \
 				NBLA_ERROR(error_code::unclassified, "Disabled dtype %s.",                  \
 							dtype_to_string(this->dtype()).c_str());                        \

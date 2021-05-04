@@ -96,7 +96,7 @@ namespace Is
 			~SingletonManager();
 
             // コピー系オペレータを禁止
-            DISABLE_COPY_AND_ASSIGN(SingletonManager);
+            DISABLE_COPY_AND_ASSIGN(SingletonManager)
         };
     }
 }
