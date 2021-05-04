@@ -287,5 +287,11 @@ namespace Is
 
         using FunctionPtr = Function::Ptr;
 
+
+// 追加 shinichi inoue 20210504
+#define NBLA_INSTANTIATE_FUNCTION(API, CLS, TYPE)                                                      \
+    template API void CLS<TYPE>::setup_impl(const NdArrays& inputs, const NdArrays& outputs);          \
+    template API void CLS<TYPE>::execute_impl(const NdArrays& inputs, const NdArrays& outputs);
+
     } // namespace nbla
 }
