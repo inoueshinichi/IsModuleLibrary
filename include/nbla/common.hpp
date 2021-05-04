@@ -128,7 +128,7 @@ namespace Is
                 return "";
             }
 
-            for (Size_t i = 0; i < vec.size() - 1; ++i)
+            for (std::size_t i = 0; i < vec.size() - 1; ++i)
             {
                 ss << vec[i] << delimiter;
             }

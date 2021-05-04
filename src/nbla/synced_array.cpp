@@ -253,7 +253,7 @@ namespace Is
                                                  const int async_flags)
         {
             Context ctx = ArrayCreator::filter_context(ctx_orig);
-            ArrayDesc desc {create_key(dtype, ctx), ctx.array_class, dtype};
+            ArrayDesc desc { create_key(dtype, ctx), ctx.array_class, dtype };
 
             // Specified array is not allocated.
             if (array_.find(desc.key) == array_.end())
@@ -323,7 +323,7 @@ namespace Is
                     ArraySynchronizer::synchronize(head_.array_class, head_array,
                                                    desc.array_class, array,
                                                    async_flags);
-                    SYNC_DEBUG("SYNC: %s<%s> --[%lld elements (%lld bytes in %s)]--> %s<%s>.",
+                    SYNC_DEBUG("SYNC: %s<%s> --[%ld elements (%ld bytes in %s)]--> %s<%s>.",
 						head_.array_class.c_str(),
 						dtype_to_string(head_.dtype).c_str(),
 						size() / sizeof_dtype(head_.dtype),

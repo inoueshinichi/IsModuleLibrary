@@ -17,7 +17,6 @@ namespace Is
         inline 
         std::vector<std::string> split(const std::string& msg, const std::string& sep)
         {
-            int pos = 0;
             int len_sep = sep.length();
             std::vector<std::string> tokens;
 
