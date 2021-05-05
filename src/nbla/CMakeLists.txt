@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14.6)
 
-set(LIB_NAME is_nnabla)
+set(LIB_NAME "nnabla")
+project(${LIB_NAME} LANGUAGES C CXX VERSION ${version_major}.${version_minor}.${version_patch})
 
 file(GLOB NBLA_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     ./*.cpp

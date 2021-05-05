@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14.6)
 
-set(LIB_NAME is_utils)
+set(LIB_NAME ${MY_LIB_PREFIX_NAME}::utils)
 
 project(${LIB_NAME} LANGUAGES C CXX VERSION ${version_major}.${version_minor}.${version_patch})
 

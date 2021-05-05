@@ -17,6 +17,11 @@ string(REGEX REPLACE [[^([0-9]+)\.([0-9]+)\.(.*)$]] [[\3]] version_patch ${versi
 message(STATUS "========== [END] Version Management ==========")
 
 ###############################################################################
+# Project
+###############################################################################
+project("Is" LANGUAGES C CXX VERSION ${version_major}.${version_minor}.${version_patch})
+
+###############################################################################
 # 前処理
 ###############################################################################
 message(STATUS "========== [START] Preprocessing ==========")
@@ -181,6 +186,7 @@ message(STATUS "========== [START] C++ Build Core ==========")
 # add_subdirectory(third-party)
 
 # Library
+set(MY_LIB_PREFIX_NAME ${PROJECT_NAME})
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/nbla)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/imgproc)

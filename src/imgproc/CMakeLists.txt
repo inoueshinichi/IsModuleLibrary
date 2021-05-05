@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.14.6)
 
-set(LIB_NAME is_imgproc)
-
+set(LIB_NAME "imgproc")
 project(${LIB_NAME} LANGUAGES C CXX VERSION ${version_major}.${version_minor}.${version_patch})
 
 # Sources
@@ -17,10 +16,10 @@ if (WIN32)
 endif()
 
 
-# is_imgproc library
+# imgproc library
 add_library(${LIB_NAME} ${IMGPROC_SOURCES})
 
-# is_imgproc_EXPORTS or is_imgproc_dbg_EXPORTS 定義済みマクロを設定 for windows *.dll
+# imgproc_EXPORTS or imgproc_dbg_EXPORTS 定義済みマクロを設定 for windows *.dll
 target_compile_definitions(${LIB_NAME} PRIVATE
     $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:${LIB_NAME}_EXPORTS>
     $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Debug>>:${LIB_NAME}_dbg_EXPORTS>
@@ -33,10 +32,10 @@ target_include_directories(${LIB_NAME} PUBLIC
 )
 
 target_link_libraries(${LIB_NAME} PUBLIC
-    is_nnabla
+    nnabla
 )
 
-add_dependencies(${LIB_NAME} is_nnabla)
+add_dependencies(${LIB_NAME} nnabla)
 # add_dependencies(${LIB_NAME} libpng)
 # add_dependencies(libpng zlib)
 
