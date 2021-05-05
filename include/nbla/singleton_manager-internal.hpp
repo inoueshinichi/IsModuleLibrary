@@ -27,9 +27,9 @@
             #include <cxxabi.h>
             #define NBLA_CHECK_SINGLETON(NEW_OR_DELETE, SINGLETON)                         \
                 std::string singleton_name;                                                \
-                const std::type_info& id = typeid(SINGLETON); /* RTTI */                   \
+                const std::type_info& type_id = typeid(SINGLETON); /* RTTI */              \
                 int stat{-1};                                                              \
-                char* name = abi::__cxa_demangle(id.name(), 0, 0, &stat);                  \
+                char* name = abi::__cxa_demangle(type_id.name(), 0, 0, &stat);             \
                 if (name != nullptr)                                                       \
                 {                                                                          \
                     if (stat == 0) /* success: stat == 0 */                                \
@@ -43,7 +43,7 @@
                 if (stat != 0)                                                             \
                 {                                                                          \
                     std::cout << #NEW_OR_DELETE << " a singleton `"                        \
-                              << typeid(SINGLETON).name() << "`" << std::endl;             \                                 \
+                              << typeid(SINGLETON).name() << "`" << std::endl;             \
                 }
         #else
             #define NBLA_CHECK_SINGLETON(NEW_OR_DELETE, SINGLETON)                         \
