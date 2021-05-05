@@ -199,64 +199,62 @@ function(BuildGoogleTest GTEST_TARGET GTEST_SHARED_LIB GTEST_BUILD_ALWAYS)
         set(LIB_GMOCK_MAIN_NAME "libgmock_main")
     endif()
 
-    # GTest
-    set_target_properties(GTest::gtest PROPERTIES
-        # Debug
-        IMPORTED_LOCATION $<$<CONFIG:Debug>:${INSTALL_DIR}/lib/${LIB_GTEST_NAME}d.${IMPORTED_LIB_EXT}>
-        # Release
-        IMPORTED_LOCATION $<$<CONFIG:Release>:${INSTALL_DIR}/lib/${LIB_GTEST_NAME}.${IMPORTED_LIB_EXT}>
-        # MinSizeRel
-        IMPORTED_LOCATION $<$<CONFIG:MinSizeRel>:${INSTALL_DIR}/lib/${LIB_GTEST_NAME}.${IMPORTED_LIB_EXT}>
-        # RelWithDebgInfo
-        IMPORTED_LOCATION $<$<CONFIG:CONFIG:RelWithDebgInfo>:${INSTALL_DIR}/lib/${LIB_GTEST_NAME}d.${IMPORTED_LIB_EXT}>
+    if((${CMAKE_BUILD_TYPE} STREQUAL Debug) OR (${CMAKE_BUILD_TYPE} STREQUAL RelWithDebgInfo))
+            # GTest
+            set_target_properties(GTest::gtest PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GTEST_NAME}d.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
 
-        INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include/gtest
-        INTERFACE_LINK_LIBRARIES Threads::Threads
-    )
+            # GMock
+            set_target_properties(GTest::gmock PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GMOCK_NAME}d.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
 
-    # GMock
-    set_target_properties(GTest::gmock PROPERTIES
-        # Debug
-        IMPORTED_LOCATION $<$<CONFIG:Debug>:${INSTALL_DIR}/lib/${LIB_GMOCK_NAME}d.${IMPORTED_LIB_EXT}>
-        # Release
-        IMPORTED_LOCATION $<$<CONFIG:Release>:${INSTALL_DIR}/lib/${LIB_GMOCK_NAME}.${IMPORTED_LIB_EXT}>
-        # MinSizeRel
-        IMPORTED_LOCATION $<$<CONFIG:MinSizeRel>:${INSTALL_DIR}/lib/${LIB_GMOCK_NAME}.${IMPORTED_LIB_EXT}>
-        # RelWithDebgInfo
-        IMPORTED_LOCATION $<$<CONFIG:RelWithDebgInfo>:${INSTALL_DIR}/lib/${LIB_GMOCK_NAME}d.${IMPORTED_LIB_EXT}>
+            # GTestMain
+            set_target_properties(GTest::gtest_main PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GTEST_MAIN_NAME}d.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
 
-        INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include/gmock
-        INTERFACE_LINK_LIBRARIES Threads::Threads
-    )
+            # GMockMain
+            set_target_properties(GTest::gmock_main PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GMOCK_MAIN_NAME}d.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
+    else()
+            # GTest
+            set_target_properties(GTest::gtest PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GTEST_NAME}.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
 
-    # GTestMain
-    set_target_properties(GTest::gtest_main PROPERTIES
-        # Debug
-        IMPORTED_LOCATION $<$<CONFIG:Debug>:${INSTALL_DIR}/lib/${LIB_GTEST_MAIN_NAME}d.${IMPORTED_LIB_EXT}>
-        # Release
-        IMPORTED_LOCATION $<$<CONFIG:Release>:${INSTALL_DIR}/lib/${LIB_GTEST_MAIN_NAME}.${IMPORTED_LIB_EXT}>
-        # MinSizeRel
-        IMPORTED_LOCATION $<$<CONFIG:MinSizeRel>:${INSTALL_DIR}/lib/${LIB_GTEST_MAIN_NAME}.${IMPORTED_LIB_EXT}>
-        # RelWithDebgInfo
-        IMPORTED_LOCATION $<$<CONFIG:RelWithDebgInfo>:${INSTALL_DIR}/lib/${LIB_GTEST_MAIN_NAME}d.${IMPORTED_LIB_EXT}>
+            # GMock
+            set_target_properties(GTest::gmock PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GMOCK_NAME}.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
 
-        INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include/gtest
-        INTERFACE_LINK_LIBRARIES Threads::Threads
-    )
+            # GTestMain
+            set_target_properties(GTest::gtest_main PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GTEST_MAIN_NAME}.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
 
-    # GMockMain
-    set_target_properties(GTest::gmock_main PROPERTIES
-        # Debug
-        IMPORTED_LOCATION $<$<CONFIG:Debug>:${INSTALL_DIR}/lib/${LIB_GMOCK_MAIN_NAME}d.${IMPORTED_LIB_EXT}>
-        # Release
-        IMPORTED_LOCATION $<$<CONFIG:Release>:${INSTALL_DIR}/lib/${LIB_GMOCK_MAIN_NAME}.${IMPORTED_LIB_EXT}>
-        # MinSizeRel
-        IMPORTED_LOCATION $<$<CONFIG:MinSizeRel>:${INSTALL_DIR}/lib/${LIB_GMOCK_MAIN_NAME}.${IMPORTED_LIB_EXT}>
-        # RelWithDebgInfo
-        IMPORTED_LOCATION $<$<CONFIG:RelWithDebgInfo>:${INSTALL_DIR}/lib/${LIB_GMOCK_MAIN_NAME}d.${IMPORTED_LIB_EXT}>
-
-        INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include/gmock
-        INTERFACE_LINK_LIBRARIES Threads::Threads
-    )
+            # GMockMain
+            set_target_properties(GTest::gmock_main PROPERTIES
+                IMPORTED_LOCATION ${INSTALL_DIR}/lib/${LIB_GMOCK_MAIN_NAME}.${IMPORTED_LIB_EXT}
+                INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
+                INTERFACE_LINK_LIBRARIES Threads::Threads
+            )
+    endif() 
 
 endfunction()

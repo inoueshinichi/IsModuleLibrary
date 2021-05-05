@@ -2,15 +2,15 @@ cmake_minimum_required(VERSION 3.14.6)
 
 # GoogleTest
 include(${CMAKE_SOURCE_DIR}/build-tool/cmake/googletest.cmake)
-BuildGoogleTest("GoogleTest" ON OFF)
+BuildGoogleTest("GoogleTest" ON ON)
 
-# # Test: gtest
-# add_executable(test_gtest
-#     test_gtest.cpp
-# )
-# target_link_libraries(test_gtest PRIVATE
-#     GTest::gtest
-# )
+# Test: gtest
+add_executable(test_gtest
+    test_gtest.cpp
+)
+target_link_libraries(test_gtest PRIVATE
+    GTest::gtest
+)
 # add_dependencies(test_gtest GTest::gtest)
 
 # # Test: nnabla
