@@ -4,30 +4,37 @@ cmake_minimum_required(VERSION 3.14.6)
 include(${CMAKE_SOURCE_DIR}/build-tool/cmake/googletest.cmake)
 BuildGoogleTest("GoogleTest" ON ON)
 
-# Test: gtest
-add_executable(test_gtest
-    test_gtest.cpp
+# Tutorial GoogleTest
+add_executable(test_googletest
+    tutorial_googletest/test_gtest.cpp
+    tutorial_googletest/deal.hpp
+    tutorial_googletest/deal.cpp
+    tutorial_googletest/account.hpp
+    tutorial_googletest/mock_account.hpp
 )
-target_link_libraries(test_gtest PRIVATE
+
+target_link_libraries(test_googletest
     GTest::gtest
+    GTest::gmock
 )
-# add_dependencies(test_gtest GTest::gtest)
+
+add_dependencies(test_googletest GTest::gtest GTest::gmock)
 
 # # Test: nnabla
-# add_executable(test_Nnabla
-#     test_Nnabla.cpp
+# add_executable(test_nnabla
+#     test_nnabla.cpp
 # )
 # target_link_libraries(test_Nnabla PRIVATE
-#     is_nnabla
+#     nnabla
 # )
 
 # # Test: imgproc
-# add_executable(test_Imgproc
-#     test_Imgproc.cpp
+# add_executable(test_imgproc
+#     test_imgproc.cpp
 # )
-# target_link_libraries(test_Imgproc PRIVATE
-#     is_nnabla
-#     is_imgproc
+# target_link_libraries(test_imgproc PRIVATE
+#     nnabla
+#     imgproc
 # )
 
 
