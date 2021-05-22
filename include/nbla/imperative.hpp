@@ -7,14 +7,11 @@ namespace Is
 {
     namespace nbla
     {
-        
-        /** 
-           
-            @param[in] inputs A vector of NdArray as function inputs. NdArrays are
-        converted to data regions of  Variables.
-            @param[in] n_outputs Number of function outputs.
-            @param[in,out] outputs, This can be empty usually. Elements which are not
-        nullptr will be used as in-place outputs.
+       /**
+        * @brief 
+        * @param[in] inputs A vector of NdArray as function inputs. NdArrays are converted to data regions of  Variables.
+        * @param[in] n_outputs Number of function outputs.
+        * @param[in,out] outputs, This can be empty usually. Elements which are not nullptr will be used as in-place outputs.
         */
 
         /**
