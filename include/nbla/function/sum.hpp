@@ -11,9 +11,18 @@ namespace Is
     namespace nbla
     {
         NBLA_REGISTER_FUNCTION_HEADER(Sum, const vector<int>&, bool);
+        // axes
+        // keep_dims
 
         /**
          * @brief Reduction along axes with sum operation.
+         * 
+         * Inputs:
+         * - N-D array
+         * 
+         * Outputs:
+         * - N-D array
+         * 
          * @param T Data type for computation.
          * @param axes A list of axes to be reduced.
          * @param keep_dims Flag whether the reduced axes are kept.
