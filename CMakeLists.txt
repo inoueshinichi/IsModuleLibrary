@@ -233,11 +233,11 @@ message(STATUS "========== [END] C++ Build Core ==========")
 message(STATUS "========== [START] Test ==========")
 
 # Google Test
-if(BUILD_CPP_TEST)
-include(CTest)
-    enable_testing()
-    add_subdirectory(${CMAKE_SOURCE_DIR}/test)
-endif()
+# if(BUILD_CPP_TEST)
+# include(CTest)
+#     enable_testing()
+#     add_subdirectory(${CMAKE_SOURCE_DIR}/test)
+# endif()
 
 # set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 # set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
