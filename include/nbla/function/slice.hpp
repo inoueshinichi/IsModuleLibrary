@@ -89,7 +89,7 @@ namespace Is
             //NBLA_API bool skip_check(const NdArrays& outputs); // ver19.0に実装がない
         
         private:
-            NBLA_API void slice_excute_recursive(const NdArray* inp, NdArray* outp,
+            NBLA_API void slice_execute_recursive(const NdArray* inp, NdArray* outp,
                                                   const T* x, T* y, 
                                                   int x_offset, int y_offset, 
                                                   int dim, int& slice_index);
