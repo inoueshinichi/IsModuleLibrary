@@ -1,4 +1,4 @@
-#pramga once
+#pragma once
 
 #include <nbla/function/utils/base_transform_unary.hpp>
 

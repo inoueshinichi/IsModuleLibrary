@@ -41,7 +41,7 @@ namespace Is
             int axis_;
             bool exclusive_;
             bool reverse_;
-            Size_t size0_, size1_, size2_;
+            Size_t size_, size0_, size1_, size2_;
 
         public:
             CumProd(const Context& ctx, int axis, bool exclusive, bool reverse)

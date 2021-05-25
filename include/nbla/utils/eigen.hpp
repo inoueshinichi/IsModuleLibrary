@@ -3,7 +3,7 @@
 #define EIGEN_NO_DEBUG
 #define EIGEN_MPL2_ONLY
 
-#include <Eigen/Dense>
+#include <eigen-3.3.7/Eigen/Dense>
 
 namespace Is
 {

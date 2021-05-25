@@ -200,7 +200,7 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 message(STATUS "========== [START] C++ Build Core ==========")
 
 # Third-party
-# add_subdirectory(third-party)
+add_subdirectory(third-party)
 
 # Library
 set(MY_LIB_PREFIX_NAME ${PROJECT_NAME})

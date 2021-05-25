@@ -2,6 +2,7 @@
 /.vscode
 /build
 /data
+/third-party/*
 
 # File
 *.bmp
