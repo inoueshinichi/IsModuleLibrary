@@ -2,7 +2,6 @@
 /.vscode
 /build
 /data
-/thrid-party
 
 # File
 *.bmp
