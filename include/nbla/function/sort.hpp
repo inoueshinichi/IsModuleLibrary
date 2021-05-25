@@ -64,7 +64,7 @@ namespace Is
 
             virtual shared_ptr<Function> copy() const
             {
-                return create_Sort(ctx_, axis, reverse, with_index, only_index);
+                return create_Sort(ctx_, axis_, reverse_, with_index_, only_index_);
             }
 
             virtual int min_inputs() { return 1; }

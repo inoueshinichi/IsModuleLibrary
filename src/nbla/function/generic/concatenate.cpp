@@ -74,7 +74,7 @@ namespace Is
 
 
         template <typename T>
-        void execute_impl(const NdArrays& inputs, const NdArrays& outputs)
+        void Concatenate<T>::execute_impl(const NdArrays& inputs, const NdArrays& outputs)
         {
             T* y = outputs[0]->cast_data_and_get_pointer<T>(this->ctx_, true);
             int inner_offset = 0;

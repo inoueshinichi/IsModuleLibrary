@@ -7,7 +7,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Add2, bool);
+        NBLA_REGISTER_FUNCTION_SOURCE(Add2, bool)
 
         template <typename T>
         void Add2<T>::setup_impl(const NdArrays& inputs, const NdArrays& outputs)

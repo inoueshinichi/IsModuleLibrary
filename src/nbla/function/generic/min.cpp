@@ -4,8 +4,11 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Min, const vector<int> &, bool, bool, bool)
-
+        NBLA_REGISTER_FUNCTION_SOURCE(Min, const vector<int>&, bool, bool, bool)
+        // axes
+        // keep_dims
+        // with_index
+        // only_index
 
         template <typename T>
         void Min<T>::execute_impl_reduce(const T* x, T* y, int outer_size, int reduction_size)
