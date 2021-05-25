@@ -16,7 +16,7 @@ namespace Is
             if (axis_ < 0)
                 axis_ += in_shape.size();
             
-            NBLA_CHECK(axis_ >= 0, ]
+            NBLA_CHECK(axis_ >= 0,
                        error_code::value,
                        "axis must not be less than zero, got %d", 
                        axis_);
@@ -59,7 +59,7 @@ namespace Is
 
 
         template <typename T>
-        void execute_impl(const NdArrays& inputs, const NdArrays& outputs)
+        void Split<T>::execute_impl(const NdArrays& inputs, const NdArrays& outputs)
         {
             const T* x = inputs[0]->get_data_pointer<T>(this->ctx_);
             for (int i0 = 0; i0 < num_outputs_; ++i0) 

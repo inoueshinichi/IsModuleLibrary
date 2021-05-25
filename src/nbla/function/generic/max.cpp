@@ -32,8 +32,8 @@ namespace Is
             if (this->with_index_ || this->only_index_) 
             {
                 auto idx_sp_arr = this->only_index_ ? outputs[0] : outputs[1];
-                NdArray* idx_arr = idx_sp_arr->cast(get_dtype<size_t>(), this->ctx_, true);
-                NdArray* idx_buf = this->index_buff_->get(get_dtype<int>(), this->ctx_);
+                Array* idx_arr = idx_sp_arr->cast(get_dtype<size_t>(), this->ctx_, true);
+                Array* idx_buf = this->index_buff_->get(get_dtype<int>(), this->ctx_);
 
                 idx_arr->copy_from(idx_buf);
             }

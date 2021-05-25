@@ -16,7 +16,7 @@ namespace Is
         namespace ndi
         {
             template <typename T>
-            std::string str(const std::vector<int>& index)
+            std::string str(const Shape_t& index)
             {
                 std::ostringstream os;
                 os << "[";
@@ -29,7 +29,7 @@ namespace Is
 
             // Calculate strides from `shape` and return as a new allocated vector.
             template <typename T> 
-            inline std::vector<int> strides(const std::vector<int>& shape)
+            inline Shape_t strides(const Shape_t& shape)
             {
                 std::vector<T> v(shape.size(), 1);
                 std::copy(shape.begin() + 1, shape.end(), v.begin());
@@ -41,7 +41,7 @@ namespace Is
             // Compute the flat offset for the multidimensional `index` within the shape
             // determined by `strides`.
             template <typename T>
-            inline T nd2flat(const std::vector<int>& index, const std::vector<int>& stride)
+            inline T nd2flat(const Shape_t& index, const Shape_t& stride)
             {
                 assert(stride.size() <= std::numeric_limits<int>::max()); // 追加@inoueshinichi
                 assert(index.size() <= stride.size());
@@ -53,7 +53,7 @@ namespace Is
             // determined by `strides` restricted to the outer dimensions until and not
             // including `axis`.
             template <typename T>
-            inline T nd2flat(const std::vector<int>& index, const std::vector<int>& stride, int axis)
+            inline T nd2flat(const Shape_t& index, const Shape_t& stride, int axis)
             {
                 using std::inner_product;
                 assert(stride.size() <= std::numeric_limits<int>::max());
@@ -71,7 +71,7 @@ namespace Is
             // determined by `strides` restricted to the dimensions from and including
             // `axis.first` until and excluding `axis.second`.
             template <typename T>
-            inline T nd2flat(const std::vector<int>& index, const std::vector<int>& stride, std::pair<int, int> axis)
+            inline T nd2flat(const Shape_t& index, const Shape_t& stride, std::pair<int, int> axis)
             {
                 assert(stride.size() <= std::numeric_limits<int>::max());
                 assert(index.size() <= stride.size());
@@ -115,7 +115,7 @@ namespace Is
             // ndi::inner_size(shape, 3) => 30
             // 
             template <typename T>
-            inline T inner_size(const std::vector<int>& shape, int axis)
+            inline T inner_size(const Shape_t& shape, int axis)
             {
                 using std::accumulate;
                 using std::multiplies;
@@ -137,7 +137,7 @@ namespace Is
             // ndi::outer_size(shape, 3) => 24
             // 
             template <typename T>
-            inline T outer_size(const std::vector<int>& shape, int axis)
+            inline T outer_size(const Shape_t& shape, int axis)
             {
                 using std::accumulate;
                 using std::multiplies;
@@ -165,7 +165,7 @@ namespace Is
             // produces "[0, 0] [0 1] [1, 0] [1, 1]"
             //
             template <typename T>
-            inline bool incremant(std::vector<int>& index, const std::vector<int>& shape)
+            inline bool increment(Shape_t& index, const Shape_t& shape)
             {
                 assert(shape.size() <= std::numeric_limits<int>::max());
                 assert(index.size() == shape.size());

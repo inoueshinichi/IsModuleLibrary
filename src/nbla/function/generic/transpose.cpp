@@ -10,6 +10,7 @@ namespace Is
     namespace nbla
     {
         NBLA_REGISTER_FUNCTION_SOURCE(Transpose, const vector<int>&)
+        // axes
 
 
         template <typename T>
@@ -79,15 +80,15 @@ namespace Is
                     ishape.erase(ishape.begin() + this_axis);
                     axes.erase(axes.begin() + i);
                     axes_size = axes.size();
-                    for (size_t j = 0; j < axes_size; j++) 
+                    for (size_t j = 0; j < axes_size; ++j) 
                     {
                         if (axes[j] > this_axis)
                             axes[j] -= 1;
                     }
-                    else
-                    {
-                        i++;
-                    }
+                }
+                else
+                {
+                    i++;
                 }
             }
 
@@ -96,7 +97,7 @@ namespace Is
             // strides and transposed strides to be used in forward and backward.
             this->x_shape_ = ishape;
             this->y_shape_.resize(axes.size());
-            for (size_t i = 0; i < axes.size(); i++) 
+            for (size_t i = 0; i < axes.size(); ++i) 
             {
                 this->y_shape_[i] = this->x_shape_[axes[i]];
             }

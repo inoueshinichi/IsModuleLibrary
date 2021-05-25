@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Sum, const vector<int>&, bool);
+        NBLA_REGISTER_FUNCTION_HEADER(Sum, const vector<int>&, bool)
         // axes
         // keep_dims
 
