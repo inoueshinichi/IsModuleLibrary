@@ -131,10 +131,10 @@ namespace Is
 
 
         template <typename T>
-        void slice_execute_recursive(const NdArray* inp, NdArray* outp,
-                                     const T* x, T* y, 
-                                     int x_offset, int y_offset, 
-                                     int dim, int& slice_index)
+        void Slice<T>::slice_execute_recursive(const NdArray* inp, NdArray* outp,
+                                               const T* x, T* y, 
+                                               int x_offset, int y_offset, 
+                                               int dim, int& slice_index)
         {
             int current_x_offset = x_offset;
             int current_y_offset = y_offset;
@@ -173,7 +173,7 @@ namespace Is
                                             current_x_offset, current_y_offset, 
                                             dim + 1, slice_index);
                     current_x_offset += x_stride;
-                    current_y_offset += y_stride;]
+                    current_y_offset += y_stride;
                     if (dim < base_axis_) 
                     {
                         slice_index = (slice_index + 1) % start_.size();
