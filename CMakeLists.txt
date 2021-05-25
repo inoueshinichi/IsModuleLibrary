@@ -97,23 +97,40 @@ if(MSVC)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/Zc:preprocessor>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>")
 
-
     # sprintf_s系の邪魔なコンパイラ仕様を回避
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 
     # math.hに定義されている円周率等の物理定数を有効化する
     add_compile_definitions(_USE_MATH_DEFINES)
 
-    # プリコンパイル済みヘッダーの生成と利用
-    if(BUILD_CPP_COMPILE_PCH)
-        add_compile_options("$<$<C_COMPILER_ID:MSVC>:/Yu>")
-        add_compile_options("$<$<CXX_CPMPILER_ID:MSVC>:/Yu>")
-    endif()
+    # # プリコンパイル済みヘッダーの生成と利用
+    # if(BUILD_CPP_COMPILE_PCH)
+    #     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/Yu>")
+    #     add_compile_options("$<$<CXX_CPMPILER_ID:MSVC>:/Yu>")
+    # endif()
 
 elseif(APPLE)
     message(STATUS "Compiler: Clang in macOS")    
 
-    message(FATAL_ERROR "No Implimentation of LLVM with Clang(++) in macOS.")
+    # message(FATAL_ERROR "No Implimentation of LLVM with Clang(++) in macOS.")
+
+    # Build Options(マルチコンフィギュレーション対応)
+    set(CMAKE_CXX_FLAGS "-O1")
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
+
+    if(BUILD_OPENMP)
+        add_compile_options("$<$<C_COMPILER_ID:GCC>:-fopenmp>")
+        add_compile_options("$<$<CXX_COMPILER_ID:GCC>:-fopenmp>")
+    endif()
+
+    # C++標準に準拠しない拡張機能を無効化
+    string(APPEND CMAKE_CXX_FLAGS " --pedantic-errors")
+
+    string(APPEND CMAKE_CXX_FLAGS " -pedantic")
+    string(APPEND CMAKE_CXX_FLAGS " -Wall")
 
 else()
     message(STATUS "Compiler: GCC in Linux")
