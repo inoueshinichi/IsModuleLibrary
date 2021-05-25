@@ -44,23 +44,25 @@ namespace Is
             SyncedArray(const Size_t size);
             ~SyncedArray();
 
-
-            /** Cast and get array with dtype context
-             This will return an array object with specified dtype and device with implicit
-            synchronization over different dtypes/devices.
-            @param[in] write_only When true, just returns an Array instance requested
-            without synchronization.
-            @param[in] async_flags AsyncFlag::NONE  -> Synchronous synchronization
-                                    AsyncFlag::ASYNC -> Asynchronous synchronization
-                                    AsyncFlag::UNSAFE  -> No synchronization to host
-                                    AsyncFlag::ASYNC | AsyncFlag::UNSAFE ->
-                                    The memory region of the source array of an
-                                    asynchronous data transfer is not guranteed to be
-                                    kept safe until the end of the transfer.
+           /**
+            * @brief Cast and get array with dtype context 
+            * 
+            * This will return an array object with specified dtype and device with implicit
+            * synchronization over different dtypes/devices.
+            * 
+            * @param write_only When true, just returns an Array instance requested without synchronization.
+            * @param async_flags AsyncFlag::NONE    -> Synchronous synchronization
+            *                    AsyncFlag::ASYNC   -> Asynchronous synchronization
+            *                    AsyncFlag::UNSAFE  -> No synchronization to host
+            *                    AsyncFlag::ASYNC | AsyncFlag::UNSAFE -> 
+            *                                          The memory region of the source array of an
+            *                                          asynchronous data transfer is not guranteed to be
+            *                                          kept safe until the end of the transfer.
             */
 
             /**
              * @brief Cast and get array with dtype context
+             * 
              * This will return an array object with specified dtype and device with implicit
              * synchronization over different dtypes/devices.
              * 

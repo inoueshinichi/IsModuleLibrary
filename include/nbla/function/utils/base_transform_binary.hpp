@@ -4,12 +4,13 @@
 #include <nbla/cpu.hpp>
 #include <nbla/function.hpp>
 #include <nbla/function_registry.hpp>
-// #include "nbla/half.hpp"
+#include <nbla/half.hpp>
 
 namespace Is
 {
     namespace nbla
     {
+        /*ブロードキャストあり二項演算*/
         template <typename... Args>
         class BaseTransformBinary : public BaseFunction<Args...>
         {
@@ -170,10 +171,11 @@ namespace Is
 
                 // if the number of the compressed dimensions are less than three,
                 // pad it up to three.
-                while (compressed_shape_y.size() < 3) {
-                compressed_shape_x0.insert(compressed_shape_x0.begin(), 1);
-                compressed_shape_x1.insert(compressed_shape_x1.begin(), 1);
-                compressed_shape_y.insert(compressed_shape_y.begin(), 1);
+                while (compressed_shape_y.size() < 3) 
+                {
+                    compressed_shape_x0.insert(compressed_shape_x0.begin(), 1);
+                    compressed_shape_x1.insert(compressed_shape_x1.begin(), 1);
+                    compressed_shape_y.insert(compressed_shape_y.begin(), 1);
                 }
                 compressed_ndim_ = compressed_shape_y.size();
 
@@ -321,8 +323,7 @@ namespace Is
 
 
         template <typename T, typename BinaryOp, typename... Args>
-        void TransformBinary<T, BinaryOp, Args...>::execute_impl(
-            const NdArrays& inputs, const NdArrays& outputs)
+        void TransformBinary<T, BinaryOp, Args...>::execute_impl(const NdArrays& inputs, const NdArrays& outputs)
         {
            const T* x0 = inputs[0]->get_data_pointer<T>(this->ctx_);
            const T* x1 = inputs[1]->get_data_pointer<T>(this->ctx_);
@@ -347,7 +348,8 @@ namespace Is
     class NAME##BinaryOp : public BaseBinaryOp
 
 #define NBLA_DEFINE_BINARY_OP_EXECUTE(OP)                                                               \
-    template <typename T> inline T operator()(const T x0, const T x1)                                   \
+    template <typename T> inline                                                                        \
+    T operator()(const T x0, const T x1)                                                               \
     {                                                                                                   \
         return OP;                                                                                      \
     }
@@ -382,7 +384,7 @@ public:                                                                         
         }                                                                                               \
     };
 
-#define NBLA_DEFINE_TRANSFORM_BINARY_CLASS_IMPLACE(NAME)                                                \
+#define NBLA_DEFINE_TRANSFORM_BINARY_CLASS_INPLACE(NAME)                                                \
     template <typename T>                                                                               \
     class NAME : public TransformBinary<T, NAME##BinaryOp>                                              \
     {                                                                                                   \
