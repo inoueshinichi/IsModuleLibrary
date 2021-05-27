@@ -6,7 +6,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Constant, double, const vector<int64_t>&)
+        NBLA_REGISTER_FUNCTION_SOURCE(Constant, float, const vector<int64_t>&)
         // value
         // shape
 

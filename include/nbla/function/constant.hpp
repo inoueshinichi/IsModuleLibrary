@@ -23,15 +23,15 @@ namespace Is
          * 
          */
         template <typename T>
-        class Constant : public BaseFunction<double, const vector<int64_t>&>
+        class Constant : public BaseFunction<float, const vector<int64_t>&>
         {
         protected:
             float val_;
             const vector<int64_t> shape_;
 
         public:
-            Constant(const Context& ctx, double val, const vector<int64_t>& shape)
-                : BaseFunction<double, const vector<int64_t>&>(ctx, val, shape)
+            Constant(const Context& ctx, float val, const vector<int64_t>& shape)
+                : BaseFunction<float, const vector<int64_t>&>(ctx, val, shape)
                 , val_(val)
                 , shape_(shape) {}
             
