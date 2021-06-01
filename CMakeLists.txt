@@ -127,7 +127,7 @@ elseif(APPLE)
     endif()
 
     # C++標準に準拠しない拡張機能を無効化
-    string(APPEND CMAKE_CXX_FLAGS " --pedantic-errors")
+    # string(APPEND CMAKE_CXX_FLAGS " --pedantic-errors")
 
     string(APPEND CMAKE_CXX_FLAGS " -pedantic")
     string(APPEND CMAKE_CXX_FLAGS " -Wall")
@@ -151,7 +151,7 @@ else()
     endif()
 
     # C++標準に準拠しない拡張機能を無効化
-    string(APPEND CMAKE_CXX_FLAGS " --pedantic-errors")
+    # string(APPEND CMAKE_CXX_FLAGS " --pedantic-errors")
 
     # https://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings/9862800#9862800
     string(APPEND CMAKE_CXX_FLAGS " -pedantic")
@@ -200,7 +200,7 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 message(STATUS "========== [START] C++ Build Core ==========")
 
 # Third-party
-add_subdirectory(third-party)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
 # Library
 set(MY_LIB_PREFIX_NAME ${PROJECT_NAME})
@@ -233,11 +233,11 @@ message(STATUS "========== [END] C++ Build Core ==========")
 message(STATUS "========== [START] Test ==========")
 
 # Google Test
-# if(BUILD_CPP_TEST)
-# include(CTest)
-#     enable_testing()
-#     add_subdirectory(${CMAKE_SOURCE_DIR}/test)
-# endif()
+if(BUILD_CPP_TEST)
+include(CTest)
+    enable_testing()
+    add_subdirectory(${CMAKE_SOURCE_DIR}/test)
+endif()
 
 # set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 # set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
