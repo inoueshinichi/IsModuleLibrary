@@ -13,7 +13,7 @@ namespace Is
                                           int outer_size,
                                           int reduction_size) 
         {
-            using namespace ::nbla::eigen;
+            using namespace ::Is::nbla::eigen;
             ConstMatrixMap<T> mx(x, outer_size, reduction_size);
             ColVectorMap<T> my(y, outer_size);
             my = mx.rowwise().sum() / reduction_size;
