@@ -3,7 +3,7 @@
 #define EIGEN_NO_DEBUG
 #define EIGEN_MPL2_ONLY
 
-#include <eigen-3.3.7/Eigen/Dense>
+#include <Eigen/Dense>
 
 namespace Is
 {
@@ -92,7 +92,6 @@ namespace Is
                         }                                                           \
                     }                                                               \
                 }
-            }
-        }
+            
     }
 }
