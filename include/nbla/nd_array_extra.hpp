@@ -53,10 +53,10 @@ namespace Is
 
         
         // randn
-        template <typename FloatingPoint>
+        template <typename F>
         NdArrayPtr randn(const Context& ctx, const Shape_t& shape, float mu, float sigma, int seed = -1)
         {
-            auto ptr_randn = Randn<FloatingPoint>(ctx, mu, sigma, shape, seed).copy();
+            auto ptr_randn = Randn<F>(ctx, mu, sigma, shape, seed).copy();
             auto ndarray_out = NdArray::create();
             NdArrays inputs;
             NdArrays outputs{ ndarray_out };
@@ -64,5 +64,18 @@ namespace Is
             ptr_randn->execute(inputs, outputs);
             return outputs[0];
         }
+
+
+        // // add_scalar
+        // template <typename T>
+        // NdArrayPtr add_scalar(const Context& ctx, NdArrayPtr input, double val)
+        // {
+        //     AddScalar<float> ptr_add_scalar(ctx_cpu, val, false);
+        //     auto output = NdArray::create();
+        //     ptr_add_scalar.setup({input}, {output});
+        //     ptr_add_scalar.execute({input}, {output});
+        //     return output;
+        // }
+
     }
 }

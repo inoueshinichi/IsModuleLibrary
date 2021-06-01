@@ -188,7 +188,9 @@ public:                                                                         
     template <typename T>                                                                             \
     class NAME : public TransformUnary<T, NAME##UnaryOp, A0>                                          \
     {                                                                                                 \
-        NAME(const Context& ctx, const A0& a0, bool inplace)                                          \
+        NBLA_DEFINE_TRANSFORM_UNARY_CLASS_COMMON(NAME)                                                \
+                                                                                                      \
+        NAME(const Context &ctx, const A0 &a0, bool inplace)                                          \
             : TransformUnary<T, NAME##UnaryOp, A0>(ctx, inplace, a0) {}                               \
                                                                                                       \
         virtual shared_ptr<Function> copy() const                                                     \

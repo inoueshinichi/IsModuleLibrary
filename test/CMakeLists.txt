@@ -13,8 +13,8 @@ if((NOT TARGET GTest::gtest)      OR
 endif()
 
 
-# add_subdirectory(tutorial_googletest)
-# add_subdirectory(test_nnabla)
+add_subdirectory(tutorial_googletest)
+add_subdirectory(test_nnabla)
 # add_subdirectory(test_imgproc)
 
 
