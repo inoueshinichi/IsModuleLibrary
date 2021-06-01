@@ -310,7 +310,7 @@ namespace Is
             {
                 Size_t idx0 = 0;
                 Size_t idx1 = 0;
-                for (Size_t i = 0; i < ndim; +i)
+                for (Size_t i = 0; i < ndim; ++i)
                 {
                     Size_t dim_idx = (idx / strides_y[i]) % shape_y[i];
                     idx0 += dim_idx * strides_x0[i];
