@@ -70,7 +70,7 @@ namespace Is
                                                const NdArrays& outputs);
 
         private:
-             void flip_recursive(NdArray* inp, const T* x, T* y,
+             void flip_recursive(NdArrayPtr inp, const T* x, T* y,
                       const std::vector<bool>& flip, 
                       bool add, int x_offset,
                       int y_offset, int dim);
