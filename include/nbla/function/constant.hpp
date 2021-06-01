@@ -8,7 +8,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Constant, double, const vector<int64_t>&)
+        NBLA_REGISTER_FUNCTION_HEADER(Constant, float, const vector<int64_t>&)
         // value
         // shape
 

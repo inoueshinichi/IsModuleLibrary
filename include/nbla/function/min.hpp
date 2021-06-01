@@ -9,7 +9,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Min, const vector<int> &, bool, bool, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Min, const vector<int>&, bool, bool, bool)
         // axes
         // keep_dims
         // with_index

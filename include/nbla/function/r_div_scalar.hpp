@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-namespace is
+namespace Is
 {
     namespace nbla
     {

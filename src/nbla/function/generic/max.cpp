@@ -41,9 +41,7 @@ namespace Is
 
 
         template <typename T>
-        void Max<T>::execute_impl_reduce(const T *x, T *y, 
-                                         int outer_size,
-                                         int reduction_size)
+        void Max<T>::execute_impl_reduce(const T *x, T *y, int outer_size, int reduction_size)
         {
             // Saving index is a bit inefficient if backward is not required.
             int* ind = this->index_buff_->cast_data_and_get_pointer<int>(this->ctx_, true);

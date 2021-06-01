@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Reshape, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Reshape, const vector<int64_t>&, bool)
         // shape
         // inplace
 
@@ -63,7 +63,7 @@ namespace Is
             // D: Inplace
             if (inplace_) 
             {
-                outputs[0]->data()->set_array(inputs[0]->data()->array());
+                outputs[0]->set_array(inputs[0]->array());
             }
         }
 

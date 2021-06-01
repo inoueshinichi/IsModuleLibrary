@@ -22,7 +22,7 @@ namespace Is
         using std::shared_ptr;
 
         using Shape_t = vector<int64_t>;
-        using Stride_t = vector<int64_t>;
+        using Stride_t = vector<int>;
         using Size_t = int64_t;
 
         // Flags for SyncedArray and data transfer

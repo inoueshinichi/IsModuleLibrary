@@ -14,7 +14,7 @@ namespace Is
 {
     namespace nbla
     {
-        using namespace ::nbla::eigen;
+        using namespace ::Is::nbla::eigen;
 
         NBLA_REGISTER_FUNCTION_SOURCE(Sum, const vector<int> &, bool)
 
@@ -90,7 +90,8 @@ namespace Is
                 // For not overwriting the memory region of the transpose results,
                 // call transpose and sum with i_transpose in the same scope.
                 NdArray i_transpose;
-                execute(f_transpose, inputs, { &i_transpose });
+                NdArrays outputs { &i_transpose };
+                imp::execute(f_transpose_, inputs, outputs);
                 const T* x_T = i_transpose.get_data_pointer<T>(this->ctx_);
                 this->execute_impl_reduce(x_T, y, outer_size, reduction_size_);
             }
@@ -107,7 +108,7 @@ namespace Is
                                          int outer_size,
                                          int reduction_size) 
         {
-            using namespace ::nbla::eigen;
+            using namespace ::Is::nbla::eigen;
             ConstMatrixMap<T> mx(x, outer_size, reduction_size);
             ColVectorMap<T> my(y, outer_size);
             my = mx.rowwise().sum();

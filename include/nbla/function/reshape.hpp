@@ -11,7 +11,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Reshape, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Reshape, const vector<int64_t>&, bool)
         // shape
         // inplace
 
@@ -49,7 +49,7 @@ namespace Is
             {
                 vector<int64_t> shape(shape_.size());
                 std::copy(shape_.begin(), shape_.end(), shape.begin());
-                return create_Reshape(ctx_, shape, inplace_);
+                return create_Reshape(ctx_, shape_, inplace_);
             }
 
             virtual vector<dtypes> in_types() { return vector<dtypes>{get_dtype<T>()}; }
