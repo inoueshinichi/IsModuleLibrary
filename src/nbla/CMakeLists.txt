@@ -10,7 +10,6 @@ file(GLOB NBLA_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     function/generic/*.cpp
 )
 
-
 # is_nnabla libarary
 add_library(${LIB_NAME} ${NBLA_SOURCES})
 
@@ -24,6 +23,7 @@ target_compile_definitions(${LIB_NAME} PRIVATE
 
 target_include_directories(${LIB_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/third-party/eigen-3.3.7
 )
 
 
