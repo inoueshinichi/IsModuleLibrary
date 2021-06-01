@@ -1,6 +1,6 @@
 #include <nbla/array.hpp>
 #include <nbla/function/matrix_diag.hpp>
-#include <nbla/variable.hpp>
+#include <nbla/nd_array.hpp>
 
 #include <algorithm>
 

@@ -1,6 +1,6 @@
 #include <nbla/array.hpp>
 #include <nbla/function/matrix_diag_part.hpp>
-#include <nbla/variable.hpp>
+#include <nbla/nd_array.hpp>
 
 #include <algorithm>
 
@@ -11,7 +11,7 @@ namespace Is
         NBLA_REGISTER_FUNCTION_SOURCE(MatrixDiagPart)
 
 
-        template <typenaem T>
+        template <typename T>
         void MatrixDiagPart<T>::setup_impl(const NdArrays& inputs, const NdArrays& outputs)
         {
             // Check shape
@@ -38,7 +38,7 @@ namespace Is
         }
 
 
-        template <typenaem T>
+        template <typename T>
         void MatrixDiagPart<T>::execute_impl(const NdArrays& inputs, const NdArrays& outputs)
         {
             const T* x = inputs[0]->get_data_pointer<T>(this->ctx_);
