@@ -12,42 +12,18 @@ if((NOT TARGET GTest::gtest)      OR
    return()
 endif()
 
-# Tutorial GoogleTest
-add_executable(test_googletest
-    tutorial_googletest/test_gtest.cpp
-    tutorial_googletest/deal.hpp
-    tutorial_googletest/deal.cpp
-    tutorial_googletest/account.hpp
-    tutorial_googletest/mock_account.hpp
-)
 
-target_link_libraries(test_googletest
-    GTest::gtest
-    GTest::gmock
-)
-
-add_dependencies(test_googletest GTest::gtest GTest::gmock)
-
-# # Test: nnabla
-# add_executable(test_nnabla
-#     test_nnabla.cpp
-# )
-# target_link_libraries(test_Nnabla PRIVATE
-#     nnabla
-# )
-
-# # Test: imgproc
-# add_executable(test_imgproc
-#     test_imgproc.cpp
-# )
-# target_link_libraries(test_imgproc PRIVATE
-#     nnabla
-#     imgproc
-# )
+# add_subdirectory(tutorial_googletest)
+# add_subdirectory(test_nnabla)
+# add_subdirectory(test_imgproc)
 
 
-# # dllファイルを実行ファイルと同じフォルダにコピー
-# add_custom_command(TARGET test_Imgproc POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:is_nnabla> $<TARGET_FILE_DIR:test_Imgproc>
-#     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:is_imgproc> $<TARGET_FILE_DIR:test_Imgproc>
-# )
+
+
+
+
+
+
+
+
+
