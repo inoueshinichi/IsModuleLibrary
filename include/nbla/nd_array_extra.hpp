@@ -11,6 +11,9 @@
 
 #include <nbla/function/transpose.hpp>
 #include <nbla/function/sum.hpp>
+#include <nbla/function/broadcast.hpp>
+#include <nbla/function/reshape.hpp>
+#include <nbla/function/slice.hpp>
 
 #include <memory>
 
@@ -118,6 +121,42 @@ namespace Is
         NdArrayPtr sum(const Context &ctx, NdArrayPtr input, int axis = 0, bool keep_dims = false)
         {
             Sum<T> operation(ctx, {axis}, keep_dims);
+            auto output = NdArray::create();
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return output;
+        }
+
+
+        // broadcast
+        template <typename T>
+        NdArrayPtr broadcast(const Context& ctx, NdArrayPtr input, NdArrayPtr output)
+        {
+            Broadcast<T> operation(ctx, input->shape());
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return output;
+        }
+
+
+        // reshape
+        template <typename T>
+        NdArrayPtr reshape(const Context &ctx, NdArrayPtr input, const std::vector<int64_t> &shape)
+        {
+            Reshape<T> operation(ctx, shape, false);
+            auto output = NdArray::create();
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return output;
+        }
+
+
+        // slice
+        template <typename T>
+        NdArrayPtr slice(const Context &ctx, NdArrayPtr input, 
+            const vector<int> &starts, const vector<int> &stops, const vector<int> &steps)
+        {
+            Slice<T> operation(ctx, starts, stops, steps);
             auto output = NdArray::create();
             operation.setup({input}, {output});
             operation.execute({input}, {output});

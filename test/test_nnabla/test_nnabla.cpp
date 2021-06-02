@@ -68,15 +68,15 @@ void show_ndarray_contents(const Is::nbla::Context &ctx, Is::nbla::NdArrayPtr nd
     const T *data = static_cast<const T *>(synced_array->data_ptr(get_dtype<T>(), ctx));
 
     std::cout << "[";
-    for (size_t c = 0; c < shape[0]; ++c)
+    for (int64_t c = 0; c < shape[0]; ++c)
     {
         std::cout << "[";
-        for (size_t j = 0; j < shape[1]; ++j)
+        for (int64_t j = 0; j < shape[1]; ++j)
         {
             if (j != 0)
                 std::cout << "  ";
             std::cout << "[";
-            for (size_t i = 0; i < shape[2]; ++i)
+            for (int64_t i = 0; i < shape[2]; ++i)
             {
                 T tmp = data[c * strides[0] + j * strides[1] + i * strides[2]];
                 std::cout << tmp;
@@ -105,8 +105,8 @@ void show_2d_array(const Is::nbla::Context& ctx, Is::nbla::NdArrayPtr ndarray)
     using namespace Is::nbla;
     Shape_t shape = ndarray->shape();
     Stride_t strides = ndarray->strides();
-    Size_t size = ndarray->size();
-    Size_t ndim = ndarray->ndim();
+    // Size_t size = ndarray->size();
+    // Size_t ndim = ndarray->ndim();
     auto synced_array = ndarray->array();
     const T *data = static_cast<const T *>(synced_array->data_ptr(get_dtype<T>(), ctx));
 
@@ -235,7 +235,7 @@ namespace
     TEST(nnabla_core, array)
     {
         using namespace Is::nbla;
-        using byte = unsigned char;
+        // using byte = unsigned char;
         string device_id{"cpu"};
         Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
         Size_t array_size = 512;
@@ -246,7 +246,7 @@ namespace
         std::printf("cpu_array_1: pointer -> %p\n", cpu_array_1->pointer<float>());
         std::printf("cpu_array_1: const_pointer -> %p\n", cpu_array_1->const_pointer<float>());
         std::printf("cpu_array_1: dtype -> %d\n", cpu_array_1->dtype());
-        std::printf("cpu_array_1: size -> %d\n", cpu_array_1->size());
+        std::printf("cpu_array_1: size -> %ld\n", cpu_array_1->size());
         std::cout << "cpu_array_1: context -> " << cpu_array_1->context().to_string() << std::endl;
 
         Context ctx_cpu_cache({"cpu:float"}, "CpuCachedArray", "0");
@@ -262,7 +262,7 @@ namespace
     TEST(nnabla_core, synced_array)
     {
         using namespace Is::nbla;
-        using byte = unsigned char;
+        // using byte = unsigned char;
         string device_id{"cpu"};
         Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
         Size_t array_size = 512;
@@ -283,7 +283,7 @@ namespace
         using byte = unsigned char;
         string device_id{"cpu"};
         Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
-        Size_t array_size = 512;
+        // Size_t array_size = 512;
 
         auto ndarr_1 = NdArray::create(Shape_t{3, 16, 16});
         ndarr_1->fill(128);
@@ -313,7 +313,7 @@ namespace
     TEST(nnabla_func, randn)
     {
         using namespace Is::nbla;
-        using byte = unsigned char;
+        // using byte = unsigned char;
         string device_id{"cpu"};
         Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
 
@@ -435,6 +435,30 @@ namespace
     }
 
 
+    TEST(nnabla_func, broadcast)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+
+        // ones
+        auto ndarray_ones1 = ones<float>(ctx_cpu, Shape_t{3, 16, 16});
+        auto in1_shape = ndarray_ones1->shape();
+        std::printf("in1: size:%ld (%ld, %ld, %ld)\n", in1_shape.size(), in1_shape[0], in1_shape[1], in1_shape[2]);
+        // show_ndarray_contents<float>(ctx_cpu, ndarray_ones);
+
+        // ones
+        auto ndarray_ones2 = ones<float>(ctx_cpu, Shape_t{3,16});
+        auto in2_shape = ndarray_ones2->shape();
+        std::printf("in2: size:%ld (%ld, %ld)\n", in2_shape.size(), in2_shape[0], in2_shape[1]);
+
+        auto out_ndarray = broadcast<float>(ctx_cpu, ndarray_ones1, ndarray_ones2);
+        auto out_shape = out_ndarray->shape();
+        std::printf("out: size:%ld (%ld, %ld, %ld)\n", out_shape.size(), out_shape[0], out_shape[1], out_shape[2]);
+        show_ndarray_contents<float>(ctx_cpu, out_ndarray);
+    }
+
+
     TEST(nnabla_func, reshape)
     {
         using namespace Is::nbla;
@@ -445,7 +469,41 @@ namespace
         auto ndarray_ones = ones<float>(ctx_cpu, Shape_t{3, 16, 16});
         show_ndarray_contents<float>(ctx_cpu, ndarray_ones);
 
-        
+        auto out_ndarray = reshape<float>(ctx_cpu, ndarray_ones, Shape_t{3, 256});
+        auto out_shape = out_ndarray->shape();
+        show_2d_array<float>(ctx_cpu, out_ndarray);
+        std::printf("out: size:%ld (%ld, %ld)\n", out_shape.size(), out_shape[0], out_shape[1]);
+    }
+
+
+    TEST(nnabla_func, slice)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+        auto ndarray_ones = ones<float>(ctx_cpu, Shape_t{3, 16, 16});
+        auto in_shape = ndarray_ones->shape();
+        std::printf("in2: size:%ld (%ld, %ld, %ld)\n", in_shape.size(), in_shape[0], in_shape[1], in_shape[2]);
+
+        auto shape = ndarray_ones->shape();
+        auto strides = ndarray_ones->strides();
+        float *data = ndarray_ones->cast_data_and_get_pointer<float>(ctx_cpu);
+        for (int c = 0; c < 1; ++c)
+        {
+            for (int y = 6; y < 9; ++y)
+            {
+                for (int x = 6; x < 9; ++x)
+                {
+                    data[c * strides[0] + y * strides[1] + x * strides[2]] = 8;
+                }
+            }
+        }
+
+        auto out_ndarray = slice<float>(ctx_cpu, ndarray_ones, {0, 5, 5}, {2, 10, 10}, {1, 1, 1});
+        auto out_shape = out_ndarray->shape();
+        std::printf("slice: size:%ld (%ld, %ld, %ld)\n", out_shape.size(), out_shape[0], out_shape[1], out_shape[2]);
+
+        show_ndarray_contents<float>(ctx_cpu, out_ndarray);
     }
 }
 
