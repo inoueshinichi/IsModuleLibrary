@@ -1,5 +1,5 @@
-#ifndef IS_IMGPROC_BMP_POLICY_HPP
-#define IS_IMGPROC_BMP_POLICY_HPP
+#pragma once
+
 #include "imgproc/common.hpp"
 
 #include <cstdint>
@@ -20,8 +20,8 @@ namespace Is
             class IMGPROC_API BmpFilePolicy
             {
                 /*BMPファイルヘッダ (14byte)*/
-                // #pragma pack(2) // 構造体のアライメントを2byte境界にすることで、余計な詰め物がない構造体とする. ※重要
-                typedef struct IMGPROC_ALIGN(2) BmpFileHeader {
+                #pragma pack(2) // 構造体のアライメントを2byte境界にすることで、余計な詰め物がない構造体とする. ※重要
+                typedef struct /*IMGPROC_ALIGN(2)*/ BmpFileHeader {
                     uint16_t bf_type;        // ファイルタイプ. 必ず"BM" B=0x42、M=0x4D
                     uint32_t bf_size;        // ファイルサイズ
                     uint16_t bf_reserved1;   // 予約1
@@ -30,7 +30,7 @@ namespace Is
                 }BmpFileHeader;
 
                 /*BMP情報ヘッダ*/
-                // #pragma pack() // 構造体のアライメントをデフォルトの4byte境界に戻す. ※重要
+                #pragma pack() // 構造体のアライメントをデフォルトの4byte境界に戻す. ※重要
                 typedef struct BmpInfoHeader {
                     uint32_t bi_size;             // この構造体のサイズ(40byte)
                     int32_t  bi_width;            // 画像の幅. 負の値は不正な値
@@ -67,12 +67,12 @@ namespace Is
                 int32_t       height_;
                 size_t        mem_width_;
                 int32_t       channels_;
-                size_t        data_size_;
+                size_t        datasize_;
 
                 void clear();
                 void setup(int32_t width, int32_t height, int32_t channels);
-                void set_data(byte* data, int insert_color = -1);
-                
+                void dump() const;
+
             public:
                 BmpFilePolicy();
                 virtual ~BmpFilePolicy();
@@ -81,13 +81,16 @@ namespace Is
                 BmpFilePolicy(BmpFilePolicy&&) = default;
                 BmpFilePolicy& operator=(BmpFilePolicy&&) = default;
 
-                void get_data(byte* data, int extract_color = -1);
+                int width() const { return width_; }
+                int height() const { return height_; }
+                int channels() const { return channels_; }
+                size_t datasize() const { return datasize_; }
+                void set_data(byte *data, int width, int height, int channels, int insert_color = -1);
+                bool get_data(byte *data, int extract_color = -1);
 
-                void save(const string& filename, byte* data, int32_t width, int32_t height, int32_t channels, bool is_dump);
-                std::tuple<int32_t, int32_t, int32_t> load(const string& filename, bool is_dump);
-                void dump() const;
+                bool save(const string& filename, bool is_dump);
+                bool load(const string &filename, int &width, int &height, int &channels, bool is_dump);
             };
         } // namespace format_policy
     } // namespace imgproc
 }
-#endif

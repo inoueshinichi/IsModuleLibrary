@@ -26,7 +26,7 @@ namespace Is
                 height_ = (int32_t)0;
                 mem_width_ = (size_t)0;
                 channels_ = (int32_t)0;
-                data_size_ = (size_t)0;
+                datasize_ = (size_t)0;
             }
 
 
@@ -54,16 +54,15 @@ namespace Is
                 clear();
 
                 // BmpInfoHeaderのメモリサイズを計算
-                size_t info_size = 0;
+                size_t infosize = 0;
                 if (channels == 1)
-                    info_size = sizeof(BmpInfoHeader) + sizeof(RgbQuad) * 256;
+                    infosize = sizeof(BmpInfoHeader) + sizeof(RgbQuad) * 256;
                 else
-                    info_size = sizeof(BmpInfoHeader);
+                    infosize = sizeof(BmpInfoHeader);
 
                 
                 // 4バイト境界単位の画像1行のメモリサイズを計算
                 int padding = 0;
-                size_t data_size = 0;
                 uint16_t bit_count = 0; 
                 size_t mem_width = 0;
                 if (channels == 1)
@@ -95,9 +94,8 @@ namespace Is
                         utils::format_string("Channels is not match. Given is %d", 
                                                 channels));
                 }
-                
-                data_size = mem_width * height;
-                this->data_size_ = data_size;
+
+                this->datasize_ = mem_width * height;
                 this->channels_ = channels;
                 this->width_ = width;
                 this->height_ = height;
@@ -105,20 +103,20 @@ namespace Is
                 
                 /*BmpFileHeader*/
                 bmp_file_header_.bf_type = (0x4d << 8) | 0x42; // 'B'|'M' (リトルエンディアン環境なので実際は 'MB')
-                bmp_file_header_.bf_size = sizeof(BmpFileHeader) + info_size + data_size;
+                bmp_file_header_.bf_size = sizeof(BmpFileHeader) + infosize + this->datasize_;
                 bmp_file_header_.bf_reserved1 = (uint16_t)0;
                 bmp_file_header_.bf_reserved2 = (uint16_t)0;
-                bmp_file_header_.bf_offset_bits = sizeof(BmpFileHeader) + info_size;
+                bmp_file_header_.bf_offset_bits = sizeof(BmpFileHeader) + infosize;
 
                 /*BmiInfoHeader*/ 
-                bmi_info_ = (BmiInfo*) new byte[info_size];
+                bmi_info_ = (BmiInfo*) new byte[infosize];
                 bmi_info_->bmi_header.bi_size = sizeof(BmpInfoHeader);
                 bmi_info_->bmi_header.bi_width = width;
                 bmi_info_->bmi_header.bi_height = height;
                 bmi_info_->bmi_header.bi_planes = 1;
                 bmi_info_->bmi_header.bi_bitcount = bit_count;
                 bmi_info_->bmi_header.bi_compression = 0; // 無圧縮
-                bmi_info_->bmi_header.bi_size_image = data_size;
+                bmi_info_->bmi_header.bi_size_image = this->datasize_;
                 bmi_info_->bmi_header.bi_x_pels_per_meter = 0; // 無効
                 bmi_info_->bmi_header.bi_y_pels_per_meter = 0; // 無効
                 bmi_info_->bmi_header.bi_color_used = 0; // 全カラー使う
@@ -137,14 +135,15 @@ namespace Is
                 }
                
                 /*データ部*/
-                bmp_ = new byte[data_size];
-                std::memset((void*)bmp_, 0, data_size);
+                bmp_ = new byte[this->datasize_];
+                std::memset((void*)bmp_, 0, this->datasize_);
             }
 
-            void BmpFilePolicy::set_data(byte* data, int insert_color)
+
+            void BmpFilePolicy::set_data(byte* data, int width, int height, int channels, int insert_color)
             {
-                if (!bmp_ || !bmi_info_)
-                    return;
+                // Bmpフォーマット作成
+                this->setup(width, height, channels);
 
                 size_t wdata = 0;
                 int64_t wbmp = mem_width_ * (height_ - 1);
@@ -215,11 +214,12 @@ namespace Is
                 }
             }
 
-            void BmpFilePolicy::get_data(byte* data, int extract_color)
+            bool BmpFilePolicy::get_data(byte *data, int extract_color)
             {
                 if (!bmp_ || !bmi_info_)
-                    return;
+                    return false;
 
+            
                 /**
                  * @brief bitmap形式の高さについて
                  * 高さには+符号と-符号の2種類がある.
@@ -363,20 +363,18 @@ namespace Is
                         }
                     }
                 }
+
+                return true;
             }
 
             /*----------------------------------------------------------------------------------*/
 
-            void BmpFilePolicy::save(const string& filename, byte* data, 
-                                     int32_t width, int32_t height, int32_t channels, bool is_dump)
+            bool BmpFilePolicy::save(const string& filename, bool is_dump)
             {
                 std::cout << "save : BmpFilePolicy" << std::endl;
 
-                // Bmpフォーマット作成
-                this->setup(width, height, channels);
-
-                // データの挿入
-                this->set_data(data);
+                if (!bmp_ || !bmi_info_)
+                    return false;
 
                 // Bmpファイルの書き出し
                 std::shared_ptr<FILE> fp(fopen(filename.c_str(), "wb"), fclose);
@@ -389,11 +387,13 @@ namespace Is
                 {
                     /*BmpFIleHeader*/
                     fwrite(&bmp_file_header_, sizeof(BmpFileHeader), 1, fp.get());
+
                     /*BmiInfo*/
-                    size_t bmp_info_size = bmp_file_header_.bf_offset_bits - sizeof(BmpFileHeader);
-                    fwrite(bmi_info_, bmp_info_size, 1, fp.get());
+                    size_t bmp_infosize = bmp_file_header_.bf_offset_bits - sizeof(BmpFileHeader);
+                    fwrite(bmi_info_, bmp_infosize, 1, fp.get());
+
                     /*Data*/
-                    fwrite(bmp_, data_size_, 1, fp.get());
+                    fwrite(bmp_, this->datasize_, 1, fp.get());
 
                     if (is_dump)
                         this->dump();
@@ -402,19 +402,28 @@ namespace Is
                 {
                     std::cerr << e.what() << std::endl;
                 }
+
+                return true;
             }
 
-            std::tuple<int32_t, int32_t, int32_t> BmpFilePolicy::load(const string& filename, bool is_dump)
+            bool BmpFilePolicy::load(const string &filename, int &width, int &height, int &channels, bool is_dump)
             {
                 std::cout << "load : BmpFilePolicy" << std::endl;
 
+                auto lambda_fclose = [](FILE* fp) {
+                    if (!fp)
+                        return;
+                    fclose(fp);
+                };
+
                 // Bmpファイルの読み出し
-                std::shared_ptr<FILE> fp(fopen(filename.c_str(), "rb"), fclose);
+                std::shared_ptr<FILE> fp(fopen(filename.c_str(), "rb"), lambda_fclose);
                 if (!fp)
                 {
                     std::cerr << utils::format_string("Can not open %s", filename.c_str()) << std::endl;
-                    return std::make_tuple(0, 0, 0); 
+                    return false;
                 }
+                std::cout << "CHECK" << std::endl;
 
                 try
                 {
@@ -422,9 +431,9 @@ namespace Is
                     fread(&bmp_file_header_, sizeof(BmpFileHeader), 1, fp.get());
 
                     /*BmiInfo*/
-                    size_t bmp_info_size = bmp_file_header_.bf_offset_bits - sizeof(BmpFileHeader);
-                    bmi_info_ = (BmiInfo*) new byte[bmp_info_size];
-                    fread(bmi_info_, bmp_info_size, 1, fp.get());
+                    size_t bmp_infosize = bmp_file_header_.bf_offset_bits - sizeof(BmpFileHeader);
+                    bmi_info_ = (BmiInfo*) new byte[bmp_infosize];
+                    fread(bmi_info_, bmp_infosize, 1, fp.get());
                     this->width_ = bmi_info_->bmi_header.bi_width;
                     this->height_ = bmi_info_->bmi_header.bi_height \
                                     ? bmi_info_->bmi_header.bi_height : -bmi_info_->bmi_header.bi_height;
@@ -435,7 +444,7 @@ namespace Is
                     size_t mem_width = 0;
                     if (bit_count == 8)
                     {
-                        channels_ = 1;
+                        this->channels_ = 1;
                         padding = this->width_ % 4;
                         if (padding)
                             mem_width = this->width_ + (4 - padding);
@@ -444,7 +453,7 @@ namespace Is
                     } 
                     else if (bit_count == 24) 
                     {
-                        channels_ = 3;
+                        this->channels_ = 3;
                         padding = (3 * this->width_) % 4;
                         if (padding)
                             mem_width = (3 * this->width_) + (4 - padding);
@@ -453,7 +462,7 @@ namespace Is
                     } 
                     else if (bit_count == 32) 
                     {
-                        channels_ = 4;
+                        this->channels_ = 4;
                         mem_width = 4 * this->width_;
                     } 
                     else 
@@ -464,22 +473,25 @@ namespace Is
                     }
 
                     this->mem_width_ = mem_width;
-                    data_size_ = mem_width * this->height_;
+                    this->datasize_ = mem_width * this->height_;
 
                     /*Data*/
-                    bmp_ = new byte[data_size_];
-                    fread(bmp_, data_size_, 1, fp.get());
+                    bmp_ = new byte[this->datasize_];
+                    fread(bmp_, this->datasize_, 1, fp.get());
 
                     if (is_dump)
                         this->dump();
+
+                    width = this->width_;
+                    height = this->height_;
+                    channels = this->channels_;
                 }
                 catch(const std::exception& e)
                 {
                     std::cerr << e.what() << std::endl;
                 }  
 
-                // 要求元に情報を反映
-                return std::make_tuple(this->width_, this->height_, this->channels_);
+                return true;
             }
 
             void BmpFilePolicy::dump() const

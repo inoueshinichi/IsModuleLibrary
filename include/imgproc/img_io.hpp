@@ -1,6 +1,7 @@
 #pragma once
 
 #include <nbla/nd_array.hpp>
+#include <nbla/nd_array_extra.hpp>
 
 /*ポリシークラス*/
 #include <imgproc/bmp_policy.hpp>
@@ -30,60 +31,79 @@ namespace Is
             ImageIo(ImageIo&&) = delete;
             ImageIo& operator=(ImageIo&&) = delete;
 
-            void save(const string& filename, const nbla::Context& ctx, 
+            bool save(const string& filename, const nbla::Context& ctx, 
                       nbla::NdArrayPtr ndarray, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
                 if (!ndarray) 
                 {
-                    throw std::runtime_error("NdArray is nullptr.");
+                    std::cerr << "dArray is nullptr." << std::endl;
+                    return false;
                 }
 
-                byte* data = ndarray->cast_data_and_get_pointer<byte>(ctx);
                 int32_t channels = 0;
                 int32_t width = 0;
                 int32_t height = 0;
-                Shape_t shape = ndarray->shape(); // (N,M,C)
+                Shape_t shape = ndarray->shape(); // (c, h, w)
                 Size_t ndim = ndarray->ndim();
-                if (ndim == 2) {
+                if (ndim == 2) 
+                {
                     height = shape.at(0);
                     width = shape.at(1);
                     channels = 1;
-                } else if (ndim == 3) {
-                    height = shape.at(0);
-                    width = shape.at(1);
-                    channels = shape.at(2);
-                } else {
+                } 
+                else if (ndim == 3) 
+                {
+                    channels = shape.at(0);
+                    height = shape.at(1);
+                    width = shape.at(2);
+                } 
+                else
+                {
                     throw std::runtime_error(utils::format_string(
                         "Unmatch shape of ndarray for bitmap file format. Given is %d", ndarray->ndim()));
                 }
-                
+
+                // (w, h, c)
+                ndarray->reshape(Shape_t{width, height, channels});
+                byte *data = ndarray->cast_data_and_get_pointer<byte>(ctx);
+
+                // 書き込み
+                format_policy_.set_data(data, width, height, channels);
+
                 // 画像ファイルに書き出し
-                format_policy_.save(filename, data, width, height, channels, is_dump);
+                return format_policy_.save(filename, is_dump);
             }
 
-            nbla::NdArrayPtr load(const string& filename, const nbla::Context& ctx, bool is_dump = false)
+            bool load(const string &filename, nbla::Context &ctx, nbla::NdArrayPtr ndarray, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
-                
-                
+                int width = 0;
+                int height = 0;
+                int channels = 0;
+
                 // 画像ファイルを読み込む
-                auto[width, height, channels] = format_policy_.load(filename, is_dump);
-                if (width == 0 || height == 0 || channels == 0)
+                if (!format_policy_.load(filename, width, height, channels, is_dump))
                 {
-                    return make_shared<NdArray>();
+                    std::cerr << "ndarray nullptr" << std::endl;
+                    return false;
                 }
 
-                auto ndarray = NdArray::create(Shape_t{height, width, channels});
                 ndarray->zero();
-                byte* data = ndarray->cast_data_and_get_pointer<byte>(ctx);
+                ndarray->reshape(Shape_t{height, width, channels}, true);
+                byte *data = ndarray->cast_data_and_get_pointer<byte>(ctx);
 
                 // NdArrayにコピー
                 format_policy_.get_data(data);
 
-                return ndarray;
+                // (c, h, w)
+                ndarray->reshape(Shape_t{channels, height, width});
+
+                std::printf("width: %d, height: %d, channels: %d\n", width, height, channels);
+
+                return true;
             }
         };
     } // namespace imgproc
