@@ -4,6 +4,8 @@
 
 // Generation
 #include <nbla/function/randn.hpp>
+#include <nbla/function/rand.hpp>
+#include <nbla/function/randint.hpp>
 
 // Operation
 #include <nbla/function/add_scalar.hpp>
@@ -77,6 +79,27 @@ namespace Is
         }
 
 
+        // rand
+        template <typename F>
+        NdArrayPtr rand(const Context& ctx, const Shape_t& shape, float low, float high, int seed = -1)
+        {
+            Rand<F> operation(ctx, low, high, shape, seed);
+            auto output = NdArray::create();
+            operation.setup({}, {output});
+            operation.execute({}, {output});
+            return output;
+        }
+
+        // randint
+        template <typename T>
+        NdArrayPtr randint(const Context &ctx, const Shape_t &shape, int low, int high, int seed = -1)
+        {
+            Randint<T> operation(ctx, low, high, shape, seed);
+            auto output = NdArray::create();
+            operation.setup({}, {output});
+            operation.execute({}, {output});
+            return output;
+        }
 
         // -------------------------------------------------------
 

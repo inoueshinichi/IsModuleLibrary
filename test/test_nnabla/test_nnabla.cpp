@@ -505,6 +505,39 @@ namespace
 
         show_ndarray_contents<float>(ctx_cpu, out_ndarray);
     }
+
+
+    TEST(nnabla_func, rand)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+
+        float low = 0.0;
+        float high = 100;
+        int seed = 2021;
+        Shape_t shape = {3, 5, 5};
+
+        auto rand_ndarray = rand<float>(ctx_cpu, shape, low, high, seed);
+
+        show_ndarray_contents<float>(ctx_cpu, rand_ndarray);
+    }
+
+    TEST(nnabla_func, randint)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+
+        int low = 0;
+        int high = 100;
+        int seed = 2021;
+        Shape_t shape = {3, 5, 5};
+
+        auto rand_ndarray = randint<float>(ctx_cpu, shape, low, high, seed);
+
+        show_ndarray_contents<float>(ctx_cpu, rand_ndarray);
+    }
 }
 
 
