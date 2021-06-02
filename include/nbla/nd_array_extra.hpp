@@ -2,7 +2,15 @@
 
 #include <nbla/nd_array.hpp>
 
+// Generation
 #include <nbla/function/randn.hpp>
+
+// Operation
+#include <nbla/function/add_scalar.hpp>
+#include <nbla/function/mul_scalar.hpp>
+
+#include <nbla/function/transpose.hpp>
+#include <nbla/function/sum.hpp>
 
 #include <memory>
 
@@ -11,6 +19,8 @@ namespace Is
 {
     namespace nbla
     {
+        // -------------------------------------------------------
+
         // zeros
         template <typename T>
         NdArrayPtr zeros(const Context& ctx, const Shape_t& shape)
@@ -56,26 +66,62 @@ namespace Is
         template <typename F>
         NdArrayPtr randn(const Context& ctx, const Shape_t& shape, float mu, float sigma, int seed = -1)
         {
-            auto ptr_randn = Randn<F>(ctx, mu, sigma, shape, seed).copy();
-            auto ndarray_out = NdArray::create();
-            NdArrays inputs;
-            NdArrays outputs{ ndarray_out };
-            ptr_randn->setup(inputs, outputs);
-            ptr_randn->execute(inputs, outputs);
-            return outputs[0];
+            Randn<F> operation(ctx, mu, sigma, shape, seed);
+            auto output = NdArray::create();
+            operation.setup({}, {output});
+            operation.execute({}, {output});
+            return output;
         }
 
 
-        // // add_scalar
-        // template <typename T>
-        // NdArrayPtr add_scalar(const Context& ctx, NdArrayPtr input, double val)
-        // {
-        //     AddScalar<float> ptr_add_scalar(ctx_cpu, val, false);
-        //     auto output = NdArray::create();
-        //     ptr_add_scalar.setup({input}, {output});
-        //     ptr_add_scalar.execute({input}, {output});
-        //     return output;
-        // }
 
+        // -------------------------------------------------------
+
+        // add_scalar
+        template <typename T>
+        NdArrayPtr add_scalar(const Context& ctx, NdArrayPtr input, double val)
+        {
+            AddScalar<T> operation(ctx, val, true);
+            auto output = NdArray::create();
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return input;
+        }
+
+
+        // mul_scalar
+        template <typename T>
+        NdArrayPtr mul_scalar(const Context& ctx, NdArrayPtr input, double val)
+        {
+            MulScalar<T> operation(ctx, val);
+            auto output = NdArray::create();
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return output;
+        }
+
+        
+        // transpose
+        template <typename T>
+        NdArrayPtr transpose(const Context &ctx, NdArrayPtr input, const std::vector<int> &axes)
+        {
+            Transpose<T> operation(ctx, axes);
+            auto output = NdArray::create();
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return output;
+        }
+
+
+        // sum
+        template <typename T>
+        NdArrayPtr sum(const Context &ctx, NdArrayPtr input, int axis = 0, bool keep_dims = false)
+        {
+            Sum<T> operation(ctx, {axis}, keep_dims);
+            auto output = NdArray::create();
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return output;
+        }
     }
 }
