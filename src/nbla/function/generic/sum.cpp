@@ -1,8 +1,8 @@
 #include <nbla/array.hpp>
-#include <nbla/function/sum.hpp>
 #include <nbla/function/transpose.hpp>
 #include <nbla/imperative.hpp>
 #include <nbla/singleton_manager.hpp>
+#include <nbla/function/sum.hpp>
 #include <nbla/utils/eigen.hpp>
 #include <nbla/nd_array.hpp>
 
@@ -16,7 +16,7 @@ namespace Is
     {
         using namespace ::Is::nbla::eigen;
 
-        NBLA_REGISTER_FUNCTION_SOURCE(Sum, const vector<int> &, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Sum, const vector<int>&, bool)
 
         template <typename T>
         void Sum<T>::setup_impl(const NdArrays& inputs, const NdArrays& outputs)
@@ -73,7 +73,8 @@ namespace Is
             if (transpose_axes != seq) 
             {
                 // Need transpose
-                f_transpose_ = create_Transpose(this->ctx_, transpose_axes);
+                // f_transpose_ = create_Transpose(this->ctx_, transpose_axes);
+                f_transpose_ = std::make_shared<Transpose<T>>(this->ctx_, transpose_axes);
             }
             outputs[0]->reshape(outshape, true);
         }
@@ -89,22 +90,22 @@ namespace Is
             {
                 // For not overwriting the memory region of the transpose results,
                 // call transpose and sum with i_transpose in the same scope.
-                NdArray i_transpose;
-                NdArrays outputs { &i_transpose };
+                NdArrayPtr i_transpose = NdArray::create();
+                NdArrays outputs { i_transpose };
                 imp::execute(f_transpose_, inputs, outputs);
-                const T* x_T = i_transpose.get_data_pointer<T>(this->ctx_);
+                const T* x_T = i_transpose->get_data_pointer<T>(this->ctx_);
                 this->execute_impl_reduce(x_T, y, outer_size, reduction_size_);
             }
             else
             {
-                const T *x = inputs[0]->get_data_pointer<T>(this->ctx_);
+                const T* x = inputs[0]->get_data_pointer<T>(this->ctx_);
                 this->execute_impl_reduce(x, y, outer_size, reduction_size_);
             }
         }
 
 
         template <typename T>
-        void Sum<T>::execute_impl_reduce(const T *x, T *y, 
+        void Sum<T>::execute_impl_reduce(const T* x, T* y, 
                                          int outer_size,
                                          int reduction_size) 
         {
@@ -113,5 +114,40 @@ namespace Is
             ColVectorMap<T> my(y, outer_size);
             my = mx.rowwise().sum();
         }
+
+        // dll export
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, long double)
+
+#define NBLA_INSTANTIATE_IMPL(API, TYPE)                                     \
+    template API void Sum<TYPE>::execute_impl_reduce(const TYPE* x, TYPE* y, \
+                                        int outer_size, int reduction_size);
+
+        NBLA_INSTANTIATE_IMPL(NBLA_API, char)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, short)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, int)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
+
+#undef NBLA_INSTANTIATE_IMPL
     }
 }

@@ -44,7 +44,7 @@ namespace Is
             template <typename T>
             inline T nd2flat(const std::vector<T>& index, const std::vector<T>& stride)
             {
-                assert(stride.size() <= std::numeric_limits<int>::max()); // 追加@inoueshinichi
+                // assert(stride.size() <= std::numeric_limits<int>::max()); // 追加@inoueshinichi
                 assert(index.size() <= stride.size());
                 return std::inner_product(index.begin(), index.end(), stride.begin(), 0);
             }
@@ -171,7 +171,7 @@ namespace Is
                 assert(shape.size() <= std::numeric_limits<int>::max());
                 assert(index.size() == shape.size());
 
-                for (int axis = static_cast<int>(index.size()) - 1; axis <= 0; --axis)
+                for (int axis = static_cast<int>(index.size()) - 1; axis >= 0; --axis)
                 {
                     if (index[axis] + 1 < shape[axis]) 
                     {
@@ -184,6 +184,43 @@ namespace Is
                     }
                 }
                 return false;
+            }
+
+
+            // Increment by out the `index` vector within the subspace of `shape` that
+            // ranges from 0 to `axis`. The return value is true for all increments except
+            // when all axes of the subspace of `shape` wrap to zero at once. 
+            // Example:
+            //
+            // std::vector<int> index = {0, 0, 0}, shape = {2, 2, 2};
+            // do {
+            //  std::cout << ndi::str(index) << " ";   
+            // } while(ndi::increment(index, shape, 1));
+            //
+            // produces "[0, 0, 0] [0, 1, 0] [1, 0, 0] [1, 1, 0]"
+            // 
+            template <typename T>
+            inline bool increment(std::vector<T>& index, const std::vector<T>& shape, int axis)
+            {
+                assert(shape.size() <= std::numeric_limits<int>::max());
+                assert(index.size() == shape.size());
+
+                if (axis < 0)
+                    axis += static_cast<int>(index.size());
+                assert(0 <= axis && axis < static_cast<int>(index.size()));
+                for (; axis >= 0; --axis)
+                {
+                    if (index[axis] + 1 < shape[axis])
+                    {
+                        index[axis] += 1;
+                        return true;
+                    }
+                    else
+                    {
+                        index[axis] = 0;
+                    }
+                }
+                return true;
             }
 
 
