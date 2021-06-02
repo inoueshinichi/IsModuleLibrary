@@ -23,6 +23,7 @@
 #include <string>
 #include <cstdio>
 #include <iomanip>
+#include <cstring>
 
 
 auto property = [](const std::string& test_name, auto&& func, auto&&... args) {
@@ -61,8 +62,8 @@ void show_ndarray_contents(const Is::nbla::Context &ctx, Is::nbla::NdArrayPtr nd
     using namespace Is::nbla;
     Shape_t shape = ndarray->shape();
     Stride_t strides = ndarray->strides();
-    Size_t size = ndarray->size();
-    Size_t ndim = ndarray->ndim();
+    // Size_t size = ndarray->size();
+    // Size_t ndim = ndarray->ndim();
     auto synced_array = ndarray->array();
     const T *data = static_cast<const T *>(synced_array->data_ptr(get_dtype<T>(), ctx));
 
@@ -320,12 +321,6 @@ namespace
         float sigma = 1.0;
         int seed = 2021;
         Shape_t shape = {3, 5, 5};
-        // auto randn_ptr = Randn<float>(ctx_cpu, mu, sigma, shape, seed).copy();
-        // auto out_ndarray = NdArray::create();
-        // std::vector<NdArrayPtr> inputs;
-        // std::vector<NdArrayPtr> outputs{ out_ndarray };
-        // randn_ptr->setup(inputs, outputs);
-        // randn_ptr->execute(inputs, outputs);
         auto ndarray_out_d = randn<double>(ctx_cpu, shape, mu, sigma, seed);
         show_ndarray_contents<double>(ctx_cpu, ndarray_out_d);
         std::cout << ndarray_out_d->get_data_pointer<double>(ctx_cpu)[0] << std::endl;
@@ -339,22 +334,118 @@ namespace
     TEST(nnabla_func, add_scalar)
     {
         using namespace Is::nbla;
-       
         string device_id{"cpu"};
         Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
 
         // zero
-        auto ndarray_zeros = zeros<float>(ctx_cpu, Shape_t{3, 16, 16});
+        auto ndarray_zeros = zeros<float>(ctx_cpu, Shape_t{3, 32, 32});
         show_ndarray_contents<float>(ctx_cpu, ndarray_zeros);
 
-        AddScalar<float> add_scalar(ctx_cpu, 15, false);
-        auto out_ndarray = NdArray::create();
-        std::vector<NdArrayPtr> inputs{ ndarray_zeros };
-        std::vector<NdArrayPtr> outputs{ out_ndarray };
-        add_scalar.setup(inputs, outputs);
-        add_scalar.execute(inputs, outputs);
+        auto out_ndarray = add_scalar<float>(ctx_cpu, ndarray_zeros, 25.5); // 80ms (3, 2000, 2000)
+
+        // 118ms (3, 2000, 2000)
+        // auto shape = ndarray_zeros->shape();
+        // auto strides = ndarray_zeros->strides();
+        // float* data = ndarray_zeros->cast_data_and_get_pointer<float>(ctx_cpu);
+        // for (int c = 0; c < shape[0]; ++c)
+        // {
+        //     for (int y = 0; y < shape[1]; ++y)
+        //     {
+        //         for (int x = 0; x < shape[2]; ++x)
+        //         {
+        //             data[c * strides[0] + y * strides[1] + x * strides[2]] = 25.5;
+        //         }
+        //     }
+        // }
 
         show_ndarray_contents<float>(ctx_cpu, out_ndarray);
+    }
+
+
+    TEST(nnabla_func, mul_scalar)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+
+        // ones
+        auto ndarray_ones = ones<float>(ctx_cpu, Shape_t{3, 256, 256});
+        // show_ndarray_contents<float>(ctx_cpu, ndarray_ones);
+
+        auto out_ndarray = mul_scalar<float>(ctx_cpu, ndarray_ones, 63.2);
+        // show_ndarray_contents<float>(ctx_cpu, out_ndarray);
+    }
+
+
+    TEST(dummy, naive_mul)
+    {
+        int channels = 3;
+        int height = 256;
+        int width = 256;
+        size_t datasize = sizeof(float) * channels * height * width;
+        float* data = new float[datasize];
+        std::memset(data, 1, datasize);
+
+        for (int c = 0; c < channels; ++c)
+        {
+            for (int y = 0; y < height; ++y)
+            {
+                for (int x = 0; x < width; ++x)
+                {
+                    data[c * channels + y * height + x * width] *= 55.5;
+                }
+            }
+        }
+
+        delete[] data;
+    }
+
+
+    TEST(nnabla_func, transpose)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+
+        // ones
+        auto ndarray_ones = ones<float>(ctx_cpu, Shape_t{3, 16, 16});
+        show_ndarray_contents<float>(ctx_cpu, ndarray_ones);
+
+        auto out_ndarray = transpose<float>(ctx_cpu, ndarray_ones, {1, 0 ,2});
+        show_ndarray_contents<float>(ctx_cpu, out_ndarray);
+
+        auto out_shape = out_ndarray->shape();
+        std::printf("transposed: (%ld, %ld, %ld)\n",out_shape[0], out_shape[1], out_shape[2]);
+    }
+
+    TEST(nnabla_func, sum)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+
+        // ones
+        auto ndarray_ones = ones<float>(ctx_cpu, Shape_t{3, 16, 16});
+        show_ndarray_contents<float>(ctx_cpu, ndarray_ones);
+
+        auto out_ndarray = sum<float>(ctx_cpu, ndarray_ones, 0);
+        auto out_shape = out_ndarray->shape();
+        show_2d_array<float>(ctx_cpu, out_ndarray);
+        std::printf("sumed: size:%ld (%ld, %ld)\n", out_shape.size(), out_shape[0], out_shape[1]);
+    }
+
+
+    TEST(nnabla_func, reshape)
+    {
+        using namespace Is::nbla;
+        string device_id{"cpu"};
+        Context ctx_cpu({"cpu:float"}, "CpuArray", "0");
+
+        // ones
+        auto ndarray_ones = ones<float>(ctx_cpu, Shape_t{3, 16, 16});
+        show_ndarray_contents<float>(ctx_cpu, ndarray_ones);
+
+        
     }
 }
 
