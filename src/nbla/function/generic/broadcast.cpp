@@ -11,7 +11,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Broadcast, const vector<int>&)
+        NBLA_REGISTER_FUNCTION_SOURCE(Broadcast, const vector<int64_t> &)
 
         template <typename T>
         void Broadcast<T>::setup_impl(const NdArrays& inputs,
@@ -159,6 +159,21 @@ namespace Is
 
             switch_broadcast<NBLA_BROADCAST_MAX_DIM, T>::call(ndim, size, x, stride_x, shape_y, y);
         }
+
+        // dll export
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, long double)
 
     }
 }

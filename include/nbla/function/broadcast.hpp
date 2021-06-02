@@ -13,7 +13,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Broadcast, const vector<int>&)
+        NBLA_REGISTER_FUNCTION_HEADER(Broadcast, const vector<int64_t>&)
 
         /**
          * @brief Broadcast N-D array to shape.
@@ -22,20 +22,20 @@ namespace Is
          * Dimensions broadcasted in input array must be size one.
          */
         template <typename T>
-        class Broadcast : public BaseFunction<const vector<int>&>
+        class Broadcast : public BaseFunction<const vector<int64_t> &>
         {
         protected:
-            const vector<int> shape_;
+            const vector<int64_t> shape_;
 
             NdArray stride_x_;
             NdArray shape_y_;
 
         public:
-            Broadcast(const Context& ctx, const vector<int>& shape)
-                : BaseFunction<const vector<int>&>(ctx, shape)
+            Broadcast(const Context& ctx, const vector<int64_t>& shape)
+                : BaseFunction<const vector<int64_t>&>(ctx, shape)
                 , shape_(shape) {}
 
-            virtual ~Broadcast();
+            virtual ~Broadcast() {}
 
             virtual shared_ptr<Function> copy() const 
             {

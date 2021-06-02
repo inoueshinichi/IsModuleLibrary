@@ -55,7 +55,19 @@ namespace Is
             }
         }
 
-
-        
+        // dll export
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, long double)
     }
 }

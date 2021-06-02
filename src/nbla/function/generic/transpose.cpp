@@ -149,24 +149,24 @@ namespace Is
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, double)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, long double)
 
-#define NBLA_INSTANTIATE_IMPL(API, TYPE)                                                              \
-    template API void transpose<TYPE>(const TYPE *src, TYPE *dst, const Shape_t dst_shape,            \
-                                                 const Shape_t transposed_dst_strides, bool accum);
+// #define NBLA_INSTANTIATE_IMPL(API, TYPE)                                                              \
+//     template API void transpose<TYPE>(const TYPE *src, TYPE *dst, const Shape_t dst_shape,            \
+//                                                  const Shape_t transposed_dst_strides, bool accum);
 
-        NBLA_INSTANTIATE_IMPL(NBLA_API, char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, char)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, short)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, int)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, long)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, float)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, double)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
 
-#undef NBLA_INSTANTIATE_IMPL
+// #undef NBLA_INSTANTIATE_IMPL
     }
 }

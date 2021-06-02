@@ -41,5 +41,20 @@ namespace Is
                 y[s] = x0[s] + x1[s]; // 要素毎の加算
             }
         }
+
+        // dll export
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, long double)
     }
 }

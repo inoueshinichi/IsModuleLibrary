@@ -131,7 +131,7 @@ namespace Is
 
 
         template <typename T>
-        void Slice<T>::slice_execute_recursive(const NdArray* inp, NdArray* outp,
+        void Slice<T>::slice_execute_recursive(const NdArrayPtr inp, NdArrayPtr outp,
                                                const T* x, T* y, 
                                                int x_offset, int y_offset, 
                                                int dim, int& slice_index)
@@ -168,7 +168,7 @@ namespace Is
             {
                 for (int i = 0; i < size; ++i)
                 {
-                    slice_forward_recursive(inp, outp, 
+                    slice_execute_recursive(inp, outp, 
                                             x, y, 
                                             current_x_offset, current_y_offset, 
                                             dim + 1, slice_index);
@@ -194,7 +194,22 @@ namespace Is
             T* y = outputs[0]->cast_data_and_get_pointer<T>(this->ctx_, true);
 
             int slice_index = 0;
-            slice_forward_recursive(inputs[0], outputs[0], x, y, 0, 0, 0, slice_index);
+            slice_execute_recursive(inputs[0], outputs[0], x, y, 0, 0, 0, slice_index);
         }
+
+        // dll export
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, long double)
     }
 }
