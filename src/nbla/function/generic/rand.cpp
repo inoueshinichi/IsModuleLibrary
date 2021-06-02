@@ -46,7 +46,7 @@ namespace Is
             T* y = outputs[0]->cast_data_and_get_pointer<T>(this->ctx_, true);
             for (int s = 0; s < outputs[0]->size(); s++) 
             {
-                y[s] = rdist(rgen);
+                y[s] = (T)rdist(rgen);
             }
         }
 
@@ -63,5 +63,40 @@ namespace Is
                 y[s] = rdist(rgen);
             }
         }
+
+        // dll export
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, char)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, unsigned char)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, short)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, unsigned short)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, int)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, unsigned int)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, long)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, unsigned long)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, long long)
+        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, long double)
+
+#define NBLA_INSTANTIATE_IMPL(API, TYPE)                                                                 \
+    template API void Rand<TYPE>::setup_recompute_impl(const NdArrays& inputs, const NdArrays& outputs); \
+    template API void Rand<TYPE>::recompute_impl(const NdArrays &inputs, const NdArrays &outputs);    
+
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, char)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, short)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, int)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, long)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
+        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
+
+#undef NBLA_INSTANTIATE_IMPL
     }
 }
