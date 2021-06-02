@@ -77,7 +77,7 @@ namespace Is
             NBLA_API virtual void execute_impl(const NdArrays& inputs,
                                                const NdArrays& outputs);
 
-            NBLA_API virtual void execute_impl_reduce(const T *x, T *y, 
+            NBLA_API virtual void execute_impl_reduce(const T* x, T* y, 
                                                       int outer_size,
                                                       int reduction_size);
 
