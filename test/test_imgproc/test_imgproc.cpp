@@ -1,39 +1,60 @@
+#include <gtest/gtest.h>
+
 #include <imgproc/img_io.hpp>
+
+
 #include <nbla/nd_array.hpp>
+#include <nbla/nd_array_extra.hpp>
 
 #include <string>
+#include <cstdio>
 
-int main(int argc, char** argv)
+namespace
 {
-    using namespace std;
-    using namespace Is::imgproc;
-    using namespace Is::imgproc::format_policy;
-    using namespace Is::nbla;
-    using byte = unsigned char;
-    Context ctx_cpu;
-
-    // string dummy_filename = "C:\\Users\\InoueShinichi\\Desktop\\Github_Projects\\IsNdarrayLibrary\\data\\lena256.bmp";
-    string dummy_filename = "/home/inoue/Desktop/Lenna.bmp";
-
-
-    // Test Image Io Policy
+    TEST(imgproc_io, bmp)
     {
+        using namespace std;
+        using namespace Is::imgproc;
+        using namespace Is::imgproc::format_policy;
+        using namespace Is::nbla;
+        using byte = unsigned char;
+        Context ctx_cpu;
+
+        string dummy_filename = "/home/inoue/Images/Mono/256X256/Tree.bmp";
+        // string dummy_filename = "/home/inoue/Images/Mono/256X256/lenna.bmp";
+
         // Bmp
         ImageIo<BmpFilePolicy> io_bmp;
-        NdArrayPtr test_ndarray = io_bmp.load(dummy_filename, ctx_cpu, true);
-        // io_bmp.save(dummy_filename, ctx_cpu, test_ndarray, true);
+        auto test_ndarray = NdArray::create();
 
-        // // Png
-        // ImageIo<PngFilePolicy> io_png;
-        // io_png.load(dummy_filename, ctx_cpu, test_ndarray, true);
-        // io_png.save(dummy_filename, ctx_cpu, test_ndarray, true);
-        
-        // // Jpeg
-        // ImageIo<JpgFilePolicy> io_jpg;
-        // io_jpg.save(test_ndarray, dummy_filename);
-        // io_jpg.load(test_ndarray, dummy_filename);
+        if (!io_bmp.load(dummy_filename, ctx_cpu, test_ndarray, true))
+            return;
+
+        auto test_strides = test_ndarray->strides();
+        auto test_shape = test_ndarray->shape();
+        byte * data = test_ndarray->cast_data_and_get_pointer<byte>(ctx_cpu);
+        std::printf("size(%ld, %ld, %ld)\n", test_shape[0], test_shape[1], test_shape[2]);
+
+        for (int c = 0; c < test_shape[0]; ++c)
+        {
+            for (int y = 0; y < test_shape[1]; ++y)
+            {
+                for (int x = 0; x < test_shape[2]; ++x)
+                {
+                    if (y == x)
+                        data[c * test_strides[0] + y * test_strides[1] + x * test_strides[2]] = 0;
+                }
+            }
+        }
+
+        dummy_filename = "/home/inoue/Images/Mono/256X256/Tree_out.bmp";
+        io_bmp.save(dummy_filename, ctx_cpu, test_ndarray, true);
     }
-    
+}
 
-    return 0;
+int main(int, char **)
+{
+    std::cout << "TEST imgproc" << std::endl;
+    testing::InitGoogleTest();
+    return RUN_ALL_TESTS();
 }

@@ -15,7 +15,7 @@ endif()
 
 add_subdirectory(tutorial_googletest)
 add_subdirectory(test_nnabla)
-# add_subdirectory(test_imgproc)
+add_subdirectory(test_imgproc)
 
 
 
