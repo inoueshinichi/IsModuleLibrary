@@ -6,6 +6,8 @@ project(${LIB_NAME} LANGUAGES C CXX VERSION ${version_major}.${version_minor}.${
 # Sources
 file(GLOB IMGPROC_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     ./*.cpp
+    ./io/*.cpp
+    ./filter/*.cpp
 )
 
 if (WIN32)
@@ -33,9 +35,13 @@ target_include_directories(${LIB_NAME} PUBLIC
 
 target_link_libraries(${LIB_NAME} PUBLIC
     nnabla
+    # utils
 )
 
-add_dependencies(${LIB_NAME} nnabla)
+add_dependencies(${LIB_NAME} 
+    nnabla
+    # utils
+)
 # add_dependencies(${LIB_NAME} libpng)
 # add_dependencies(libpng zlib)
 
