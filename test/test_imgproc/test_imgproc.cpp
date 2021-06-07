@@ -1,7 +1,12 @@
 #include <gtest/gtest.h>
 
-#include <imgproc/img_io.hpp>
+#include "matplotlibcpp.h"
+namespace plt = matplotlibcpp;
 
+#include <utils/time_measure.hpp>
+
+#include <imgproc/io/img_io.hpp>
+#include <imgproc/filter/blur.hpp>
 
 #include <nbla/nd_array.hpp>
 #include <nbla/nd_array_extra.hpp>
@@ -17,6 +22,7 @@ namespace
         using namespace Is::imgproc;
         using namespace Is::imgproc::format_policy;
         using namespace Is::nbla;
+        using namespace Is::utils;
         using byte = unsigned char;
         Context ctx_cpu;
 
@@ -47,8 +53,46 @@ namespace
             }
         }
 
-        dummy_filename = "/home/inoue/Images/Mono/256X256/Tree_out.bmp";
+        // Matplotlib
+        int height = test_shape[0];
+        int width = test_shape[1];
+        // plt::imshow(data, height, width, 1); // BMPファイルの表示
+        // plt::show();
+
+        dummy_filename = "/home/inoue/Desktop/Tree_out.bmp";
         io_bmp.save(dummy_filename, ctx_cpu, test_ndarray, true);
+    }
+
+
+    TEST(imgproc_func, blur)
+    {
+        using namespace std;
+        using namespace Is::imgproc;
+        using namespace Is::imgproc::format_policy;
+        using namespace Is::nbla;
+        using namespace Is::utils;
+        using byte = unsigned char;
+        Context ctx_cpu;
+
+        string dummy_filename = "/home/inoue/Images/Mono/256X256/Tree.bmp";
+        
+        // Bmp
+        ImageIo<BmpFilePolicy> io_bmp;
+        auto test_ndarray = NdArray::create();
+
+        if (!io_bmp.load(dummy_filename, ctx_cpu, test_ndarray, true))
+            return;
+
+        auto test_strides = test_ndarray->strides();
+        auto test_shape = test_ndarray->shape();
+        byte *data = test_ndarray->cast_data_and_get_pointer<byte>(ctx_cpu);
+        std::printf("size(%ld, %ld, %ld)\n", test_shape[0], test_shape[1], test_shape[2]);
+
+        // 自作のBlur関数
+        auto output_ndarray = invoke_tm_ns_chrono_ret(blur, ctx_cpu, test_ndarray, 5);
+
+        dummy_filename = "/home/inoue/Desktop/Tree_out.bmp";
+        io_bmp.save(dummy_filename, ctx_cpu, output_ndarray, true);
     }
 }
 
