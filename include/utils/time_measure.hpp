@@ -14,7 +14,7 @@ namespace Is
          * @brief C言語のclock関数 精度： 10ms程度
          * 単位: [ms]
          */
-        auto invoke_tm_c = [](auto&& func, auto&&... args) -> double {
+        auto invoke_tm_ms_c = [](auto&& func, auto&&... args) -> double {
             std::cout << "C clock(): ";
             std::clock_t start = std::clock();
             std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...); // 完全転送
@@ -24,22 +24,57 @@ namespace Is
             return duration;
         };
 
+        auto invoke_tm_ms_c_ret = [](auto &&func, auto &&...args) {
+            std::cout << "C clock(): ";
+            std::clock_t start = std::clock();
+            auto result = std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...); // 完全転送
+            std::clock_t end = std::clock();
+            std::size_t duration = (double)(end - start);
+            std::cout << duration << "[ms]" << std::endl;
+            return result;
+        };
 
         /**
          * @brief C++ std::chorono 精度： 1ms程度
          * 
          */
-        auto invoke_tm_chrono = [](auto&& func, auto&&... argc) -> double {
+        auto invoke_tm_ms_chrono = [](auto&& func, auto&&... args) -> double {
             std::cout << "std::chrono(): ";
-            auto start = std::chrono::system_clock::now();
+            auto start = std::chrono::high_resolution_clock::now(); // system_clock::now()
             std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...); // 完全転送
-            auto end = std::chrono::system_clock::now();
+            auto end = std::chrono::high_resolution_clock::now();
             auto duration = end - start;
             double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
             std::cout << duration_ms << "[ms]" << std::endl;
             return duration_ms;
         };
 
+        auto invoke_tm_ms_chrono_ret = [](auto &&func, auto &&...args) {
+            std::cout << "std::chrono(): ";
+            auto start = std::chrono::system_clock::now();
+            auto result = std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...); // 完全転送
+            auto end = std::chrono::system_clock::now();
+            auto duration = end - start;
+            double duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+            std::cout << duration_ms << "[ms]" << std::endl;
+            return result;
+        };
+
+
+        /**
+         * @brief C++ std::chrono 精度: 1ns
+         * 
+         */
+        auto invoke_tm_ns_chrono_ret = [](auto &&func, auto &&... args) {
+            std::cout << "std::chrono(): ";
+            auto start = std::chrono::high_resolution_clock::now();
+            auto result = std::forward<decltype(func)>(func)(std::forward<decltype(args)>(args)...); // 完全転送
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration = end - start;
+            double duration_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+            std::cout << duration_ns << "[ns]" << std::endl;
+            return result;
+        };
 
 #if defined(_MSC_VER)
         /**
