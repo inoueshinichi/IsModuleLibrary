@@ -118,12 +118,21 @@ namespace Is
 
 
             /**
+             * @brief 型情報を取得.
+             * 
+             * @return NBLA_API 
+             */
+            NBLA_API inline dtypes dtype() const 
+            {
+                return array_->dtype();
+            }
+
+            /**
              * @brief 現在のNdArrayインスタンスが保持しているSyncedArrayインスタンスを取得する.
              * 
              * @note This is not copying data. Modifying content affects this.
              */
             NBLA_API SyncedArrayPtr array();
-
 
             /**
              * @brief 以前生成したSyncedArrayインスタンスと中身を入れ替える.
