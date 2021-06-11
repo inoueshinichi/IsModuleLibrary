@@ -13,6 +13,12 @@ file(GLOB NBLA_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 # is_nnabla libarary
 add_library(${LIB_NAME} ${NBLA_SOURCES})
 
+if(MSVC)
+    # msvc does not append 'lib' - do it here to have consistent name
+    set_target_properties(${LIB_NAME} PROPERTIES PREFIX "lib")
+    set_target_properties(${LIB_NAME} PROPERTIES IMPORT_PREFIX "lib")
+endif()
+
 # is_nnabla_EXPORTS or is_nnabla_dbg_EXPORTS 定義済みマクロを設定 for windows *.dll
 target_compile_definitions(${LIB_NAME} PRIVATE
     $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<CONFIG:Release>>:${LIB_NAME}_EXPORTS>
