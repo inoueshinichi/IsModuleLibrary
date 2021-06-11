@@ -97,11 +97,11 @@ if(MSVC)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/Zc:preprocessor>")
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/Zc:preprocessor>")
 
-    # sprintf_s系の邪魔なコンパイラ仕様を回避
-    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-
-    # math.hに定義されている円周率等の物理定数を有効化する
-    add_compile_definitions(_USE_MATH_DEFINES)
+    # MSVCの標準逸脱の邪魔なコンパイラ仕様を回避
+    # http://www.02.246.ne.jp/~torutk/cxx/vc/misc.html
+    add_compile_definitions(_USE_MATH_DEFINES)         # math.hに定義されている円周率等の物理定数を有効化する.
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)   # strcpy、sprinitfなどでコンパイル時に警告発生（unsafe）を抑制.
+    add_compile_definitions(_CRT_NONSTDC_NO_DEPRECATE) # mkdir, closeなどPOSIX関数でコンパイル時に警告発生（unsafe）を抑制.
 
     # # プリコンパイル済みヘッダーの生成と利用
     # if(BUILD_CPP_COMPILE_PCH)
@@ -198,6 +198,12 @@ message(STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: ${CMAKE_CXX_FLAGS_RELWITHDEBINFO
 # C++ core
 ###############################################################################
 message(STATUS "========== [START] C++ Build Core ==========")
+
+# シンボル
+set(CMAKE_RELEASE_POSTFIX "")            # Release
+set(CMAKE_DEBUG_POSTFIX "d")             # Debug
+set(CMAKE_RELWITHDEBINFO_POSTFIX "rwdi") # RelWithDebInfo
+set(CMAKE_MINSIZEREL_POSTFIX "msr")      # MinSizeRel
 
 # Third-party
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third-party)
