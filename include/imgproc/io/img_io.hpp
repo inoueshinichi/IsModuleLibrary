@@ -20,10 +20,10 @@ namespace Is
         using std::string;
         using std::shared_ptr;
 
-        template <class FormatPolicy>
+        template <class ImageFile>
         class ImageIo
         {
-            FormatPolicy format_policy_;
+            ImageFile format_policy_;
         public:
             ImageIo() = default;
             ~ImageIo() = default;

@@ -146,6 +146,70 @@ namespace Is
             //////////////////////////////////////
             inline std::string cvt_shiftjis_to_utf8(const char* shift_jis_char);
             inline std::string cvt_shiftjis_to_utf8(const std::string& shift_jis_string);
+
+            /*16進数でダンプ*/
+            template <typename OS, typename T>
+            void dump(OS &os, T const *t)
+            {
+                bool is_first = true;
+                const auto *byte = reinterpret_cast<unsigned char const *>(t);
+                os << std::hex << std::uppercase << std::setfill('0') << std::setw(2);
+                while (*byte)
+                {
+                    if (!std::exchange(is_first, false))
+                    {
+                        os << " ";
+                    }
+                    os << static_cast<unsigned int>(*byte);
+                    ++byte;
+                }
+                os << std::endl;
+            }
+
+            /**
+             * @brief Windowsで通常の入出力をUTF-8にする場合
+             * https://qiita.com/tats-u/items/ef149aee6b69407db79b
+             * Windows10専用の手法: setlocale・std::locale::globalなどに空文字のデフォルトロケールを渡す.
+             */
+            // C兼用
+            // #include <locale.h>
+            // #include <stdio.h>
+
+            // int main(int argc, char **argv)
+            // {
+            //     setlocale(LC_ALL, "");
+            //     puts("日本語だよ");
+            //     for (int i = 0; i < argc; ++i)
+            //     {
+            //         printf("引数%d: %s\n", i, argv[i]);
+            //     }
+            //     return 0;
+            // }
+
+            // C++ 専用
+            // #include <locale>
+            // #include <iostream>
+
+            // int main()
+            // {
+            //     std::locale::global(std::locale(""));
+            //     std::cout << "日本語だよ\n";
+            //     for (int i = 0; i < argc; ++i)
+            //     {
+            //         std::cout << "引数" << i << ": " << argv[i] << '\n';
+            //     }
+            //     return 0;
+            // }
+
+            // マニフェストファイル. CMakeのadd_executeble()に一緒に埋め込む.
+            // <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+            // <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+            // <application>
+            //     <windowsSettings>
+            //     <activeCodePage xmlns="http://schemas.microsoft.com/SMI/2019/WindowsSettings">UTF-8</activeCodePage>
+            //     </windowsSettings>
+            // </application>
+            // </assembly>
         }
     }
 }

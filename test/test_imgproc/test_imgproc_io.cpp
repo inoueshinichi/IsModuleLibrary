@@ -30,7 +30,7 @@ namespace
         // string dummy_filename = "/home/inoue/Images/Mono/256X256/lenna.bmp";
 
         // Bmp
-        ImageIo<BmpFilePolicy> io_bmp;
+        ImageIo<BmpFile> io_bmp;
         auto test_ndarray = NdArray::create();
 
         if (!io_bmp.load(dummy_filename, ctx_cpu, test_ndarray, true))

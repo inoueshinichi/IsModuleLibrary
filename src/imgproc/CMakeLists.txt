@@ -17,9 +17,14 @@ if (WIN32)
     list(APPEND IMGPROC_SOURCES ${IMGPROC_WIN32_SOURCES})
 endif()
 
-
 # imgproc library
 add_library(${LIB_NAME} ${IMGPROC_SOURCES})
+
+if(MSVC)
+    # msvc does not append 'lib' - do it here to have consistent name
+    set_target_properties(${LIB_NAME} PROPERTIES PREFIX "lib")
+    set_target_properties(${LIB_NAME} PROPERTIES IMPORT_PREFIX "lib")
+endif()
 
 # imgproc_EXPORTS or imgproc_dbg_EXPORTS 定義済みマクロを設定 for windows *.dll
 target_compile_definitions(${LIB_NAME} PRIVATE
@@ -36,20 +41,20 @@ target_include_directories(${LIB_NAME} PUBLIC
 target_link_libraries(${LIB_NAME} PUBLIC
     nnabla
     # utils
+    libpng
 )
 
 add_dependencies(${LIB_NAME} 
     nnabla
     # utils
+    libpng
 )
-# add_dependencies(${LIB_NAME} libpng)
-# add_dependencies(libpng zlib)
 
 # dllファイルを実行ファイルと同じフォルダにコピー
-# add_custom_command(TARGET ${LIB_NAME} POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:zlib> $<TARGET_FILE_DIR:${LIB_NAME}>
-#     # COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:libpng> $<TARGET_FILE_DIR:${LIB_NAME}>
-# )
+add_custom_command(TARGET ${LIB_NAME} POST_BUILD
+    # COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:zlib> $<TARGET_FILE_DIR:${LIB_NAME}>
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:libpng> $<TARGET_FILE_DIR:${LIB_NAME}>
+)
 
 # set_target_properties((${LIB_NAME} PROPERTIES
 #     # something

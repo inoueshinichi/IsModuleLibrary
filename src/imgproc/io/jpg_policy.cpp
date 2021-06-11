@@ -7,38 +7,37 @@ namespace Is
         namespace format_policy
         {
             /*----------------------------------------------------------------------------------*/
-            JpgFilePolicy::~JpgFilePolicy()
+            JpgFile::~JpgFile()
             {
                 
             }
 
-            JpgFilePolicy::JpgFilePolicy()
+            JpgFile::JpgFile()
             {
 
             }
 
-            void JpgFilePolicy::set_data(byte* data, int insert_color)
+            void JpgFile::set_data(byte* data, int insert_color)
             {
 
             }
 
-            void JpgFilePolicy::get_data(byte* data, int extract_color)
+            bool JpgFile::get_data(byte* data, int extract_color)
             {
-
-            }
-            
-             void JpgFilePolicy::save(const string& filename, byte* data, int32_t width, int32_t height, int32_t channels, bool is_dump)
-            {
-                std::cout << "save : JpgFilePolicy" << std::endl;
+                return true;
             }
 
-            std::tuple<int32_t, int32_t, int32_t> JpgFilePolicy::load(const string& filename, bool is_dump)
+            bool JpgFile::save(const string &filename, bool is_dump)
             {
-                std::cout << "load : JpgFilePolicy" << std::endl;
-                int32_t width = 0;
-                int32_t height = 0;
-                int32_t channels = 0;
-                return std::make_tuple(width, height, channels);
+                std::cout << "save : JpgFile" << std::endl;
+                return true;
+            }
+
+            bool JpgFile::load(const string &filename, int &width, int &height, int &channels, bool is_dump)
+            {
+                std::cout << "load : JpgFile" << std::endl;
+
+                return true;
             }
         } // namespace format_policy
     } // namespace imgproc

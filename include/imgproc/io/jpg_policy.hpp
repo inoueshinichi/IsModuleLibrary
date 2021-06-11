@@ -1,5 +1,5 @@
-#ifndef IS_IMGPROC_JPG_POLICY_HPP
-#define IS_IMGPROC_JPG_POLICY_HPP
+#pragma once
+
 #include "imgproc/common.hpp"
 
 #include <cstdint>
@@ -13,25 +13,31 @@ namespace Is
             using std::string;
             using byte = unsigned char;
 
-            class IMGPROC_API JpgFilePolicy
+            class IMGPROC_API JpgFile
             {
-                void set_data(byte* data, int insert_color = -1);
+                int32_t width_;
+                int32_t height_;
+                size_t mem_width_;
+                int32_t channels_;
+                size_t datasize_;
+
+                void clear();
+                void setup(int32_t width, int32_t height, int32_t channels);
+                void dump() const;
 
             public:
-                JpgFilePolicy();
-                virtual ~JpgFilePolicy();
-                JpgFilePolicy(const JpgFilePolicy&) = delete;
-                JpgFilePolicy& operator=(const JpgFilePolicy&) = delete;
-                JpgFilePolicy(JpgFilePolicy&&) = default;
-                JpgFilePolicy& operator=(JpgFilePolicy&&) = default;
+                JpgFile();
+                virtual ~JpgFile();
+                JpgFile(const JpgFile&) = delete;
+                JpgFile& operator=(const JpgFile&) = delete;
+                JpgFile(JpgFile&&) = default;
+                JpgFile& operator=(JpgFile&&) = default;
 
-                void get_data(byte* data, int extract_color = -1);
-                
-                void save(const string& filename, byte* data, int32_t width, int32_t height, int32_t channels, bool is_dump);
-                std::tuple<int32_t, int32_t, int32_t> load(const string& filename, bool is_dump);
-                void dump() const;
+                void set_data(byte *data, int insert_color = -1);
+                bool get_data(byte* data, int extract_color = -1);
+                bool save(const string &filename, bool is_dump);
+                bool load(const string &filename, int &width, int &height, int &channels, bool is_dump);
             };
         } // namespace format_policy
     } // namespace imgproc
 }
-#endif

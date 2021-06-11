@@ -7,38 +7,43 @@ namespace Is
         namespace format_policy
         {
             /*----------------------------------------------------------------------------------*/
-            PngFilePolicy::~PngFilePolicy()
+            PngFile::PngFile()
             {
                 
             }
 
-            PngFilePolicy::PngFilePolicy()
+            PngFile::~PngFile()
             {
 
             }
 
-            void PngFilePolicy::set_data(byte* data, int insert_color)
+            void PngFile::clear()
             {
 
             }
 
-            void PngFilePolicy::get_data(byte* data, int extract_color)
+            void PngFile::set_data(byte *data, int width, int height,
+                                   int channels, int insert_color)
             {
 
             }
-            
-            void PngFilePolicy::save(const string& filename, byte* data, int32_t width, int32_t height, int32_t channels, bool is_dump)
+
+            bool PngFile::get_data(byte* data, int extract_color)
             {
-                std::cout << "save : PngFilePolicy" << std::endl;
+                return true;
             }
 
-            std::tuple<int32_t, int32_t, int32_t> PngFilePolicy::load(const string& filename, bool is_dump)
+            bool PngFile::save(const string &filename, bool is_dump)
             {
-                std::cout << "load : PngFilePolicy" << std::endl;
-                int32_t width = 0;
-                int32_t height = 0;
-                int32_t channels = 0;
-                return std::make_tuple(width, height, channels);
+                std::cout << "save : PngFile" << std::endl;
+                return true;
+            }
+
+            bool PngFile::load(const string &filename, int &width, int &height, 
+                               int &channels, bool is_dump)
+            {
+                std::cout << "load : PngFile" << std::endl;
+                return true;
             }
         } // namespace format_policy
     } // namespace imgproc

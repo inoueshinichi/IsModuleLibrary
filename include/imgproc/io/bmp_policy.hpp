@@ -17,7 +17,7 @@ namespace Is
             // Windows Bitmapファイルのフォーマットについて
             // https://www.mm2d.net/main/prog/c/image_io-05.html
             // https://github.com/ohmae/image-io
-            class IMGPROC_API BmpFilePolicy
+            class IMGPROC_API BmpFile
             {
                 /*BMPファイルヘッダ (14byte)*/
                 #pragma pack(2) // 構造体のアライメントを2byte境界にすることで、余計な詰め物がない構造体とする. ※重要
@@ -72,23 +72,22 @@ namespace Is
                 void clear();
                 void setup(int32_t width, int32_t height, int32_t channels);
                 void dump() const;
-                void set_data(byte *data, int width, int height, int channels, int insert_color = -1);
-                bool get_data(byte *data, int extract_color = -1);
-
+                
             public:
-                BmpFilePolicy();
-                virtual ~BmpFilePolicy();
-                BmpFilePolicy(const BmpFilePolicy &) = delete;
-                BmpFilePolicy &operator=(const BmpFilePolicy &) = delete;
-                BmpFilePolicy(BmpFilePolicy &&) = default;
-                BmpFilePolicy &operator=(BmpFilePolicy &&) = default;
+                BmpFile();
+                virtual ~BmpFile();
+                BmpFile(const BmpFile &) = delete;
+                BmpFile &operator=(const BmpFile &) = delete;
+                BmpFile(BmpFile &&) = default;
+                BmpFile &operator=(BmpFile &&) = default;
 
                 int width() const { return width_; }
                 int height() const { return height_; }
                 int channels() const { return channels_; }
                 size_t datasize() const { return datasize_; }
-                
 
+                void set_data(byte *data, int width, int height, int channels, int insert_color = -1);
+                bool get_data(byte *data, int extract_color = -1);
                 bool save(const string &filename, bool is_dump);
                 bool load(const string &filename, int &width, int &height, int &channels, bool is_dump);
             };

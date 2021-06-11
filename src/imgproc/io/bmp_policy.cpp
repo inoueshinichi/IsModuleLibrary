@@ -11,7 +11,7 @@ namespace Is
     {
         namespace format_policy
         {
-            BmpFilePolicy::BmpFilePolicy()
+            BmpFile::BmpFile()
                 : bmi_info_(nullptr)
                 , bmp_(nullptr) 
             {
@@ -30,12 +30,12 @@ namespace Is
             }
 
 
-            BmpFilePolicy::~BmpFilePolicy()
+            BmpFile::~BmpFile()
             {
                 clear(); 
             }
 
-            void BmpFilePolicy::clear()
+            void BmpFile::clear()
             {
                 if (bmi_info_)
                 {
@@ -49,7 +49,7 @@ namespace Is
                 }
             }
 
-            void BmpFilePolicy::setup(int32_t width, int32_t height, int32_t channels)
+            void BmpFile::setup(int32_t width, int32_t height, int32_t channels)
             {
                 clear();
 
@@ -140,7 +140,7 @@ namespace Is
             }
 
 
-            void BmpFilePolicy::set_data(byte* data, int width, int height, int channels, int insert_color)
+            void BmpFile::set_data(byte* data, int width, int height, int channels, int insert_color)
             {
                 // Bmpフォーマット作成
                 this->setup(width, height, channels);
@@ -214,7 +214,7 @@ namespace Is
                 }
             }
 
-            bool BmpFilePolicy::get_data(byte *data, int extract_color)
+            bool BmpFile::get_data(byte *data, int extract_color)
             {
                 if (!bmp_ || !bmi_info_)
                     return false;
@@ -369,9 +369,9 @@ namespace Is
 
             /*----------------------------------------------------------------------------------*/
 
-            bool BmpFilePolicy::save(const string& filename, bool is_dump)
+            bool BmpFile::save(const string& filename, bool is_dump)
             {
-                std::cout << "save : BmpFilePolicy" << std::endl;
+                std::cout << "save : BmpFile" << std::endl;
 
                 if (!bmp_ || !bmi_info_)
                     return false;
@@ -412,9 +412,9 @@ namespace Is
                 return true;
             }
 
-            bool BmpFilePolicy::load(const string &filename, int &width, int &height, int &channels, bool is_dump)
+            bool BmpFile::load(const string &filename, int &width, int &height, int &channels, bool is_dump)
             {
-                std::cout << "load : BmpFilePolicy" << std::endl;
+                std::cout << "load : BmpFile" << std::endl;
 
                 auto lambda_fclose = [](FILE* fp) {
                     if (!fp)
@@ -499,12 +499,12 @@ namespace Is
                 return true;
             }
 
-            void BmpFilePolicy::dump() const
+            void BmpFile::dump() const
             {
                 if (!bmp_ || !bmi_info_)
                     return;
 
-                printf("BmpFilePolicy::dump\n");
+                printf("BmpFile::dump\n");
                 printf("----- BmpFileHeader -----\n");
                 printf("sizeof(BmpFileHeader): %ld\n", sizeof(BmpFileHeader));
                 printf("bf_type = %d\n", bmp_file_header_.bf_type);
