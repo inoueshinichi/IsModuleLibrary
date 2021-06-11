@@ -41,13 +41,13 @@ target_include_directories(${LIB_NAME} PUBLIC
 target_link_libraries(${LIB_NAME} PUBLIC
     nnabla
     # utils
-    libpng
+    # libpng
 )
 
 add_dependencies(${LIB_NAME} 
     nnabla
     # utils
-    libpng
+    # libpng
 )
 
 # dllファイルを実行ファイルと同じフォルダにコピー
