@@ -108,8 +108,8 @@ namespace Is
                 bmp_file_header_.bf_reserved2 = (uint16_t)0;
                 bmp_file_header_.bf_offset_bits = sizeof(BmpFileHeader) + infosize;
 
-                /*BmiInfoHeader*/ 
-                bmi_info_ = (BmiInfo*) new byte[infosize];
+                /*BmiInfoHeader*/
+                bmi_info_ = (BmiInfo *)new byte[infosize];
                 bmi_info_->bmi_header.bi_size = sizeof(BmpInfoHeader);
                 bmi_info_->bmi_header.bi_width = width;
                 bmi_info_->bmi_header.bi_height = height;
@@ -376,8 +376,14 @@ namespace Is
                 if (!bmp_ || !bmi_info_)
                     return false;
 
+                auto lambda_fclose = [](FILE *fp) {
+                    if (!fp)
+                        return;
+                    fclose(fp);
+                };
+
                 // Bmpファイルの書き出し
-                std::shared_ptr<FILE> fp(fopen(filename.c_str(), "wb"), fclose);
+                std::shared_ptr<FILE> fp(fopen(filename.c_str(), "wb"), lambda_fclose);
                 if (!fp)
                 {
                     std::cerr << utils::format_string("Can not open %s", filename.c_str()) << std::endl;
@@ -423,7 +429,6 @@ namespace Is
                     std::cerr << utils::format_string("Can not open %s", filename.c_str()) << std::endl;
                     return false;
                 }
-                std::cout << "CHECK" << std::endl;
 
                 try
                 {

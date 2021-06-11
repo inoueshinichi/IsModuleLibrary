@@ -72,23 +72,24 @@ namespace Is
                 void clear();
                 void setup(int32_t width, int32_t height, int32_t channels);
                 void dump() const;
+                void set_data(byte *data, int width, int height, int channels, int insert_color = -1);
+                bool get_data(byte *data, int extract_color = -1);
 
             public:
                 BmpFilePolicy();
                 virtual ~BmpFilePolicy();
-                BmpFilePolicy(const BmpFilePolicy&) = delete;
-                BmpFilePolicy& operator=(const BmpFilePolicy&) = delete;
-                BmpFilePolicy(BmpFilePolicy&&) = default;
-                BmpFilePolicy& operator=(BmpFilePolicy&&) = default;
+                BmpFilePolicy(const BmpFilePolicy &) = delete;
+                BmpFilePolicy &operator=(const BmpFilePolicy &) = delete;
+                BmpFilePolicy(BmpFilePolicy &&) = default;
+                BmpFilePolicy &operator=(BmpFilePolicy &&) = default;
 
                 int width() const { return width_; }
                 int height() const { return height_; }
                 int channels() const { return channels_; }
                 size_t datasize() const { return datasize_; }
-                void set_data(byte *data, int width, int height, int channels, int insert_color = -1);
-                bool get_data(byte *data, int extract_color = -1);
+                
 
-                bool save(const string& filename, bool is_dump);
+                bool save(const string &filename, bool is_dump);
                 bool load(const string &filename, int &width, int &height, int &channels, bool is_dump);
             };
         } // namespace format_policy
