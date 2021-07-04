@@ -28,8 +28,9 @@ namespace Is
 
         // zeros
         template <typename T>
-        NdArrayPtr zeros(const Context& ctx, const Shape_t& shape)
+        NdArrayPtr zeros(const Shape_t& shape)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             auto ndarray = NdArray::create(shape);
             ndarray->zero();
             ndarray->cast_data_and_get_pointer<T>(ctx);
@@ -39,8 +40,9 @@ namespace Is
 
         // ones
         template <typename T>
-        NdArrayPtr ones(const Context& ctx, const Shape_t& shape)
+        NdArrayPtr ones(const Shape_t& shape)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             auto ndarray = NdArray::create(shape);
             ndarray->fill(1);
             ndarray->cast_data_and_get_pointer<T>(ctx);
@@ -50,8 +52,9 @@ namespace Is
 
         // eye
         template <typename T>
-        NdArrayPtr eye(const Context& ctx, int rows, int cols)
+        NdArrayPtr eye(int rows, int cols)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Shape_t shape{rows, cols};
             auto ndarray = NdArray::create(shape);
             ndarray->zero();
@@ -69,8 +72,9 @@ namespace Is
         
         // randn
         template <typename F>
-        NdArrayPtr randn(const Context& ctx, const Shape_t& shape, float mu, float sigma, int seed = -1)
+        NdArrayPtr randn(const Shape_t& shape, float mu, float sigma, int seed = -1)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Randn<F> operation(ctx, mu, sigma, shape, seed);
             auto output = NdArray::create();
             operation.setup({}, {output});
@@ -81,8 +85,9 @@ namespace Is
 
         // rand
         template <typename F>
-        NdArrayPtr rand(const Context& ctx, const Shape_t& shape, float low, float high, int seed = -1)
+        NdArrayPtr rand(const Shape_t& shape, float low, float high, int seed = -1)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Rand<F> operation(ctx, low, high, shape, seed);
             auto output = NdArray::create();
             operation.setup({}, {output});
@@ -92,8 +97,9 @@ namespace Is
 
         // randint
         template <typename T>
-        NdArrayPtr randint(const Context &ctx, const Shape_t &shape, int low, int high, int seed = -1)
+        NdArrayPtr randint(const Shape_t &shape, int low, int high, int seed = -1)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Randint<T> operation(ctx, low, high, shape, seed);
             auto output = NdArray::create();
             operation.setup({}, {output});
@@ -105,8 +111,9 @@ namespace Is
 
         // add_scalar
         template <typename T>
-        NdArrayPtr add_scalar(const Context& ctx, NdArrayPtr input, double val)
+        NdArrayPtr add_scalar(NdArrayPtr input, double val)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             AddScalar<T> operation(ctx, val, true);
             auto output = NdArray::create();
             operation.setup({input}, {output});
@@ -117,8 +124,9 @@ namespace Is
 
         // mul_scalar
         template <typename T>
-        NdArrayPtr mul_scalar(const Context& ctx, NdArrayPtr input, double val)
+        NdArrayPtr mul_scalar(NdArrayPtr input, double val)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             MulScalar<T> operation(ctx, val);
             auto output = NdArray::create();
             operation.setup({input}, {output});
@@ -129,8 +137,9 @@ namespace Is
         
         // transpose
         template <typename T>
-        NdArrayPtr transpose(const Context &ctx, NdArrayPtr input, const std::vector<int> &axes)
+        NdArrayPtr transpose(NdArrayPtr input, const std::vector<int> &axes)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Transpose<T> operation(ctx, axes);
             auto output = NdArray::create();
             operation.setup({input}, {output});
@@ -141,8 +150,9 @@ namespace Is
 
         // sum
         template <typename T>
-        NdArrayPtr sum(const Context &ctx, NdArrayPtr input, int axis = 0, bool keep_dims = false)
+        NdArrayPtr sum(NdArrayPtr input, int axis = 0, bool keep_dims = false)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Sum<T> operation(ctx, {axis}, keep_dims);
             auto output = NdArray::create();
             operation.setup({input}, {output});
@@ -153,8 +163,9 @@ namespace Is
 
         // broadcast
         template <typename T>
-        NdArrayPtr broadcast(const Context& ctx, NdArrayPtr input, NdArrayPtr output)
+        NdArrayPtr broadcast(NdArrayPtr input, NdArrayPtr output)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Broadcast<T> operation(ctx, input->shape());
             operation.setup({input}, {output});
             operation.execute({input}, {output});
@@ -164,8 +175,9 @@ namespace Is
 
         // reshape
         template <typename T>
-        NdArrayPtr reshape(const Context &ctx, NdArrayPtr input, const std::vector<int64_t> &shape)
+        NdArrayPtr reshape(NdArrayPtr input, const std::vector<int64_t> &shape)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Reshape<T> operation(ctx, shape, false);
             auto output = NdArray::create();
             operation.setup({input}, {output});
@@ -176,10 +188,12 @@ namespace Is
 
         // slice
         template <typename T>
-        NdArrayPtr slice(const Context &ctx, NdArrayPtr input, 
-            const vector<int> &starts, const vector<int> &stops, const vector<int> &steps)
+        NdArrayPtr slice(NdArrayPtr input, const vector<int> &starts, 
+                         const vector<int> &stops, const vector<int> &steps)
         {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Slice<T> operation(ctx, starts, stops, steps);
+            // auto output = input->view();
             auto output = NdArray::create();
             operation.setup({input}, {output});
             operation.execute({input}, {output});
