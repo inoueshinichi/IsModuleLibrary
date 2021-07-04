@@ -5,9 +5,10 @@ namespace plt = matplotlibcpp;
 
 #include <utils/time_measure.hpp>
 
+// imgproc
 #include <imgproc/io/img_io.hpp>
-#include <imgproc/filter/average_filter.hpp>
 
+// nnabla
 #include <nbla/nd_array.hpp>
 #include <nbla/nd_array_extra.hpp>
 
@@ -24,7 +25,7 @@ namespace
         using namespace Is::nbla;
         using namespace Is::utils;
         using byte = unsigned char;
-        Context ctx_cpu;
+        const auto &ctx_cpu = SingletonManager::get<GlobalContext>()->get_current_context();
 
         string dummy_filename = "/home/inoue/Images/Mono/256X256/Tree.bmp";
         // string dummy_filename = "/home/inoue/Images/Mono/256X256/lenna.bmp";
@@ -33,7 +34,7 @@ namespace
         ImageIo<BmpFile> io_bmp;
         auto test_ndarray = NdArray::create();
 
-        if (!io_bmp.load(dummy_filename, ctx_cpu, test_ndarray, true))
+        if (!io_bmp.load(dummy_filename, test_ndarray, true))
             return;
 
         auto test_strides = test_ndarray->strides();
@@ -60,7 +61,7 @@ namespace
         // plt::show();
 
         dummy_filename = "/home/inoue/Desktop/Tree_out.bmp";
-        io_bmp.save(dummy_filename, ctx_cpu, test_ndarray, true);
+        io_bmp.save(dummy_filename, test_ndarray, true);
     }
 
 
