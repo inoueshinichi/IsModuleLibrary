@@ -12,6 +12,7 @@ if((NOT TARGET GTest::gtest)      OR
    return()
 endif()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(tutorial_googletest)
 add_subdirectory(test_nnabla)
