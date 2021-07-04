@@ -50,11 +50,11 @@ add_dependencies(${LIB_NAME}
     # libpng
 )
 
-# dllファイルを実行ファイルと同じフォルダにコピー
-add_custom_command(TARGET ${LIB_NAME} POST_BUILD
-    # COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:zlib> $<TARGET_FILE_DIR:${LIB_NAME}>
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:libpng> $<TARGET_FILE_DIR:${LIB_NAME}>
-)
+# # dllファイルを実行ファイルと同じフォルダにコピー
+# add_custom_command(TARGET ${LIB_NAME} POST_BUILD
+#     # COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:zlib> $<TARGET_FILE_DIR:${LIB_NAME}>
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:libpng> $<TARGET_FILE_DIR:${LIB_NAME}>
+# )
 
 # set_target_properties((${LIB_NAME} PROPERTIES
 #     # something
