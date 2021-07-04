@@ -6,7 +6,7 @@ namespace Is
     namespace nbla
     {
         GlobalContext::GlobalContext()
-            : current_(Context({"cpu:float"}, "CpuCachedArray", "0")) {}
+            : current_(Context({"cpu:float"}, "CpuArray", "0")) {}
 
         GlobalContext::~GlobalContext() {}
 
