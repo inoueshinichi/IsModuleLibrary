@@ -289,9 +289,8 @@ namespace Is
 
 
 // 追加 shinichi inoue 20210504
-#define NBLA_INSTANTIATE_FUNCTION(API, CLS, TYPE)                                                      \
-    template API void CLS<TYPE>::setup_impl(const NdArrays& inputs, const NdArrays& outputs);          \
-    template API void CLS<TYPE>::execute_impl(const NdArrays& inputs, const NdArrays& outputs);
+#define NBLA_INSTANTIATE_CLASS(CLS, TYPE) \
+    template class CLS<TYPE>;
 
     } // namespace nbla
 }
