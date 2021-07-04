@@ -1,17 +1,11 @@
 #pragma once
 
-/*NdArray*/
-#include <nbla/nd_array.hpp>
-#include <nbla/nd_array_extra.hpp>
+#include <imgproc/common.hpp>
 
 /*ポリシークラス*/
 #include <imgproc/io/bmp_policy.hpp>
 #include <imgproc/io/png_policy.hpp>
 #include <imgproc/io/jpg_policy.hpp>
-
-#include <utils/format_string.hpp>
-
-#include <iostream>
 
 namespace Is
 {
@@ -32,8 +26,7 @@ namespace Is
             ImageIo(ImageIo&&) = delete;
             ImageIo& operator=(ImageIo&&) = delete;
 
-            bool save(const string& filename, const nbla::Context& ctx, 
-                      nbla::NdArrayPtr ndarray, bool is_dump = false)
+            bool save(const string& filename, nbla::NdArrayPtr ndarray, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
@@ -66,6 +59,9 @@ namespace Is
                         "Unmatch shape of ndarray for bitmap file format. Given is %d", ndarray->ndim()));
                 }
 
+                // GlobalContext
+                const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
+
                 // (w, h, c)
                 ndarray->reshape(Shape_t{width, height, channels});
                 byte *data = ndarray->cast_data_and_get_pointer<byte>(ctx);
@@ -77,7 +73,7 @@ namespace Is
                 return format_policy_.save(filename, is_dump);
             }
 
-            bool load(const string &filename, nbla::Context &ctx, nbla::NdArrayPtr ndarray, bool is_dump = false)
+            bool load(const string &filename, nbla::NdArrayPtr ndarray, bool is_dump = false)
             {
                 using byte = unsigned char;
                 using namespace nbla;
@@ -91,6 +87,9 @@ namespace Is
                     std::cerr << "ndarray nullptr" << std::endl;
                     return false;
                 }
+
+                // GlobalContext
+                const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
 
                 ndarray->zero();
                 ndarray->reshape(Shape_t{height, width, channels}, true);
