@@ -3,9 +3,9 @@
 #include <nbla/nd_array.hpp>
 
 // Generation
-#include <nbla/function/randn.hpp>
 #include <nbla/function/rand.hpp>
 #include <nbla/function/randint.hpp>
+#include <nbla/function/randn.hpp>
 
 // Operation
 #include <nbla/function/add_scalar.hpp>
@@ -76,7 +76,7 @@ namespace Is
         {
             const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Randn<F> operation(ctx, mu, sigma, shape, seed);
-            auto output = NdArray::create();
+            auto output = zeros<F>(shape);
             operation.setup({}, {output});
             operation.execute({}, {output});
             return output;
@@ -89,7 +89,7 @@ namespace Is
         {
             const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Rand<F> operation(ctx, low, high, shape, seed);
-            auto output = NdArray::create();
+            auto output = zeros<F>(shape);
             operation.setup({}, {output});
             operation.execute({}, {output});
             return output;
@@ -101,7 +101,7 @@ namespace Is
         {
             const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Randint<T> operation(ctx, low, high, shape, seed);
-            auto output = NdArray::create();
+            auto output = zeros<T>(shape);
             operation.setup({}, {output});
             operation.execute({}, {output});
             return output;
@@ -137,7 +137,7 @@ namespace Is
         
         // transpose
         template <typename T>
-        NdArrayPtr transpose(NdArrayPtr input, const std::vector<int> &axes)
+        NdArrayPtr transpose(NdArrayPtr input, const std::vector<int64_t> &axes)
         {
             const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Transpose<T> operation(ctx, axes);
@@ -148,25 +148,13 @@ namespace Is
         }
 
 
-        // sum
-        template <typename T>
-        NdArrayPtr sum(NdArrayPtr input, int axis = 0, bool keep_dims = false)
-        {
-            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
-            Sum<T> operation(ctx, {axis}, keep_dims);
-            auto output = NdArray::create();
-            operation.setup({input}, {output});
-            operation.execute({input}, {output});
-            return output;
-        }
-
-
         // broadcast
         template <typename T>
-        NdArrayPtr broadcast(NdArrayPtr input, NdArrayPtr output)
+        NdArrayPtr broadcast(NdArrayPtr input, const Shape_t& shape)
         {
             const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
-            Broadcast<T> operation(ctx, input->shape());
+            Broadcast<T> operation(ctx, shape);
+            auto output = NdArray::create();
             operation.setup({input}, {output});
             operation.execute({input}, {output});
             return output;
@@ -188,12 +176,24 @@ namespace Is
 
         // slice
         template <typename T>
-        NdArrayPtr slice(NdArrayPtr input, const vector<int> &starts, 
-                         const vector<int> &stops, const vector<int> &steps)
+        NdArrayPtr slice(NdArrayPtr input, const vector<int64_t> &starts, 
+                         const vector<int64_t> &stops, const vector<int64_t> &steps)
         {
             const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
             Slice<T> operation(ctx, starts, stops, steps);
-            // auto output = input->view();
+            auto output = NdArray::create();
+            operation.setup({input}, {output});
+            operation.execute({input}, {output});
+            return output;
+        }
+
+
+        // sum
+        template <typename T>
+        NdArrayPtr sum(NdArrayPtr input, int axis = 0, bool keep_dims = false)
+        {
+            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
+            Sum<T> operation(ctx, {axis}, keep_dims);
             auto output = NdArray::create();
             operation.setup({input}, {output});
             operation.execute({input}, {output});

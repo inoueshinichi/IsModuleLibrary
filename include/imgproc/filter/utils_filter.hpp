@@ -217,28 +217,36 @@ namespace Is
             }
         }
 
-        template <typename T>
-        NdArrayPtr linear_filter(NdArrayPtr src, int ksize_x, int ksize_y, double *kernel)
-        {
-            IMGPROC_CHECK_IMAGE_SHAPE(src);
+        // template <typename T>
+        // NdArrayPtr linear_filter(NdArrayPtr src, int ksize_x, int ksize_y, double *kernel)
+        // {
+        //     IMGPROC_CHECK_IMAGE_SHAPE(src);
 
-            const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
-            auto ndim = src->ndim();
-            auto shape = src->shape();
-            auto strides = src->strides();
-            int channels = shape[0];
-            int height = shape[1];
-            int width = shape[2];
-            T *data = src->template cast_data_and_get_pointer<T>(ctx);
-            // -----------------------------
+        //     const auto &ctx = SingletonManager::get<GlobalContext>()->get_current_context();
+        //     auto ndim = src->ndim();
+        //     auto sh = src->shape();
+        //     auto st = src->strides();
+        //     int ch = shape[0];
+        //     int h = shape[1];
+        //     int w = shape[2];
+        //     T *data = src->template cast_data_and_get_pointer<T>(ctx);
+        //     // -----------------------------
 
+        //     if (!kernel)
+        //     {
+        //         throw std::runtime_error("kernel is nullptr.");
+        //     }
 
-            if (!kernel)
-            {
-                throw std::runtime_error("kernel is nullptr.");
-            }
+        //     if (ksize_x % 2 == 0)
+        //         ksize_x += 1;
+        //     if (ksize_y % 2 == 0)
+        //         ksize_y += 1;
 
-            
-        }
+        //     int hlf_ksx = (int)(ksize_x / 2);
+        //     int hlf_ksy = (int)(ksize_y / 2);
+
+        //     dst = zeros<float>({ch, h + 2 * hlf_ksy, w + 2 * hlf_ksx});
+
+        // }
     }
 }
