@@ -62,7 +62,7 @@ namespace Is
                        step_[0].size(), 
                        size);
             
-             // Index range check, then convert negative start and stop
+            // Index range check, then convert negative start and stop
             Shape_t shape_y(size);
             for (auto i = decltype(size){0}; i < size; ++i)
             {
@@ -197,7 +197,10 @@ namespace Is
             slice_execute_recursive(inputs[0], outputs[0], x, y, 0, 0, 0, slice_index);
         }
 
-        // dll export
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, short)

@@ -65,6 +65,24 @@ namespace Is
                 }
             }
         }
+
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Stack, long double)
     }
 }
 

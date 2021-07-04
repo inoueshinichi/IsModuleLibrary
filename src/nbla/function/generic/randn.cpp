@@ -7,7 +7,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Randn, float, float, const Shape_t&, int)
+        NBLA_REGISTER_FUNCTION_SOURCE(Randn, float, float, const vector<int> &, int)
         // float: Mean
         // float: Sigma
         // const Shape_t&: Shape
@@ -38,7 +38,10 @@ namespace Is
             } 
         }
 
-        // dll export
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
         // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, char)
         // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, unsigned char)
         // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, short)

@@ -50,5 +50,23 @@ namespace Is
                 y[i] = x[i * last_ndim_ + i % last_ndim_];
             }
         }
+
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiagPart, long double)
     }
 }

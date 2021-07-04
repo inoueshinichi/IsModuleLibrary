@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Rand, float, float, const vector<int64_t>&, int)
+        NBLA_REGISTER_FUNCTION_SOURCE(Rand, float, float, const vector<int>&, int)
         // low
         // high
         // shape
@@ -64,7 +64,10 @@ namespace Is
             }
         }
 
-        // dll export
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
         // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, char)
         // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, unsigned char)
         // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, short)
@@ -79,24 +82,24 @@ namespace Is
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, double)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Rand, long double)
 
-#define NBLA_INSTANTIATE_IMPL(API, TYPE)                                                                 \
-    template API void Rand<TYPE>::setup_recompute_impl(const NdArrays& inputs, const NdArrays& outputs); \
-    template API void Rand<TYPE>::recompute_impl(const NdArrays &inputs, const NdArrays &outputs);    
+// #define NBLA_INSTANTIATE_IMPL(API, TYPE)                                                                 \
+//     template API void Rand<TYPE>::setup_recompute_impl(const NdArrays& inputs, const NdArrays& outputs); \
+//     template API void Rand<TYPE>::recompute_impl(const NdArrays &inputs, const NdArrays &outputs);    
 
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, char)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, short)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, int)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, long)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
-        // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, char)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, short)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, int)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, long)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
+//         // NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
+//         NBLA_INSTANTIATE_IMPL(NBLA_API, float)
+//         NBLA_INSTANTIATE_IMPL(NBLA_API, double)
+//         NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
 
-#undef NBLA_INSTANTIATE_IMPL
+// #undef NBLA_INSTANTIATE_IMPL
     }
 }

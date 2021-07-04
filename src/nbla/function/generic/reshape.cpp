@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Reshape, const vector<int64_t>&, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Reshape, const vector<int>&, bool)
         // shape
         // inplace
 
@@ -84,8 +84,10 @@ namespace Is
             }
         }
 
-
-        // dll export
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, unsigned char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, short)

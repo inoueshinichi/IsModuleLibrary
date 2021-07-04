@@ -11,25 +11,25 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Randn, float, float, const Shape_t&, int)
+        NBLA_REGISTER_FUNCTION_HEADER(Randn, float, float, const vector<int>&, int)
         // float: Mean
         // float: Sigma
-        // const Shape_t&: Shape
+        // const vector<int>&: Shape
         // int: Seed
         
         template <typename T>
-        class Randn : public BaseFunction<float, float, const Shape_t&, int>
+        class Randn : public BaseFunction<float, float, const vector<int>&, int>
         {
         protected:
             float mu_;
             float sigma_;
-            const Shape_t shape_;
+            const vector<int> shape_;
             int seed_;
             std::mt19937 rgen_;
 
         public:
-            Randn(const Context& ctx, float mu, float sigma, const Shape_t& shape, int seed)
-                : BaseFunction<float, float, const Shape_t&, int>(ctx, mu, sigma, shape, seed)
+            Randn(const Context& ctx, float mu, float sigma, const vector<int>& shape, int seed)
+                : BaseFunction<float, float, const vector<int>&, int>(ctx, mu, sigma, shape, seed)
                 , mu_(mu)
                 , sigma_(sigma)
                 , shape_(shape)

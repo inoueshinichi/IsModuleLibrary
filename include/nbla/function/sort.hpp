@@ -53,7 +53,7 @@ namespace Is
         
         public:
             Sort(const Context& ctx, int axis, bool reverse, bool with_index, bool only_index)
-                : BaseFunction(ctx, axis, with_index, only_index)
+                : BaseFunction(ctx, axis, reverse, with_index, only_index)
                 , axis_(axis)
                 , reverse_(reverse)
                 , with_index_(with_index)

@@ -42,7 +42,10 @@ namespace Is
             }
         }
 
-        // dll export
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, unsigned char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Add2, short)

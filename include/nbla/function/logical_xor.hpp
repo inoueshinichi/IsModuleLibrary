@@ -8,6 +8,6 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_DEFINE_TRANSFORM_BINARY(LogicalXor, (bool(x0) ^ bool(x1)));
+        NBLA_DEFINE_TRANSFORM_BINARY(LogicalXor, (bool(x0) ^ bool(x1)))
     }
 }

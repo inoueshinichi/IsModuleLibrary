@@ -27,7 +27,7 @@ namespace Is
                            error_code::value,
                            "Sort axis must be less than the number of input dimensions "
                            "but axis %d >= ndim of x %d.",
-                           this->axis, 
+                           this->axis_, 
                            inputs[0]->shape().size());
             }
             
@@ -55,7 +55,7 @@ namespace Is
 
             this->outer_size_ = this->inner_size_ * shape[this->axis_];
 
-            this->total_size_ = this->outer_size;
+            this->total_size_ = this->outer_size_;
             for (int i = this->axis_ - 1; i >= 0; --i)
             {
                 this->total_size_ *= shape[i];
@@ -121,7 +121,7 @@ namespace Is
             } // while
 
 
-            if (!this->only_index) 
+            if (!this->only_index_) 
             {
                 auto y_data = outputs[0]->cast_data_and_get_pointer<T>(ctx_, true);
                 auto outer_x_ptr = x_data;
@@ -137,7 +137,7 @@ namespace Is
 
                     while (inner_x_ptr < outer_x_ptr + this->inner_size_) 
                     {
-                        for (size_t i = 0; i < static_cast<size_t>(shape[this->axis]); ++i) 
+                        for (size_t i = 0; i < static_cast<size_t>(shape[this->axis_]); ++i) 
                         {
                             const auto sort_index = inner_i_ptr[i * stride];
                             inner_y_ptr[i * stride] = inner_x_ptr[sort_index * stride];
@@ -160,7 +160,23 @@ namespace Is
                 std::copy_n(sort_index_ptr, out_sp_arr->size(), out_ptr);
             }
         }
-        
 
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, long double)
     }
 }

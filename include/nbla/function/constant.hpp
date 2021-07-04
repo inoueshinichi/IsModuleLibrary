@@ -8,7 +8,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Constant, float, const vector<int64_t>&)
+        NBLA_REGISTER_FUNCTION_HEADER(Constant, float, const vector<int>&)
         // value
         // shape
 
@@ -23,15 +23,15 @@ namespace Is
          * 
          */
         template <typename T>
-        class Constant : public BaseFunction<float, const vector<int64_t>&>
+        class Constant : public BaseFunction<float, const vector<int>&>
         {
         protected:
             float val_;
-            const vector<int64_t> shape_;
+            const vector<int> shape_;
 
         public:
-            Constant(const Context& ctx, float val, const vector<int64_t>& shape)
-                : BaseFunction<float, const vector<int64_t>&>(ctx, val, shape)
+            Constant(const Context& ctx, float val, const vector<int>& shape)
+                : BaseFunction<float, const vector<int>&>(ctx, val, shape)
                 , val_(val)
                 , shape_(shape) {}
             

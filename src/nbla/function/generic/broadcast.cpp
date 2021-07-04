@@ -11,7 +11,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Broadcast, const vector<int64_t> &)
+        NBLA_REGISTER_FUNCTION_SOURCE(Broadcast, const vector<int> &)
 
         template <typename T>
         void Broadcast<T>::setup_impl(const NdArrays& inputs,
@@ -160,7 +160,10 @@ namespace Is
             switch_broadcast<NBLA_BROADCAST_MAX_DIM, T>::call(ndim, size, x, stride_x, shape_y, y);
         }
 
-        // dll export
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, unsigned char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, short)
@@ -174,6 +177,5 @@ namespace Is
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, float)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, double)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Broadcast, long double)
-
     }
 }

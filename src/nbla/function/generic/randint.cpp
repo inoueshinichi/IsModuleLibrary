@@ -9,7 +9,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Randint, int, int, const vector<int64_t> &, int)
+        NBLA_REGISTER_FUNCTION_SOURCE(Randint, int, int, const vector<int> &, int)
         // low
         // high
         // shape
@@ -38,7 +38,10 @@ namespace Is
             }
         }
 
-        // dll export
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randint, char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randint, unsigned char)
         NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randint, short)

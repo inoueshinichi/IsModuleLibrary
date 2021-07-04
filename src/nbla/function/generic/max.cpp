@@ -32,8 +32,8 @@ namespace Is
             if (this->with_index_ || this->only_index_) 
             {
                 auto idx_sp_arr = this->only_index_ ? outputs[0] : outputs[1];
-                Array* idx_arr = idx_sp_arr->cast(get_dtype<size_t>(), this->ctx_, true);
-                Array* idx_buf = this->index_buff_->get(get_dtype<int>(), this->ctx_);
+                auto idx_arr = idx_sp_arr->cast(get_dtype<size_t>(), this->ctx_, true);
+                auto idx_buf = this->index_buff_->get(get_dtype<int>(), this->ctx_);
 
                 idx_arr->copy_from(idx_buf);
             }
@@ -48,8 +48,7 @@ namespace Is
             for (int o = 0; o < outer_size; ++o)
             {
                 int max_index = 0;
-                // T max_val = -1e+8; // maxの初期値(最も小さい値) これだと、型ごとで最小値が同じなのでマズイと思う。 @inoueshinichi
-                T max_val = std::numeric_limits<T>::min();
+                T max_val = -1e+8; // maxの初期値(最も小さい値) これだと、型ごとで最小値が同じなのでマズイと思う。 @inoueshinichi
 
                 // maxを求める
                 for (int i = 0; i < reduction_size; ++i) 
@@ -66,6 +65,22 @@ namespace Is
             }
         }
 
-
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, long double)
     }
 }

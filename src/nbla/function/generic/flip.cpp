@@ -99,5 +99,23 @@ namespace Is
             }
             flip_recursive(inputs[0], x, y, flip_, false, 0, 0, 0);
         }
+
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, long double)
     }
 }

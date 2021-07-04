@@ -46,7 +46,22 @@ namespace Is
             }
         }
 
-
-        
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, unsigned char)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, unsigned short)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, unsigned int)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, unsigned long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, unsigned long long)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, float)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, double)
+        NBLA_INSTANTIATE_FUNCTION(NBLA_API, MatrixDiag, long double)
     }
 }

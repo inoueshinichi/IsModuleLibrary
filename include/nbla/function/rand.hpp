@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Rand, float, float, const vector<int64_t>&, int)
+        NBLA_REGISTER_FUNCTION_HEADER(Rand, float, float, const vector<int>&, int)
         // low
         // high
         // shape
@@ -21,19 +21,19 @@ namespace Is
          * 
          */
         template <typename T>
-        class Rand : public BaseFunction<float, float, const vector<int64_t>&, int>
+        class Rand : public BaseFunction<float, float, const vector<int>&, int>
         {
         protected:
             float low_;
             float high_;
-            const vector<int64_t> shape_;
+            const vector<int> shape_;
             int seed_;
             bool save_rng_ = false;
             std::mt19937 rgen_, rgen_for_recompute_;
 
         public:
-            Rand(const Context& ctx, float low, float high, const vector<int64_t>& shape, int seed)
-                : BaseFunction<float, float, const vector<int64_t>&, int>(ctx, low, high, shape, seed)
+            Rand(const Context& ctx, float low, float high, const vector<int>& shape, int seed)
+                : BaseFunction<float, float, const vector<int>&, int>(ctx, low, high, shape, seed)
                 , low_(low)
                 , high_(high)
                 , shape_(shape)

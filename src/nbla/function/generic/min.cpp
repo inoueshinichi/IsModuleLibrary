@@ -18,8 +18,7 @@ namespace Is
             // for (int o = 0; o < outer_size; ++o)
             // {
             //     int min_index = 0;
-            //     // T min_val = 1e+8; // minの初期値(最も大きい値) これだと、型ごとで最大値が同じなのでマズイと思う。 @inoueshinichi
-            //     T min_val = std::numeric_limits<T>::max();
+            //     // T min_val = 1e+8; // minの初期値(最も大きい値)
 
             //     // minを求める
             //     for (int i = 0; i < reduction_size; ++i) 
@@ -44,8 +43,7 @@ namespace Is
             for (int o = 0; o < outer_size; ++o) 
             {
                 int min_index = 0;
-                // T min_val = 1e+8; // minの初期値(最も大きい値) これだと、型ごとで最大値が同じなのでマズイと思う。 @inoueshinichi
-                T min_val = std::numeric_limits<T>::max();
+                T min_val = 1e+8; // minの初期値(最も大きい値)
 
                 for (int i = 0; i < reduction_size; ++i) 
                 {
@@ -60,5 +58,22 @@ namespace Is
                 ind[o] = min_index;
             }
         }
+
+#define NBLA_INSTANTIATE_IMPL(API, TYPE) \
+    template API void Min<TYPE>::execute_impl_reduce(const TYPE *x, TYPE *y, int outer_size, int reduction_size);
+
+        NBLA_INSTANTIATE_IMPL(NBLA_API, char)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, short)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, int)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
+        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
     }
 }
