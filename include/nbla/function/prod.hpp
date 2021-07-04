@@ -9,7 +9,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Prod, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Prod, const vector<int64_t>&, bool)
         // axes
         // keep_dims
 
@@ -31,7 +31,7 @@ namespace Is
         class Prod : public Sum<T>
         {
         public:
-            Prod(const Context& ctx, const vector<int>& axes, bool keep_dims)
+            Prod(const Context& ctx, const vector<int64_t>& axes, bool keep_dims)
                 : Sum<T>(ctx, axes, keep_dims) {}
             
             virtual ~Prod() {}

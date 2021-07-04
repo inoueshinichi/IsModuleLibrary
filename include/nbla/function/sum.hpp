@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Sum, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Sum, const vector<int64_t>&, bool)
         // axes
         // keep_dims
 
@@ -28,16 +28,16 @@ namespace Is
          * @param keep_dims Flag whether the reduced axes are kept.
          */
         template <typename T>
-        class Sum : public BaseFunction<const vector<int>&, bool>
+        class Sum : public BaseFunction<const vector<int64_t>&, bool>
         {
         protected:
-            vector<int> axes_;
+            vector<int64_t> axes_;
             bool keep_dims_;
             int reduction_size_;
             shared_ptr<Function> f_transpose_{nullptr};
 
         public:
-            Sum(const Context& ctx, const vector<int>& axes, bool keep_dims)
+            Sum(const Context& ctx, const vector<int64_t>& axes, bool keep_dims)
                 : BaseFunction(ctx, axes, keep_dims)
                 , axes_(axes)
                 , keep_dims_(keep_dims) 

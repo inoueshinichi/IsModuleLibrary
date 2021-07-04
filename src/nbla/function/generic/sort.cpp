@@ -165,18 +165,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sort, long double)
+        NBLA_INSTANTIATE_CLASS(Sort, bool)
+        NBLA_INSTANTIATE_CLASS(Sort, char)
+        NBLA_INSTANTIATE_CLASS(Sort, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Sort, short)
+        NBLA_INSTANTIATE_CLASS(Sort, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Sort, int)
+        NBLA_INSTANTIATE_CLASS(Sort, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Sort, long)
+        NBLA_INSTANTIATE_CLASS(Sort, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Sort, long long)
+        NBLA_INSTANTIATE_CLASS(Sort, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Sort, float)
+        NBLA_INSTANTIATE_CLASS(Sort, double)
+        NBLA_INSTANTIATE_CLASS(Sort, long double)
     }
 }

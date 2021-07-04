@@ -9,7 +9,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Slice, const vector<int>&, const vector<int>&, const vector<int>&)
+        NBLA_REGISTER_FUNCTION_SOURCE(Slice, const vector<int64_t>&, const vector<int64_t>&, const vector<int64_t>&)
         // start
         // stop
         // step
@@ -201,18 +201,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Slice, long double)
+        NBLA_INSTANTIATE_CLASS(Slice, bool)
+        NBLA_INSTANTIATE_CLASS(Slice, char)
+        NBLA_INSTANTIATE_CLASS(Slice, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Slice, short)
+        NBLA_INSTANTIATE_CLASS(Slice, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Slice, int)
+        NBLA_INSTANTIATE_CLASS(Slice, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Slice, long)
+        NBLA_INSTANTIATE_CLASS(Slice, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Slice, long long)
+        NBLA_INSTANTIATE_CLASS(Slice, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Slice, float)
+        NBLA_INSTANTIATE_CLASS(Slice, double)
+        NBLA_INSTANTIATE_CLASS(Slice, long double)
     }
 }

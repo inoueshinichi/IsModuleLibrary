@@ -9,14 +9,14 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Transpose, const vector<int>&)
+        NBLA_REGISTER_FUNCTION_SOURCE(Transpose, const vector<int64_t>&)
         // axes
 
 
         template <typename T>
         void Transpose<T>::setup_impl(const NdArrays& inputs, const NdArrays& outputs)
         {
-            vector<int> axes = this->axes_;
+            vector<int64_t> axes = this->axes_;
             const int ndim = inputs[0]->ndim();
 
             NBLA_CHECK(static_cast<size_t>(ndim) == axes.size(), 
@@ -135,23 +135,24 @@ namespace Is
             transpose(x, y, this->y_shape_, this->x_strides_transposed_, false);
         }
 
-        /**
+/**
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Transpose, long double)
+        NBLA_INSTANTIATE_CLASS(Transpose, bool)
+        NBLA_INSTANTIATE_CLASS(Transpose, char)
+        NBLA_INSTANTIATE_CLASS(Transpose, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Transpose, short)
+        NBLA_INSTANTIATE_CLASS(Transpose, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Transpose, int)
+        NBLA_INSTANTIATE_CLASS(Transpose, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Transpose, long)
+        NBLA_INSTANTIATE_CLASS(Transpose, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Transpose, long long)
+        NBLA_INSTANTIATE_CLASS(Transpose, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Transpose, float)
+        NBLA_INSTANTIATE_CLASS(Transpose, double)
+        NBLA_INSTANTIATE_CLASS(Transpose, long double)
 
     }
 }

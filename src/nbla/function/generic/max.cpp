@@ -7,7 +7,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Max, const vector<int>&, bool, bool, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Max, const vector<int64_t>&, bool, bool, bool)
 
 
         template <typename T>
@@ -69,18 +69,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Max, long double)
+        NBLA_INSTANTIATE_CLASS(Max, bool)
+        NBLA_INSTANTIATE_CLASS(Max, char)
+        NBLA_INSTANTIATE_CLASS(Max, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Max, short)
+        NBLA_INSTANTIATE_CLASS(Max, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Max, int)
+        NBLA_INSTANTIATE_CLASS(Max, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Max, long)
+        NBLA_INSTANTIATE_CLASS(Max, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Max, long long)
+        NBLA_INSTANTIATE_CLASS(Max, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Max, float)
+        NBLA_INSTANTIATE_CLASS(Max, double)
+        NBLA_INSTANTIATE_CLASS(Max, long double)
     }
 }

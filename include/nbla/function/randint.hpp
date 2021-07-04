@@ -10,25 +10,25 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Randint, int, int, const vector<int>&, int)
+        NBLA_REGISTER_FUNCTION_HEADER(Randint, int, int, const vector<int64_t>&, int)
         // low
         // high
         // shape
         // seed
 
         template <typename T>
-        class Randint : public BaseFunction<int, int, const vector<int> &, int>
+        class Randint : public BaseFunction<int, int, const vector<int64_t> &, int>
         {
         protected:
             int low_;
             int high_;
-            const vector<int> shape_;
+            const vector<int64_t> shape_;
             int seed_;
             std::mt19937 rgen_;
 
         public:
-            Randint(const Context& ctx, int low, int high, const vector<int>& shape, int seed)
-                : BaseFunction<int, int, const vector<int>&, int>(ctx, low, high, shape, seed)
+            Randint(const Context& ctx, int low, int high, const vector<int64_t>& shape, int seed)
+                : BaseFunction<int, int, const vector<int64_t>&, int>(ctx, low, high, shape, seed)
                 , low_(low)
                 , high_(high)
                 , shape_(shape)

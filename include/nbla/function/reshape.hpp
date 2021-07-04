@@ -11,7 +11,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Reshape, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Reshape, const vector<int64_t>&, bool)
         // shape
         // inplace
 
@@ -29,14 +29,14 @@ namespace Is
          * @param inplace The output array is will be shared with the input array if true.
          */
         template <typename T>
-        class Reshape : public BaseFunction<const vector<int>&, bool> 
+        class Reshape : public BaseFunction<const vector<int64_t>&, bool> 
         {
         protected:
             Shape_t shape_;
             bool inplace_;
         
         public:
-            Reshape(const Context& ctx, const vector<int>& shape, bool inplace)
+            Reshape(const Context& ctx, const vector<int64_t>& shape, bool inplace)
                 : BaseFunction(ctx, shape, inplace)
                 , shape_(shape.size())
                 , inplace_(inplace) 
@@ -47,7 +47,7 @@ namespace Is
             virtual ~Reshape() {}
             virtual shared_ptr<Function> copy() const 
             {
-                vector<int> shape(shape_.size());
+                vector<int64_t> shape(shape_.size());
                 std::copy(shape_.begin(), shape_.end(), shape.begin());
                 return create_Reshape(ctx_, shape, inplace_);
             }

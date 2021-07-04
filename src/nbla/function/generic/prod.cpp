@@ -5,7 +5,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Prod, const vector<int> &, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Prod, const vector<int64_t> &, bool)
 
 
         template <typename T>
@@ -22,21 +22,23 @@ namespace Is
             }
         }
 
-#define NBLA_INSTANTIATE_IMPL(API, TYPE) \
-    template API void Prod<TYPE>::execute_impl_reduce(const TYPE *x, TYPE *y, int outer_size, int reduction_size);
-
-        NBLA_INSTANTIATE_IMPL(NBLA_API, char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_CLASS(Prod, bool)
+        NBLA_INSTANTIATE_CLASS(Prod, char)
+        NBLA_INSTANTIATE_CLASS(Prod, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Prod, short)
+        NBLA_INSTANTIATE_CLASS(Prod, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Prod, int)
+        NBLA_INSTANTIATE_CLASS(Prod, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Prod, long)
+        NBLA_INSTANTIATE_CLASS(Prod, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Prod, long long)
+        NBLA_INSTANTIATE_CLASS(Prod, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Prod, float)
+        NBLA_INSTANTIATE_CLASS(Prod, double)
+        NBLA_INSTANTIATE_CLASS(Prod, long double)
     }
 }

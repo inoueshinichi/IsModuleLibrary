@@ -59,18 +59,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Arange, long double)
+        NBLA_INSTANTIATE_CLASS(Arange, bool)
+        NBLA_INSTANTIATE_CLASS(Arange, char)
+        NBLA_INSTANTIATE_CLASS(Arange, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Arange, short)
+        NBLA_INSTANTIATE_CLASS(Arange, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Arange, int)
+        NBLA_INSTANTIATE_CLASS(Arange, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Arange, long)
+        NBLA_INSTANTIATE_CLASS(Arange, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Arange, long long)
+        NBLA_INSTANTIATE_CLASS(Arange, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Arange, float)
+        NBLA_INSTANTIATE_CLASS(Arange, double)
+        NBLA_INSTANTIATE_CLASS(Arange, long double)
     }
 }

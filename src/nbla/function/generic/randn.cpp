@@ -7,7 +7,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Randn, float, float, const vector<int> &, int)
+        NBLA_REGISTER_FUNCTION_SOURCE(Randn, float, float, const vector<int64_t> &, int)
         // float: Mean
         // float: Sigma
         // const Shape_t&: Shape
@@ -42,18 +42,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, char)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, unsigned char)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, short)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, unsigned short)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, int)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, unsigned int)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, long)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, unsigned long)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, long long)
-        // NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Randn, long double)
+        // NBLA_INSTANTIATE_CLASS(Randn, bool)
+        // NBLA_INSTANTIATE_CLASS(Randn, char)
+        // NBLA_INSTANTIATE_CLASS(Randn, unsigned char)
+        // NBLA_INSTANTIATE_CLASS(Randn, short)
+        // NBLA_INSTANTIATE_CLASS(Randn, unsigned short)
+        // NBLA_INSTANTIATE_CLASS(Randn, int)
+        // NBLA_INSTANTIATE_CLASS(Randn, unsigned int)
+        // NBLA_INSTANTIATE_CLASS(Randn, long)
+        // NBLA_INSTANTIATE_CLASS(Randn, unsigned long)
+        // NBLA_INSTANTIATE_CLASS(Randn, long long)
+        // NBLA_INSTANTIATE_CLASS(Randn, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Randn, float)
+        NBLA_INSTANTIATE_CLASS(Randn, double)
+        NBLA_INSTANTIATE_CLASS(Randn, long double)
     }
 }

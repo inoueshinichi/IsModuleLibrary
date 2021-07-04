@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Reshape, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Reshape, const vector<int64_t>&, bool)
         // shape
         // inplace
 
@@ -88,18 +88,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Reshape, long double)
+        NBLA_INSTANTIATE_CLASS(Reshape, bool)
+        NBLA_INSTANTIATE_CLASS(Reshape, char)
+        NBLA_INSTANTIATE_CLASS(Reshape, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Reshape, short)
+        NBLA_INSTANTIATE_CLASS(Reshape, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Reshape, int)
+        NBLA_INSTANTIATE_CLASS(Reshape, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Reshape, long)
+        NBLA_INSTANTIATE_CLASS(Reshape, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Reshape, long long)
+        NBLA_INSTANTIATE_CLASS(Reshape, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Reshape, float)
+        NBLA_INSTANTIATE_CLASS(Reshape, double)
+        NBLA_INSTANTIATE_CLASS(Reshape, long double)
     }
 }

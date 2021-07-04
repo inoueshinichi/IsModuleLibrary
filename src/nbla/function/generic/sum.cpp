@@ -16,7 +16,7 @@ namespace Is
     {
         using namespace ::Is::nbla::eigen;
 
-        NBLA_REGISTER_FUNCTION_SOURCE(Sum, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Sum, const vector<int64_t>&, bool)
 
         template <typename T>
         void Sum<T>::setup_impl(const NdArrays& inputs, const NdArrays& outputs)
@@ -28,7 +28,7 @@ namespace Is
             // =========
             // get transpose axes.
             // Create transpose axes and reduction size
-            vector<int> transpose_axes;
+            vector<int64_t> transpose_axes;
             int prev_a = -1;
             reduction_size_ = 1;
             Shape_t outshape;
@@ -67,7 +67,7 @@ namespace Is
             std::copy(axes_.begin(), axes_.end(), std::back_inserter(transpose_axes));
 
             // Sequence of numbers [0, ndim)
-            vector<int> seq(ndim);
+            vector<int64_t> seq(ndim);
             std::iota(seq.begin(), seq.end(), 0);
 
             if (transpose_axes != seq) 
@@ -119,38 +119,20 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Sum, long double)
 
-// #define NBLA_INSTANTIATE_IMPL(API, TYPE)                                     \
-//     template API void Sum<TYPE>::execute_impl_reduce(const TYPE* x, TYPE* y, \
-//                                         int outer_size, int reduction_size);
-
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, char)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, short)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, int)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, long)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, float)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, double)
-//         NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
-
-// #undef NBLA_INSTANTIATE_IMPL
+        NBLA_INSTANTIATE_CLASS(Sum, bool)
+        NBLA_INSTANTIATE_CLASS(Sum, char)
+        NBLA_INSTANTIATE_CLASS(Sum, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Sum, short)
+        NBLA_INSTANTIATE_CLASS(Sum, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Sum, int)
+        NBLA_INSTANTIATE_CLASS(Sum, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Sum, long)
+        NBLA_INSTANTIATE_CLASS(Sum, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Sum, long long)
+        NBLA_INSTANTIATE_CLASS(Sum, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Sum, float)
+        NBLA_INSTANTIATE_CLASS(Sum, double)
+        NBLA_INSTANTIATE_CLASS(Sum, long double)
     }
 }

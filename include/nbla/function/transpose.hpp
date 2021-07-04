@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Transpose, const vector<int>&)
+        NBLA_REGISTER_FUNCTION_HEADER(Transpose, const vector<int64_t>&)
         // axes
 
         /**
@@ -28,15 +28,15 @@ namespace Is
          * 
          */
         template <typename T>
-        class Transpose : public BaseFunction<const vector<int>&>
+        class Transpose : public BaseFunction<const vector<int64_t>&>
         {
         protected:
-            vector<int> axes_;
+            vector<int64_t> axes_;
             Shape_t x_shape_, x_strides_, x_strides_transposed_;
             Shape_t y_shape_, y_strides_, y_strides_transposed_;
 
         public:
-            Transpose(const Context& ctx, const vector<int>& axes)
+            Transpose(const Context& ctx, const vector<int64_t>& axes)
                 : BaseFunction(ctx, axes)
                 , axes_(axes.size())
             {
@@ -47,7 +47,7 @@ namespace Is
 
             virtual shared_ptr<Function> copy() const 
             {
-                vector<int> axes(axes_.size());
+                vector<int64_t> axes(axes_.size());
                 std::copy(axes_.begin(), axes_.end(), axes.begin());
                 return create_Transpose(ctx_, axes);
             }

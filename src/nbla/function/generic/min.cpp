@@ -4,7 +4,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Min, const vector<int>&, bool, bool, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Min, const vector<int64_t>&, bool, bool, bool)
         // axes
         // keep_dims
         // with_index
@@ -59,21 +59,23 @@ namespace Is
             }
         }
 
-#define NBLA_INSTANTIATE_IMPL(API, TYPE) \
-    template API void Min<TYPE>::execute_impl_reduce(const TYPE *x, TYPE *y, int outer_size, int reduction_size);
-
-        NBLA_INSTANTIATE_IMPL(NBLA_API, char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_CLASS(Min, bool)
+        NBLA_INSTANTIATE_CLASS(Min, char)
+        NBLA_INSTANTIATE_CLASS(Min, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Min, short)
+        NBLA_INSTANTIATE_CLASS(Min, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Min, int)
+        NBLA_INSTANTIATE_CLASS(Min, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Min, long)
+        NBLA_INSTANTIATE_CLASS(Min, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Min, long long)
+        NBLA_INSTANTIATE_CLASS(Min, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Min, float)
+        NBLA_INSTANTIATE_CLASS(Min, double)
+        NBLA_INSTANTIATE_CLASS(Min, long double)
     }
 }

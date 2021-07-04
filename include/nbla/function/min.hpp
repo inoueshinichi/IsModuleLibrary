@@ -9,7 +9,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Min, const vector<int>&, bool, bool, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Min, const vector<int64_t>&, bool, bool, bool)
         // axes
         // keep_dims
         // with_index
@@ -36,7 +36,7 @@ namespace Is
         class Min : public Max<T> 
         {
         public:
-            Min(const Context &ctx, const vector<int> &axes, bool keep_dims, bool with_index, bool only_index)
+            Min(const Context &ctx, const vector<int64_t> &axes, bool keep_dims, bool with_index, bool only_index)
                 : Max<T>(ctx, axes, keep_dims, with_index, only_index) {}
             
             virtual ~Min() {}

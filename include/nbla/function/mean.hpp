@@ -6,7 +6,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Mean, const vector<int> &, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Mean, const vector<int64_t> &, bool)
         // axes
         // keep_dims
 
@@ -28,7 +28,7 @@ namespace Is
         class Mean : public Sum<T>
         {
         public:
-            Mean(const Context& ctx, const vector<int>& axes, bool keep_dims)
+            Mean(const Context& ctx, const vector<int64_t>& axes, bool keep_dims)
                 : Sum<T>(ctx, axes, keep_dims) {}
             
             virtual ~Mean() {}

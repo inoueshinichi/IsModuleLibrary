@@ -8,7 +8,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Flip, const vector<int>&)
+        NBLA_REGISTER_FUNCTION_HEADER(Flip, const vector<int64_t>&)
         // axes
 
         /**
@@ -28,13 +28,13 @@ namespace Is
          * (100,3,24,32) vertically and horizontally, specify (2,3).
          */
         template <typename T> 
-        class Flip : public BaseFunction<const vector<int> &> 
+        class Flip : public BaseFunction<const vector<int64_t> &> 
         {
         protected:
-            vector<int> axes_;
+            vector<int64_t> axes_;
             vector<bool> flip_;
         public:
-            Flip(const Context& ctx, const vector<int>& axes)
+            Flip(const Context& ctx, const vector<int64_t>& axes)
                 : BaseFunction(ctx, axes)
                 , axes_(axes.size()) 
             {
@@ -44,7 +44,7 @@ namespace Is
             virtual ~Flip() {}
             virtual shared_ptr<Function> copy() const 
             {
-                vector<int> axes(axes_.size());
+                vector<int64_t> axes(axes_.size());
                 std::copy(axes_.begin(), axes_.end(), axes.begin());
                 return create_Flip(ctx_, axes);
             }
@@ -59,7 +59,7 @@ namespace Is
                 return SingletonManager::get<Cpu>()->array_classes();
             }
 
-            std::vector<int>& axes() { return axes_; }
+            std::vector<int64_t>& axes() { return axes_; }
 
 
         protected:

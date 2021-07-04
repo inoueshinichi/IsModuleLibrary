@@ -6,7 +6,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Mean, const vector<int>&, bool)
+        NBLA_REGISTER_FUNCTION_SOURCE(Mean, const vector<int64_t>&, bool)
 
         template <typename T>
         void Mean<T>::execute_impl_reduce(const T *x, T *y, 
@@ -19,21 +19,23 @@ namespace Is
             my = mx.rowwise().sum() / reduction_size;
         }
 
-#define NBLA_INSTANTIATE_IMPL(API, TYPE) \
-    template API void Mean<TYPE>::execute_impl_reduce(const TYPE *x, TYPE *y, int outer_size, int reduction_size);
-
-        NBLA_INSTANTIATE_IMPL(NBLA_API, char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned char)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned short)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned int)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, unsigned long long)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, float)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, double)
-        NBLA_INSTANTIATE_IMPL(NBLA_API, long double)
+        /**
+         * @brief テンプレートの明示的インスタンス化
+         * nbla.dllの外部にエクスポートする.
+         */
+        NBLA_INSTANTIATE_CLASS(Mean, bool)
+        NBLA_INSTANTIATE_CLASS(Mean, char)
+        NBLA_INSTANTIATE_CLASS(Mean, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Mean, short)
+        NBLA_INSTANTIATE_CLASS(Mean, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Mean, int)
+        NBLA_INSTANTIATE_CLASS(Mean, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Mean, long)
+        NBLA_INSTANTIATE_CLASS(Mean, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Mean, long long)
+        NBLA_INSTANTIATE_CLASS(Mean, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Mean, float)
+        NBLA_INSTANTIATE_CLASS(Mean, double)
+        NBLA_INSTANTIATE_CLASS(Mean, long double)
     }
 }

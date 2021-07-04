@@ -8,7 +8,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Slice, const vector<int>&, const vector<int>&, const vector<int>&)   
+        NBLA_REGISTER_FUNCTION_HEADER(Slice, const vector<int64_t>&, const vector<int64_t>&, const vector<int64_t>&)   
         // start
         // stop
         // step
@@ -28,13 +28,13 @@ namespace Is
          * @param T Data type for computation.
          */
         template <typename T>
-        class Slice : public BaseFunction<const vector<int>&, const vector<int>&, const vector<int>&>
+        class Slice : public BaseFunction<const vector<int64_t>&, const vector<int64_t>&, const vector<int64_t>&>
         {
         protected:
             // These settings are array to realize different slice amount for each data.
-            vector<vector<int>> start_;
-            vector<vector<int>> stop_;
-            vector<vector<int>> step_;
+            vector<vector<int64_t>> start_;
+            vector<vector<int64_t>> stop_;
+            vector<vector<int64_t>> step_;
 
             int base_axis_;
 
@@ -42,7 +42,7 @@ namespace Is
             enum { SLICE_NONE = 0x7fffffff };
 
         public:
-            Slice(const Context& ctx, const vector<int>& start, const vector<int>& stop, const vector<int>& step)
+            Slice(const Context& ctx, const vector<int64_t>& start, const vector<int64_t>& stop, const vector<int64_t>& step)
                 : BaseFunction(ctx, start, stop, step)
                 , start_(1)
                 , stop_(1)

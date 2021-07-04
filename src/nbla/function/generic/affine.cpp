@@ -122,18 +122,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Affine, long double)
+        NBLA_INSTANTIATE_CLASS(Affine, bool)
+        NBLA_INSTANTIATE_CLASS(Affine, char)
+        NBLA_INSTANTIATE_CLASS(Affine, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Affine, short)
+        NBLA_INSTANTIATE_CLASS(Affine, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Affine, int)
+        NBLA_INSTANTIATE_CLASS(Affine, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Affine, long)
+        NBLA_INSTANTIATE_CLASS(Affine, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Affine, long long)
+        NBLA_INSTANTIATE_CLASS(Affine, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Affine, float)
+        NBLA_INSTANTIATE_CLASS(Affine, double)
+        NBLA_INSTANTIATE_CLASS(Affine, long double)
     }
 }

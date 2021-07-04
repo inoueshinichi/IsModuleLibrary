@@ -9,7 +9,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_HEADER(Max, const vector<int>&, bool, bool, bool)
+        NBLA_REGISTER_FUNCTION_HEADER(Max, const vector<int64_t>&, bool, bool, bool)
         // axes
         // keep_dims
         // with_index
@@ -41,7 +41,7 @@ namespace Is
             NdArrayPtr index_buff_;
 
         public:
-            Max(const Context& ctx, const vector<int>& axes, bool keep_dims, bool with_index, bool only_index)
+            Max(const Context& ctx, const vector<int64_t>& axes, bool keep_dims, bool with_index, bool only_index)
                 : Sum<T>(ctx, axes, keep_dims)
                 , with_index_(with_index)
                 , only_index_(only_index) {}

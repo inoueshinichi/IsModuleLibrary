@@ -85,18 +85,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, CumProd, long double)
+        NBLA_INSTANTIATE_CLASS(CumProd, bool)
+        NBLA_INSTANTIATE_CLASS(CumProd, char)
+        NBLA_INSTANTIATE_CLASS(CumProd, unsigned char)
+        NBLA_INSTANTIATE_CLASS(CumProd, short)
+        NBLA_INSTANTIATE_CLASS(CumProd, unsigned short)
+        NBLA_INSTANTIATE_CLASS(CumProd, int)
+        NBLA_INSTANTIATE_CLASS(CumProd, unsigned int)
+        NBLA_INSTANTIATE_CLASS(CumProd, long)
+        NBLA_INSTANTIATE_CLASS(CumProd, unsigned long)
+        NBLA_INSTANTIATE_CLASS(CumProd, long long)
+        NBLA_INSTANTIATE_CLASS(CumProd, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(CumProd, float)
+        NBLA_INSTANTIATE_CLASS(CumProd, double)
+        NBLA_INSTANTIATE_CLASS(CumProd, long double)
     }
 }

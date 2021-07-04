@@ -10,7 +10,7 @@ namespace Is
 {
     namespace nbla
     {
-        NBLA_REGISTER_FUNCTION_SOURCE(Flip, const vector<int>&)
+        NBLA_REGISTER_FUNCTION_SOURCE(Flip, const vector<int64_t>&)
         // axes
 
         template <typename T>
@@ -104,18 +104,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Flip, long double)
+        NBLA_INSTANTIATE_CLASS(Flip, bool)
+        NBLA_INSTANTIATE_CLASS(Flip, char)
+        NBLA_INSTANTIATE_CLASS(Flip, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Flip, short)
+        NBLA_INSTANTIATE_CLASS(Flip, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Flip, int)
+        NBLA_INSTANTIATE_CLASS(Flip, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Flip, long)
+        NBLA_INSTANTIATE_CLASS(Flip, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Flip, long long)
+        NBLA_INSTANTIATE_CLASS(Flip, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Flip, float)
+        NBLA_INSTANTIATE_CLASS(Flip, double)
+        NBLA_INSTANTIATE_CLASS(Flip, long double)
     }
 }

@@ -33,18 +33,19 @@ namespace Is
          * @brief テンプレートの明示的インスタンス化
          * nbla.dllの外部にエクスポートする.
          */
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, unsigned char)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, unsigned short)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, unsigned int)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, unsigned long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, unsigned long long)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, float)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, double)
-        NBLA_INSTANTIATE_FUNCTION(NBLA_API, Constant, long double)
+        NBLA_INSTANTIATE_CLASS(Constant, bool)
+        NBLA_INSTANTIATE_CLASS(Constant, char)
+        NBLA_INSTANTIATE_CLASS(Constant, unsigned char)
+        NBLA_INSTANTIATE_CLASS(Constant, short)
+        NBLA_INSTANTIATE_CLASS(Constant, unsigned short)
+        NBLA_INSTANTIATE_CLASS(Constant, int)
+        NBLA_INSTANTIATE_CLASS(Constant, unsigned int)
+        NBLA_INSTANTIATE_CLASS(Constant, long)
+        NBLA_INSTANTIATE_CLASS(Constant, unsigned long)
+        NBLA_INSTANTIATE_CLASS(Constant, long long)
+        NBLA_INSTANTIATE_CLASS(Constant, unsigned long long)
+        NBLA_INSTANTIATE_CLASS(Constant, float)
+        NBLA_INSTANTIATE_CLASS(Constant, double)
+        NBLA_INSTANTIATE_CLASS(Constant, long double)
     }
 }
